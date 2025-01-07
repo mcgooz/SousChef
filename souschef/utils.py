@@ -30,7 +30,7 @@ def item_search(s):
 ### Ingredient details API
 def detailed_search(id):
 
-    response = requests.get(f"https://api.spoonacular.com/food/ingredients/{id}/information?apiKey={API_KEY}").json()
+    response = requests.get(f"https://api.spoonacular.com/food/ingredients/{id}/information?apiKey={API_KEY}&amount=1").json()
 
     print(response)
     details = response.get("categoryPath")

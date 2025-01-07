@@ -16,7 +16,6 @@ def run_query(query):
     search = item_search(query)
     results = [{"name": item["name"]} for item in search]
     ids = [{"id": item["id"]} for item in search]
-    print(ids)
     return JsonResponse({
         "results": results,
         "ids": ids
