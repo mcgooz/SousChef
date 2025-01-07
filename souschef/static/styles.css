@@ -1,0 +1,151 @@
+/* @font-face {
+    font-family: 'tbc';
+    src: url('/static/network/fonts/tbc.TTF') format('truetype');
+} */
+
+a {
+    text-decoration: none;
+}
+
+a:hover {
+    color: #c9c9c9;
+}
+
+.alert {
+    width: 50%;
+}
+
+body {
+    background-image: url("/static/images/background.jpg");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: 2000px;
+}
+
+.btn-custom {
+    border-style: none;
+    color: whitesmoke;
+}
+
+.btn-custom.enabled:hover {
+    box-shadow: 0px 0px 5px whitesmoke;
+}
+
+.btn-custom-sm {
+    padding: 2px 5px;
+    font-size: 0.75rem;
+    color: whitesmoke;
+}
+
+.btn-custom-sm:hover {
+    color: #c9c9c9;
+}
+
+.navbar {
+    margin: 0;
+}
+
+.nav-colours {
+    background-color: #09b2ea;
+}
+
+.navbar-text {
+    color: whitesmoke;
+}
+
+.nav-link {
+    color: whitesmoke !important;
+}
+
+.nav-link:hover {
+    color: #c9c9c9 !important;
+}
+
+/* Navbar Toggle */
+.navbar-toggler {
+    --bs-navbar-toggler-border-color: whitesmoke;
+    --bs-navbar-toggler-border-radius: 5px;
+    --bs-navbar-toggler-focus-width: 1px;
+}
+
+.navbar-toggler {
+    color: whitesmoke;
+}
+
+.navbar-toggler-icon {
+    filter: invert(1) brightness(2);
+}
+
+.col {
+    max-width: 50%;
+}
+
+.date {
+    font-size: small;
+    color: #f1f1f1;
+}
+
+.custom-alert {
+    width: 300px;
+    height: auto;
+    color: #f1f1f1;
+    background-color: #09b2ea;
+    border-style: none;
+}
+
+.indent {
+    padding-left: 7px;
+}
+
+.pagination {
+    --bs-pagination-color: whitesmoke;
+    --bs-pagination-bg: #5ac8ec;
+    --bs-pagination-active-bg: #5ac8ec;
+    --bs-pagination-active-color: #c9c9c9;
+    --bs-pagination-border-color: #5ac8ec;
+    --bs-pagination-active-border-color: #5ac8ec;
+    --bs-pagination-hover-color: #5ac8ec;
+}
+
+.profilepic {
+    width: auto;
+    height: 50px;
+}
+
+.picico {
+    vertical-align: bottom;
+}
+
+.profilepicico {
+    width: auto;
+    height: 30px;
+}
+
+.profilepicico:hover {
+    opacity: 0.5;
+}
+
+#searchBox.autocomplete-active:focus {
+    outline: none;
+    box-shadow: none;
+}
+
+#suggestions {
+    width: 100%;
+    left: 0;
+    top: 100%;
+    overflow-y: auto;
+    border: none;
+    position: absolute;
+    z-index: 1000;
+}
+
+#suggestions .list-group-item:hover {
+    cursor: pointer;
+    background-color: lightblue;
+}
+
+.table {
+    font-size: 0.8rem;
+}

@@ -1,0 +1,32 @@
+{% extends "SousChef/layout.html" %}
+
+{% block body %}
+
+    <h2>Login</h2>
+
+
+    {% if message %}
+        <div class="alert custom-alert alert-light alert-dismissible fade show" role="alert">
+            {{ message }} <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    {% endif %}
+
+    <div class="row mt-2 p-1">
+        <div class="col">
+            <form action="{% url 'login' %}" method="post">
+                {% csrf_token %}
+                <div class="form-group my-1">
+                    <input autofocus class="form-control" type="text" name="username" placeholder="Username">
+                </div>
+                <div class="form-group my-1">
+                    <input class="form-control" type="password" id="password" name="password" placeholder="Password">
+                    <input type="checkbox" onclick="togglePassword()"> Show Password
+                </div>
+                <input class="btn btn-light my-2" type="submit" value="Login">
+            </form>
+        </div>
+    </div>    
+
+    {% comment %} <div class="my-3">Don't have an account? <a href="{% url 'register' %}">Register here.</a></div> {% endcomment %}
+
+{% endblock %}

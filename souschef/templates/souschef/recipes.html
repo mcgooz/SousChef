@@ -1,0 +1,71 @@
+{% extends "SousChef/layout.html" %}
+
+
+{% block body %}
+<!-- Add a New Recipe-->
+    <div class="m-3">
+        <h5>Add a Recipe</h5>
+        <form action="{% url 'recipes' %}" method="post">
+            {% csrf_token %}
+                
+                    <div>Name {{ recipe_form.name }}</div>
+
+                    <div>Description {{ recipe_form.description }}</div>
+
+                    <div>Steps {{ recipe_form.steps }}</div>
+
+                    <div>Image {{ recipe_form.image }}</div>
+
+                    <div>Public {{ recipe_form.public }}</div>
+
+            <button type="submit">Save Recipe</button>
+        </form>  
+    </div>
+
+    <!-- Ingredients -->
+    <div>Ingredients
+        <form action="{% url 'recipe_ingredient' %}" method="post">
+            {% csrf_token %}
+    
+        <div class="input-group mb-3">
+
+            <!-- Ingredient Name -->
+            <input id="searchBox" autocomplete="off" class="form-control" name="ingredient" placeholder="Search for an ingredient" type="text" required>
+            <ul id="suggestions" class="list-group position-absolute" style="width: auto"></ul>
+
+            {% comment %} <!-- Category Dropdown -->
+                <select class="form-select" name="category" required>
+                    <option value="" selected disabled>Select a category</option>
+                    {% for cat in ingredient_formset.category.field.choices %}
+                        {% if cat.0 %}
+                            <option value="{{ cat.0 }}">{{ cat.1 }}</option>
+                        {% endif %}
+                    {% endfor %}
+                </select> {% endcomment %}
+    
+            <!-- Quantity -->
+            <input id="quantity" type="number" step="0.01" class="form-control" name="amount" placeholder="Quantity" aria-label="Quantity" required>
+
+            <!-- Unit Dropdown -->
+            <select id="unit" class="form-select" name="unit" required>
+                <option value="" selected disabled>Select a unit</option>
+                {% for unit in ingredient_formset.unit.field.choices %}
+                    {% if unit.0 %}
+                        <option value="{{ unit.0 }}">{{ unit.1 }}</option>
+                    {% endif %}
+                {% endfor %}
+            </select>
+            <button class="btn btn-outline-info" onclick="updateList(event)">Add Ingredient</button>
+        </div>
+
+        <div>
+            <table id="ingredientList" name="ingredientList" readonly style="display: none;">
+                <tr>
+                    <th>Ingredient</th>
+                    <th>Quantity</th>
+                    <th>Unit</th>
+                </tr>
+            </table>
+        </div>
+    </form>
+{% endblock body %}
