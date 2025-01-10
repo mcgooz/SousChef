@@ -37,14 +37,16 @@ class Unit(models.Model):
 
 class Ingredient(models.Model):
     name = models.CharField(max_length=64, blank=False)
+    ingredient_id = models.IntegerField(unique=True)
     category = models.ForeignKey(FoodType, on_delete=models.CASCADE)
 
     def __str__(self):
         return f"{self.name}"
     
+    
 class PantryIngredient(models.Model):
     pantry = models.ForeignKey(Pantry, on_delete=models.CASCADE)
-    ingredient = models.ForeignKey(Ingredient, on_delete=models.CASCADE)
+    name = models.ForeignKey(Ingredient, on_delete=models.CASCADE)
     quantity = models.DecimalField(max_digits=5, decimal_places=2)
     unit = models.ForeignKey(Unit, on_delete=models.CASCADE)
 

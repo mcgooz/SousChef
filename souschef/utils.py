@@ -33,16 +33,26 @@ def detailed_search(id):
     response = requests.get(f"https://api.spoonacular.com/food/ingredients/{id}/information?apiKey={API_KEY}&amount=1").json()
 
     print(response)
-    details = response.get("categoryPath")
-    return details
 
+
+    details = response.get("categoryPath")
+    if details and len(details) > 1:
+            details = details[1]
+    elif details:
+        details = details[0]
+    elif not details:
+        details = response.get("originalName")
+
+    return details
     
 
 ### Save or retrieve ingredient from DB
-def fetch_ingredient(ingredient_input, category_id):
+def fetch_or_create_ingredient(ingredient_input, category, item_id):
+    category, created = FoodType.objects.get_or_create(category=category)
     ingredient, created = Ingredient.objects.get_or_create(
     name=ingredient_input,
-    category=category_id,
+    category=category,
+    ingredient_id=item_id
     )
     print(ingredient)
     return ingredient
@@ -52,7 +62,7 @@ def fetch_ingredient(ingredient_input, category_id):
 def get_item_by_category(categories, contents):
     item_by_category = {}
     for category in categories:
-        item = contents.filter(ingredient__category=category)
+        item = contents.filter(name__category=category)
         item_by_category[category] = item
 
     return item_by_category

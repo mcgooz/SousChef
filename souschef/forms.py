@@ -1,6 +1,6 @@
-from django.forms import ModelForm, Textarea, NumberInput, Select, TextInput, ModelChoiceField
+from django.forms import ModelForm, Textarea, NumberInput, Select, TextInput, ModelChoiceField, IntegerField
 
-from .models import User, UserDashboard, Ingredient, Recipe, Pantry, PantryIngredient, IngredientPerRecipe
+from .models import User, UserDashboard, Ingredient, FoodType, Recipe, Pantry, PantryIngredient, IngredientPerRecipe
 
 
 class NewRecipeForm(ModelForm):
@@ -17,14 +17,19 @@ class NewRecipeForm(ModelForm):
 class IngredientForm(ModelForm):
     class Meta:
         model = Ingredient
-        fields = ["name", "category"]
+        fields = ["name"]
         widgets = {
             "name": TextInput(attrs={"required": "required"}),
-            "category": Select(attrs={"required": "required"}),
         }
 
 class PantryIngredientForm(ModelForm):
-    name = ModelChoiceField(queryset=Ingredient.objects.all(), widget=Select(attrs={"required": "required"}))
+    name = ModelChoiceField(
+        queryset=Ingredient.objects.all(),
+        to_field_name="name",
+    )
+    ingredient_id = IntegerField()
+    category = ModelChoiceField(queryset=FoodType.objects.all(), to_field_name="category")
+
     class Meta:
         model = PantryIngredient
         fields = ['name', 'quantity', 'unit']

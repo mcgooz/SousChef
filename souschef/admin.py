@@ -9,7 +9,7 @@ admin.site.register(Unit)
 class PantryIngredientInline(admin.TabularInline):
     model = PantryIngredient
     extra = 1
-    fields = ['ingredient', 'quantity', 'unit']
+    fields = ['name', 'quantity', 'unit']
 
 
 @admin.register(Pantry)
@@ -22,4 +22,4 @@ class PantryAdmin(admin.ModelAdmin):
 
 @admin.register(Ingredient)
 class IngredientAdmin(admin.ModelAdmin):
-    list_display = ('name', 'category')
+    list_display = ('name', 'ingredient_id', 'category')

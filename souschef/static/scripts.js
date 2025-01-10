@@ -87,21 +87,34 @@ document.addEventListener("DOMContentLoaded", function() {
                                 'X-CSRFToken': csrfToken
                             },
                             
-                            body: JSON.stringify({ id: itemId })
-                        });
+                            body: JSON.stringify({ 
+                                id: itemId,
+                                name: itemName
+                             })
+
+                        })
+                        .then(response => response.json())
+                        .then(data => {
+                            const itemCat = data.category;
+                            console.log(itemCat);
 
                         // Item selection
-                        if (!itemName) {
-                            alert("Please select an item from the list");
+                            if (!itemName) {
+                                alert("Please select an item from the list");
 
-                        } else {
-                            console.log(itemName, itemId);
-                            searchBox.value = itemName;
-                            document.getElementById('ingredientId').value = itemId;
-                            suggestionsContainer.innerHTML = '';
-                        }
-                    });
-                });
+                            } else {
+                                console.log(itemName, itemId, itemCat);
+                                searchBox.value = itemName;
+                                const itemInput = document.getElementById('ingredientId')
+                                const catInput = document.getElementById('itemCategory')
+                                
+                                itemInput.value = itemId;
+                                catInput.value = itemCat;
+                                suggestionsContainer.innerHTML = '';
+                            }
+                        })
+                    })
+                })
             }
         }
     }
@@ -110,7 +123,6 @@ document.addEventListener("DOMContentLoaded", function() {
     function clearSuggestions() {
         suggestionsContainer.innerHTML = '';
     }
-
 });
 
 

@@ -61,14 +61,18 @@ def recipes(request):
         "ingredient_formset": ingredient_formset
         })
 
+
 def ingredient_details(request):
     if request.method == "POST":
+
         item = json.loads(request.body)
+        item_name = item.get("name")
         item_id = item.get("id")
-        print(item_id)
-        details = detailed_search(item_id)
-        print(f"DETAILS: {details}")
-        return JsonResponse(details, safe=False)
+        print(item_name, item_id)
+        category = detailed_search(item_id)
+        print(f"CATEGORY: {category}")
+        fetch_or_create_ingredient(item_name, category, item_id)
+        return JsonResponse({ "category": category})
 
 
 def recipe_ingredient(request):
@@ -76,7 +80,7 @@ def recipe_ingredient(request):
         
         ingredient_input = request.POST.get("ingredient")
         category = FoodType.objects.get(id=request.POST.get("category"))
-        ingredient = fetch_ingredient(ingredient_input, category)
+        ingredient = fetch_or_create_ingredient(ingredient_input, category)
         form_data = request.POST.copy()
         form_data["name"] = ingredient.id
         form = IngredientPerRecipeForm(form_data)
