@@ -21,11 +21,11 @@ class Pantry(models.Model):
         return f"{self.user.user_name}'s Pantry"
 
 
-class FoodType(models.Model):
-    category = models.CharField(max_length=64)
+# class FoodType(models.Model):
+#     category = models.CharField(max_length=64)
 
-    def __str__(self):
-        return self.category
+#     def __str__(self):
+#         return self.category
     
     
 class Unit(models.Model):
@@ -38,7 +38,7 @@ class Unit(models.Model):
 class Ingredient(models.Model):
     name = models.CharField(max_length=64, blank=False)
     ingredient_id = models.IntegerField(unique=True)
-    category = models.ForeignKey(FoodType, on_delete=models.CASCADE)
+    # category = models.ForeignKey(FoodType, on_delete=models.CASCADE)
 
     def __str__(self):
         return f"{self.name}"
@@ -51,7 +51,7 @@ class PantryIngredient(models.Model):
     unit = models.ForeignKey(Unit, on_delete=models.CASCADE)
 
     def __str__(self):
-        return f"{self.ingredient} - {self.quantity} {self.unit}"
+        return f"{self.name} - {self.quantity} {self.unit}"
     
 
 class Recipe(models.Model):
@@ -66,7 +66,6 @@ class Recipe(models.Model):
     def __str__(self):
         return self.name
     
-
 
 class IngredientPerRecipe(models.Model):
     recipe = models.ForeignKey(Recipe, on_delete=models.CASCADE)

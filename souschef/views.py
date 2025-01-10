@@ -69,18 +69,17 @@ def ingredient_details(request):
         item_name = item.get("name")
         item_id = item.get("id")
         print(item_name, item_id)
-        category = detailed_search(item_id)
-        print(f"CATEGORY: {category}")
-        fetch_or_create_ingredient(item_name, category, item_id)
-        return JsonResponse({ "category": category})
+        aisle = detailed_search(item_id)
+        print(f"CATEGORY: {aisle}")
+        fetch_or_create_ingredient(item_name, item_id)
+        return JsonResponse({ "aisle": aisle})
 
 
 def recipe_ingredient(request):
     if request.method == "POST":
         
         ingredient_input = request.POST.get("ingredient")
-        category = FoodType.objects.get(id=request.POST.get("category"))
-        ingredient = fetch_or_create_ingredient(ingredient_input, category)
+        ingredient = fetch_or_create_ingredient(ingredient_input)
         form_data = request.POST.copy()
         form_data["name"] = ingredient.id
         form = IngredientPerRecipeForm(form_data)
@@ -88,7 +87,7 @@ def recipe_ingredient(request):
             amount = form.cleaned_data["amount"]
             unit = form.cleaned_data["unit"]
             
-            print(ingredient, category, amount, unit)
+            print(ingredient, amount, unit)
         else:
             print(form.errors)
 

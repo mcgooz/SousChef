@@ -1,9 +1,8 @@
 from django.contrib import admin
-from .models import User, UserDashboard, FoodType, Unit, Ingredient, Pantry, PantryIngredient
+from .models import User, UserDashboard, Unit, Ingredient, Pantry, PantryIngredient
 
 admin.site.register(User)
 admin.site.register(UserDashboard)
-admin.site.register(FoodType)
 admin.site.register(Unit)
 
 class PantryIngredientInline(admin.TabularInline):
@@ -22,4 +21,4 @@ class PantryAdmin(admin.ModelAdmin):
 
 @admin.register(Ingredient)
 class IngredientAdmin(admin.ModelAdmin):
-    list_display = ('name', 'ingredient_id', 'category')
+    list_display = ('name', 'ingredient_id')

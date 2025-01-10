@@ -4,7 +4,7 @@ import requests
 
 from decimal import Decimal
 
-from .models import Ingredient, Unit, FoodType, PantryIngredient
+from .models import Ingredient, Unit, PantryIngredient
 
 load_dotenv()
 
@@ -35,23 +35,14 @@ def detailed_search(id):
     print(response)
 
 
-    details = response.get("categoryPath")
-    if details and len(details) > 1:
-            details = details[1]
-    elif details:
-        details = details[0]
-    elif not details:
-        details = response.get("originalName")
-
+    details = response.get("aisle")
     return details
     
 
 ### Save or retrieve ingredient from DB
-def fetch_or_create_ingredient(ingredient_input, category, item_id):
-    category, created = FoodType.objects.get_or_create(category=category)
+def fetch_or_create_ingredient(ingredient_input, item_id):
     ingredient, created = Ingredient.objects.get_or_create(
     name=ingredient_input,
-    category=category,
     ingredient_id=item_id
     )
     print(ingredient)
@@ -59,27 +50,25 @@ def fetch_or_create_ingredient(ingredient_input, category, item_id):
 
 
 ### Sort by Categories
-def get_item_by_category(categories, contents):
-    item_by_category = {}
-    for category in categories:
-        item = contents.filter(name__category=category)
-        item_by_category[category] = item
+# def get_ingredient(categories, contents):
+#     item_by_category = {}
+#     for category in categories:
+#         item = contents.filter(name__category=category)
+#         item_by_category[category] = item
 
-    return item_by_category
+#     return item_by_category
 
 
 ### Table data
-def get_table_data(items):
-    max_items = max(len(item) for item in items.values())
+def get_table_data(contents):
     
     table_data = []
-    for i in range(max_items):
-        row = []
-        for category, item in items.items():
-            if i < len(item):
-                row.append(item[i])
-            else:
-                row.append(None)
+    for item in contents:
+        row = [
+            item.name,  # Ingredient name
+            item.quantity,   # Ingredient quantity
+            item.unit   # Unit name (assuming there's a unit field)
+        ]
         table_data.append(row)
     
     return table_data

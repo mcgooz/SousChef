@@ -95,21 +95,20 @@ document.addEventListener("DOMContentLoaded", function() {
                         })
                         .then(response => response.json())
                         .then(data => {
-                            const itemCat = data.category;
-                            console.log(itemCat);
+                            const itemAisle = data.aisle;
+                            console.log(itemAisle);
 
                         // Item selection
                             if (!itemName) {
                                 alert("Please select an item from the list");
 
                             } else {
-                                console.log(itemName, itemId, itemCat);
+                                console.log(itemName, itemId);
                                 searchBox.value = itemName;
                                 const itemInput = document.getElementById('ingredientId')
                                 const catInput = document.getElementById('itemCategory')
                                 
                                 itemInput.value = itemId;
-                                catInput.value = itemCat;
                                 suggestionsContainer.innerHTML = '';
                             }
                         })

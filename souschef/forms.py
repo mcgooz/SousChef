@@ -1,6 +1,6 @@
 from django.forms import ModelForm, Textarea, NumberInput, Select, TextInput, ModelChoiceField, IntegerField
 
-from .models import User, UserDashboard, Ingredient, FoodType, Recipe, Pantry, PantryIngredient, IngredientPerRecipe
+from .models import User, UserDashboard, Ingredient, Recipe, Pantry, PantryIngredient, IngredientPerRecipe
 
 
 class NewRecipeForm(ModelForm):
@@ -28,7 +28,7 @@ class PantryIngredientForm(ModelForm):
         to_field_name="name",
     )
     ingredient_id = IntegerField()
-    category = ModelChoiceField(queryset=FoodType.objects.all(), to_field_name="category")
+    # category = ModelChoiceField(queryset=FoodType.objects.all(), to_field_name="category")
 
     class Meta:
         model = PantryIngredient
