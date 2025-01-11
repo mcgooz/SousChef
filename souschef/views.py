@@ -3,6 +3,7 @@ from django.db import IntegrityError
 from django.http import HttpResponseRedirect
 from django.contrib.auth import authenticate, login, logout
 from django.urls import reverse
+from django.core.cache import cache
 
 from .models import User, UserDashboard, Pantry
 from .forms import NewRecipeForm, IngredientForm, PantryIngredientForm, IngredientPerRecipeForm
