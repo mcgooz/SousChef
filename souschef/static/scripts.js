@@ -24,7 +24,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 
             } else {
                 clearTimeout(debounceTimer);
-                clearSuggestions();
+                clearContent(suggestionsContainer);
                 searchBox.classList.remove('autocomplete-active');
                 console.log('Clearing suggestions');
             }
@@ -39,11 +39,11 @@ document.addEventListener("DOMContentLoaded", function() {
             fetch(`/pantry?query=${query}`)
             .then(response => response.json())
             .then(data => {
-                suggestions = data.results;
-                id = data.ids;
                 const details = [];
-                for (let i = 0; i < suggestions.length; i++) {
-                    details.push({name: suggestions[i], id: id[i]});
+                const results = data.results;
+
+                for (let i = 0; i < results.length; i++) {
+                    details.push({name: results[i].name, id: results[i].id});
                 }
                 
                 displaySuggestions(details);
@@ -69,9 +69,9 @@ document.addEventListener("DOMContentLoaded", function() {
                 details.forEach(item => {
                     const li = document.createElement('li');
                     li.className = 'list-group-item';
-                    li.textContent = item.name.name;
-                    li.setAttribute('data-name', item.name.name);
-                    li.setAttribute('data-id', item.id.id);
+                    li.textContent = item.name;
+                    li.setAttribute('data-name', item.name);
+                    li.setAttribute('data-id', item.id);
                     suggestionsContainer.appendChild(li);
 
                     li.addEventListener('click', function() {
@@ -106,23 +106,61 @@ document.addEventListener("DOMContentLoaded", function() {
                                 console.log(itemName, itemId);
                                 searchBox.value = itemName;
                                 const itemInput = document.getElementById('ingredientId')
-                                const catInput = document.getElementById('itemCategory')
+                                // const catInput = document.getElementById('itemCategory')
                                 
                                 itemInput.value = itemId;
-                                suggestionsContainer.innerHTML = '';
+                                clearContent(suggestionsContainer);
                             }
                         })
                     })
                 })
             }
         }
-    }
+    
 
+        // Update recipe ingredeints
+        const recipeIngredientInput = document.querySelector('#recipe_ingredient_input');
+        if (recipeIngredientInput) {
+
+            recipeIngredientInput.addEventListener('submit', function(event) {
+                event.preventDefault();
+                
+                const formData = new FormData(this);
+
+                fetch('/recipe_ingredient/', {
+                    method: 'POST',
+                    body: formData
+                })
+
+                .then(response => response.json())
+                .then(data => {
+                    console.log(data);
+                    const tableBody = document.querySelector('tbody');
+                    const newRow = document.createElement('tr');
+
+                    newRow.innerHTML = `
+                    <td>${data.ingredient}</td>
+                    <td>${data.amount}</td>
+                    <td>${data.unit}</td>`;
+
+                    tableBody.appendChild(newRow);
+                    clearContent(searchBox, quantity, unit);
+                })
+                .catch(error => console.error('Error:', error));
+            });
+        }
+    }
+    
     // Clear suggestions
-    function clearSuggestions() {
-        suggestionsContainer.innerHTML = '';
+    function clearContent(...elements) {
+        elements.forEach(element => {
+            console.log("clearContent called");
+            element.innerHTML = '';
+            element.value = '';
+        });
     }
 });
+
 
 
 // Show Password

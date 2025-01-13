@@ -3,16 +3,17 @@ from django.db import IntegrityError
 from django.http import HttpResponseRedirect
 from django.contrib.auth import authenticate, login, logout
 from django.urls import reverse
-from django.core.cache import cache
+from django.forms import modelformset_factory
 
-from .models import User, UserDashboard, Pantry
+
+from .models import User, UserDashboard, Pantry, Recipe
 from .forms import NewRecipeForm, IngredientForm, PantryIngredientForm, IngredientPerRecipeForm
 
 import datetime, json
 
 from .pantry_utils import *
 
-
+### Homepage
 def index(request):
     today = datetime.datetime.today().date()
     date = datetime.datetime.strftime(today, '%a %d %b %Y')
@@ -21,8 +22,7 @@ def index(request):
         "date": date,
     })
 
-
-
+### User dashboard
 def user_dashboard(request):
     if request.user.is_authenticated:
         current_user = request.user
@@ -31,6 +31,14 @@ def user_dashboard(request):
         return render(request, "SousChef/user_dashboard.html", {
             "profile": profile,
         })
+    
+
+### Recipes View
+def recipes(request):
+    recipes = Recipe.objects.all()
+    return render(request, "SousChef/recipes.html", {
+            "recipes": recipes,
+        }) 
     
 
 ### Pantry View
@@ -42,22 +50,47 @@ def pantry(request):
         return pantry_post_request(request)
     
 
-### Recipe View
-def recipes(request):
+### Add a Recipe View
+def add_recipe(request):
+    IngredientPerRecipeFormSet = modelformset_factory(IngredientPerRecipe, form=IngredientPerRecipeForm, extra=1)
+
     if request.method == "POST":
         recipe_form = NewRecipeForm(request.POST)
-        ingredient_formset = IngredientPerRecipeForm()
 
         if recipe_form.is_valid():
-            recipe = recipe_form.save()
+            recipe = recipe_form.save(commit=False)
+            recipe.created_by = request.user
+            # if Recipe.objects.get(name=recipe.name):
+            #     return JsonResponse({"rename": "This recipe already exists. Please choose another"})
             
-            return redirect("recipes")
-    else:
-        recipe_form = NewRecipeForm()        
-        ingredient_formset = IngredientPerRecipeForm()
-        
+            recipe.save()
+            
+            ingredient_formset = IngredientPerRecipeFormSet(request.POST)
+            print("FORMSET CREATED:", ingredient_formset)
 
-    return render(request, "SousChef/recipes.html", {
+            if ingredient_formset.is_valid():
+                for form in ingredient_formset:
+                    ingredient_instance = form.save(commit=False)
+                    ingredient_instance.recipe = recipe
+                    ingredient_instance.save()
+                    print("INGREDIENT SAVED:", ingredient_instance)
+
+                    print("RECIPE SAVED")
+            
+            else:
+                print(ingredient_formset.errors)
+
+            return redirect("add_recipe")
+        
+        else:
+            print(recipe_form.errors)
+            print(ingredient_formset.errors)
+    
+    else:  
+        recipe_form = NewRecipeForm()
+        ingredient_formset = IngredientPerRecipeFormSet(queryset=IngredientPerRecipe.objects.none()) 
+
+    return render(request, "SousChef/add_recipe.html", {
         "recipe_form": recipe_form,
         "ingredient_formset": ingredient_formset
         })
@@ -65,34 +98,37 @@ def recipes(request):
 
 def ingredient_details(request):
     if request.method == "POST":
-
         item = json.loads(request.body)
         item_name = item.get("name")
         item_id = item.get("id")
         print(item_name, item_id)
-        aisle = detailed_search(item_id)
-        print(f"CATEGORY: {aisle}")
+
+        details = detailed_search(item_id)
         fetch_or_create_ingredient(item_name, item_id)
-        return JsonResponse({ "aisle": aisle})
+        return JsonResponse({ "details": details})
 
 
 def recipe_ingredient(request):
     if request.method == "POST":
         
         ingredient_input = request.POST.get("ingredient")
-        ingredient = fetch_or_create_ingredient(ingredient_input)
+        ingredient_id = request.POST.get("ingredient_id")
+        ingredient_check = fetch_or_create_ingredient(ingredient_input, ingredient_id)
         form_data = request.POST.copy()
-        form_data["name"] = ingredient.id
+        
         form = IngredientPerRecipeForm(form_data)
         if form.is_valid():
+            ingredient = ingredient_check
             amount = form.cleaned_data["amount"]
-            unit = form.cleaned_data["unit"]
-            
-            print(ingredient, amount, unit)
+            unit_id = form.cleaned_data["unit"]
+            unit = Unit.objects.get(unit_type=unit_id)
+            add_ingredient = {"ingredient": ingredient.name, "amount": amount, "unit": unit.unit_type, "ingredient_id": ingredient_id}
+            return JsonResponse(add_ingredient)
+                
         else:
             print(form.errors)
 
-    return HttpResponseRedirect(reverse("recipes"))
+    return HttpResponseRedirect(reverse("add_recipe"))
 
 
 ### Login View

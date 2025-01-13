@@ -31,8 +31,13 @@
                         <li class="nav-item">
                             <a class="nav-link" href="{% url 'recipes' %}">Recipes</a>
                         </li>
-                        <!-- Pantry -->      
+                        
                         {% if user.is_authenticated %}
+                        <!-- Add a Recipe -->
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'add_recipe' %}">Add a Recipe</a>
+                        </li>
+                        <!-- Pantry -->
                             <li class="nav-item">
                                 <a class="nav-link" href="{% url 'pantry' %}">Pantry</a>
                             </li>
@@ -50,7 +55,7 @@
                             <li class="nav-item">
                                 <a class="nav-link" href="{% url 'register' %}">Register</a>
                             </li>
-                        {% endif %}
+                        {% endif %}                     
                         
                         <!-- Admin access -->
                         {% if user.is_staff %}

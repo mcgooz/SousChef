@@ -43,16 +43,6 @@ class Ingredient(models.Model):
     def __str__(self):
         return f"{self.name}"
     
-    
-class PantryIngredient(models.Model):
-    pantry = models.ForeignKey(Pantry, on_delete=models.CASCADE)
-    name = models.ForeignKey(Ingredient, on_delete=models.CASCADE)
-    quantity = models.DecimalField(max_digits=5, decimal_places=2)
-    unit = models.ForeignKey(Unit, on_delete=models.CASCADE)
-
-    def __str__(self):
-        return f"{self.name} - {self.quantity} {self.unit}"
-    
 
 class Recipe(models.Model):
     name = models.CharField(max_length=128)
@@ -60,11 +50,11 @@ class Recipe(models.Model):
     ingredients = models.ManyToManyField(Ingredient, through="IngredientPerRecipe")
     steps = models.TextField()
     image = models.ImageField(upload_to="static/images/recipe_pics", null=True, blank=True)
-    created_by = models.ForeignKey(UserDashboard, on_delete=models.CASCADE)
+    created_by = models.ForeignKey(User, on_delete=models.CASCADE)
     public = models.BooleanField(default=False)
 
     def __str__(self):
-        return self.name
+        return f"{self.name}"
     
 
 class IngredientPerRecipe(models.Model):
@@ -72,6 +62,16 @@ class IngredientPerRecipe(models.Model):
     ingredient = models.ForeignKey(Ingredient, on_delete=models.CASCADE)
     amount = models.DecimalField(max_digits=5, decimal_places=2)
     unit = models.ForeignKey(Unit, on_delete=models.CASCADE)
-    
-    
 
+    def __str__(self):
+        return f"{self.recipe} {self.ingredient}"
+    
+    
+class PantryIngredient(models.Model):
+    pantry = models.ForeignKey(Pantry, on_delete=models.CASCADE)
+    name = models.ForeignKey(Ingredient, on_delete=models.CASCADE)
+    quantity = models.DecimalField(max_digits=10, decimal_places=2)
+    unit = models.ForeignKey(Unit, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f"{self.name} - {self.quantity} {self.unit}"

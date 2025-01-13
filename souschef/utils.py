@@ -1,42 +1,71 @@
+from django.core.cache import cache
+from django.http import JsonResponse
+
 from dotenv import load_dotenv
 import os
 import requests
 
+
 from decimal import Decimal
 
-from .models import Ingredient, Unit, PantryIngredient
+from .models import Ingredient, Unit, IngredientPerRecipe
 
 load_dotenv()
 
 API_KEY = os.getenv("API_KEY")
 
+### Query API or cache
+def run_query(query):
+    try:
+        item = Ingredient.objects.get(name=query)
+        print(f"ITEM FOUND: {item.name} ID: {item.ingredient_id}")
+        results = [{"name": item.name, "id": item.ingredient_id}]
+        
+    except Ingredient.DoesNotExist:
+        search = item_search(query)
+        results = [{"name": item["name"], "id": item["id"]} for item in search]
+
+    return JsonResponse({
+        "results": results
+        })
+
+
 ### API Search
 def item_search(s):
-    # Check if item is already in database and return result (to avoid too many API calls)
-    # if Ingredient.objects.filter(name=s).exists():
-    #     results = [{"name": s}]
-    #     return results
+    # Check if item is already in cache and return result (to avoid too many API calls)
+
+    results = cache.get(f"item_search_{s}")
+    if results:
+        print("SEARCH RETRIEVED FROM CACHE")
+        return results 
     
     # # Otherwise, search via API
+    else:
+        response = requests.get(f"https://api.spoonacular.com/food/ingredients/search?apiKey={API_KEY}&query={s}&number=10").json()
 
-    response = requests.get(f"https://api.spoonacular.com/food/ingredients/search?apiKey={API_KEY}&query={s}&number=10").json()
-
-    results = response.get("results", [])
+        results = response.get("results", [])
+        
+        print(f"API REQUEST")
+        print(results)
+        cache.set(f"item_search_{s}", results)
+        print("SEARCH CACHED")
+        return results
     
-    print(f"API REQUEST")
-    print(results)
-    return results
-    
-### Ingredient details API
+### Ingredient details API search
 def detailed_search(id):
-
-    response = requests.get(f"https://api.spoonacular.com/food/ingredients/{id}/information?apiKey={API_KEY}&amount=1").json()
-
-    # print(response)
-
-
-    details = response.get("aisle")
-    return details
+    details = cache.get(f"item_details_{id}")
+    if details:
+        print("DETAILS RETRIEVED FROM CACHE")
+        return details
+    
+    else:
+        response = requests.get(f"https://api.spoonacular.com/food/ingredients/{id}/information?apiKey={API_KEY}&amount=1").json()
+        print(response)
+        details = response.get("aisle")
+        print(details)
+        cache.set(f"item_details_{id}", details)
+        print("DETAILS CACHED")
+        return details
     
 
 ### Save or retrieve ingredient from DB
@@ -65,7 +94,7 @@ def get_table_data(contents):
     table_data = []
     for item in contents:
         row = [
-            item.name,  # Ingredient name
+            item.name.name.title(),  # Ingredient name
             item.quantity,   # Ingredient quantity
             item.unit   # Unit name (assuming there's a unit field)
         ]
@@ -144,3 +173,14 @@ def update_ingredient(i, q, u):
     print(f"QUANTITY CHECK: {i.quantity}")
 
     return i
+
+
+def add_recipe_ingredient(r, i, a, u):
+    ingredient_to_add = IngredientPerRecipe(
+        recipe = r,
+        ingredient = i,
+        amount = a,
+        unit = u
+    )
+
+    ingredient_to_add.save()

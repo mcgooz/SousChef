@@ -12,16 +12,6 @@ import json
 
 from .utils import *
 
-### Query API or database via GET
-def run_query(query):
-    search = item_search(query)
-    results = [{"name": item["name"]} for item in search]
-    ids = [{"id": item["id"]} for item in search]
-    return JsonResponse({
-        "results": results,
-        "ids": ids
-        })
-
 
 ### Handle GET requests
 def pantry_get_request(request):
