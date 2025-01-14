@@ -149,3 +149,9 @@ body {
 .table {
     font-size: 0.8rem;
 }
+
+.list-group {
+    z-index: 1000;
+    top: 100%;
+    left: 0;
+}

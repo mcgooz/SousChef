@@ -1,37 +1,45 @@
 document.addEventListener("DOMContentLoaded", function() {
 
     // Search via API and autocomplete
-    const searchBox = document.getElementById('searchBox');
-    const suggestionsContainer = document.getElementById('suggestions');
+    const searchBoxes = document.querySelectorAll('.search-box');
+    const suggestionsContainers = document.querySelectorAll('.suggestions');
     
-    if (searchBox && suggestionsContainer) {
+    if (searchBoxes && suggestionsContainers) {
         let suggestions = [];
         let debounceTimer; // Prevent API calls after each keystroke
 
-
         // Detect input in search box
-        searchBox.addEventListener('input', function() {
-            const query = this.value;
-            this.value = this.value.replace(/[0-9]/g, '');
+        searchBoxes.forEach((searchBox, index) => {
+            const suggestionsContainer = suggestionsContainers[index];
+            handleInput(searchBox, suggestionsContainer)
 
-            if (query.length >= 2) {
-                clearTimeout(debounceTimer); // Clear timer then restart at 500ms
-
-                debounceTimer = setTimeout(function() {
-                    fetchSuggestions(query);
-                    searchBox.classList.add('autocomplete-active');
-                }, 500);
-                
-            } else {
-                clearTimeout(debounceTimer);
-                clearContent(suggestionsContainer);
-                searchBox.classList.remove('autocomplete-active');
-                console.log('Clearing suggestions');
-            }
         });
 
+        function handleInput(searchBox, suggestionsContainer) {
+            searchBox.addEventListener('input', function() {
+                const query = this.value;
+                this.value = this.value.replace(/[0-9]/g, '');
+
+                if (query.length >= 2) {
+                    clearTimeout(debounceTimer); // Clear timer then restart at 500ms
+
+                    debounceTimer = setTimeout(function() {
+                        fetchSuggestions(query, suggestionsContainer, searchBox);
+                        searchBox.classList.add('autocomplete-active');
+                    }, 500);
+                    
+                } else {
+                    clearTimeout(debounceTimer);
+                    clearContent(suggestionsContainer);
+                    searchBox.classList.remove('autocomplete-active');
+                    console.log('Clearing suggestions');
+                }
+            });
+        }
+        
+
         // Fetch suggestions
-        function fetchSuggestions(query) {
+        function fetchSuggestions(query, suggestionsContainer, searchBox) {
             if (query.length < 2) {
                 return;
             }
@@ -46,7 +54,7 @@ document.addEventListener("DOMContentLoaded", function() {
                     details.push({name: results[i].name, id: results[i].id});
                 }
                 
-                displaySuggestions(details);
+                displaySuggestions(details, suggestionsContainer, searchBox);
                 console.log(details)
             })
             .catch(error => {
@@ -55,7 +63,7 @@ document.addEventListener("DOMContentLoaded", function() {
         }
 
         // Display suggestions
-        function displaySuggestions(details) {
+        function displaySuggestions(details, suggestionsContainer, searchBox) {
             suggestionsContainer.innerHTML = '';
 
             if (details.length === 0) {
@@ -90,7 +98,7 @@ document.addEventListener("DOMContentLoaded", function() {
                             body: JSON.stringify({ 
                                 id: itemId,
                                 name: itemName
-                             })
+                            })
 
                         })
                         .then(response => response.json())
@@ -104,9 +112,9 @@ document.addEventListener("DOMContentLoaded", function() {
 
                             } else {
                                 console.log(itemName, itemId);
+                                
                                 searchBox.value = itemName;
                                 const itemInput = document.getElementById('ingredientId')
-                                // const catInput = document.getElementById('itemCategory')
                                 
                                 itemInput.value = itemId;
                                 clearContent(suggestionsContainer);
@@ -119,36 +127,55 @@ document.addEventListener("DOMContentLoaded", function() {
     
 
         // Update recipe ingredeints
-        const recipeIngredientInput = document.querySelector('#recipe_ingredient_input');
+        const recipeIngredientInput = document.querySelector('#ingredient-formset');
         if (recipeIngredientInput) {
+            
+            function addRowEventListener(button) {
+                button.addEventListener('click', function(event) {
+                    event.preventDefault();
+                    console.log("clicked");
+            
+                    const formRow = document.getElementById('ingredientRow');
+                    const newRow = formRow.cloneNode(true);
+                    
+                    newRow.querySelectorAll('input, select').forEach(input => input.value = '');
+            
+                    const formset = document.querySelector('#ingredient-formset tbody');
+                    formset.appendChild(newRow);
 
-            recipeIngredientInput.addEventListener('submit', function(event) {
-                event.preventDefault();
-                
-                const formData = new FormData(this);
+                    const suggestions = document.createElement('ul');
+                    suggestions.id = 'suggestions';
+                    suggestions.className = 'list-group position-absolute suggestions';
+                    suggestions.style.width = '100%';
+                    newRow.appendChild(suggestions);
 
-                fetch('/recipe_ingredient/', {
-                    method: 'POST',
-                    body: formData
-                })
+                    const newSearchBox = newRow.querySelector('.search-box');
+                    const suggestionsContainer = newRow.querySelector('.suggestions');
+;
+                    handleInput(newSearchBox, suggestionsContainer);
+                    
+            
+                    const newButton = newRow.querySelector('#add-ingredient-button');
+                    addRowEventListener(newButton);
 
-                .then(response => response.json())
-                .then(data => {
-                    console.log(data);
-                    const tableBody = document.querySelector('tbody');
-                    const newRow = document.createElement('tr');
+                    const deleteButton = newRow.querySelector('#remove-ingredient-button');
+                    deleteButton.addEventListener('click', function(event) {
+                        event.preventDefault();
+                        newRow.remove();
+                    });    
+                });
+            }
 
-                    newRow.innerHTML = `
-                    <td>${data.ingredient}</td>
-                    <td>${data.amount}</td>
-                    <td>${data.unit}</td>`;
+            const initialButton = document.getElementById('add-ingredient-button');
+            addRowEventListener(initialButton);
 
-                    tableBody.appendChild(newRow);
-                    clearContent(searchBox, quantity, unit);
-                })
-                .catch(error => console.error('Error:', error));
+            const initialDeleteButton = document.querySelector('remove-ingredient-button');
+            initialDeleteButton.addEventListener('click', function(event) {
+            event.preventDefault();
+            initialDeleteButton.closest('tr').remove();
             });
         }
+        
     }
     
     // Clear suggestions
@@ -296,3 +323,8 @@ function togglePassword() {
     
 //     ingredientList.style.display = "block";
 // }
+
+// const ingredient = document.getElementById('ingredientID');
+//                 const ingredientId = document.getElementById('ingredientID');
+//                 const amount = document.getElementById('amount');
+//                 const unit = document.getElementById('unit');

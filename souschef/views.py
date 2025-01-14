@@ -3,11 +3,11 @@ from django.db import IntegrityError
 from django.http import HttpResponseRedirect
 from django.contrib.auth import authenticate, login, logout
 from django.urls import reverse
-from django.forms import modelformset_factory
+
 
 
 from .models import User, UserDashboard, Pantry, Recipe
-from .forms import NewRecipeForm, IngredientForm, PantryIngredientForm, IngredientPerRecipeForm
+from .forms import NewRecipeForm, IngredientForm, PantryIngredientForm, IngredientPerRecipeFormSet
 
 import datetime, json
 
@@ -52,7 +52,6 @@ def pantry(request):
 
 ### Add a Recipe View
 def add_recipe(request):
-    IngredientPerRecipeFormSet = modelformset_factory(IngredientPerRecipe, form=IngredientPerRecipeForm, extra=1)
 
     if request.method == "POST":
         recipe_form = NewRecipeForm(request.POST)
@@ -110,13 +109,14 @@ def ingredient_details(request):
 
 def recipe_ingredient(request):
     if request.method == "POST":
+        print("RECIPE INGREDIENT")
         
         ingredient_input = request.POST.get("ingredient")
-        ingredient_id = request.POST.get("ingredient_id")
+        ingredient_id = request.POST.get("ingredientId")
         ingredient_check = fetch_or_create_ingredient(ingredient_input, ingredient_id)
         form_data = request.POST.copy()
         
-        form = IngredientPerRecipeForm(form_data)
+        form = IngredientPerRecipeFormSet(form_data)
         if form.is_valid():
             ingredient = ingredient_check
             amount = form.cleaned_data["amount"]

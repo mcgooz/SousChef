@@ -1,4 +1,5 @@
 {% extends "SousChef/layout.html" %}
+{% load custom_filters %}
 
 
 {% block body %}
@@ -19,62 +20,111 @@
                     <div>{{ recipe_form.image }}</div>
                     <h5>Public</h5>
                     <div>{{ recipe_form.public }}</div>
-                    <button type="submit">Save Recipe</button>
-                </form>                   
+                    <button type="submit">Save Recipe</button>                   
             </div>
+
             <!-- Ingredients -->
-        
             <div class="col">
-                <h5>Ingredients</h5>
-                <form action="{% url 'recipe_ingredient' %}" method="post" id="recipe_ingredient_input">
-                    {% csrf_token %}
-                    <div class="input-group mb-3">
-
-                        <!-- Ingredient Name -->
-                        <input id="searchBox" autocomplete="off" class="form-control" name="ingredient" placeholder="Select ingredient" type="text" required>
-                        <ul id="suggestions" class="list-group position-absolute" style="width: auto"></ul>
-                        <input type="hidden" id="ingredientId" name="ingredient_id">
                 
-                        <!-- Quantity -->
-                        <input id="quantity" type="number" step="0.01" class="form-control" name="amount" placeholder="Quantity" aria-label="Quantity" required>
-
-                        <!-- Unit Dropdown -->
-                        <select id="unit" class="form-select" name="unit" required>
-                            <option value="" selected disabled>Select a unit</option>
-                            
-                            {% for form in ingredient_formset %}
-                                {% for unit in form.unit.field.choices %}
-                                    {% if unit.0 %}
-                                        <option value="{{ unit.0 }}">{{ unit.1 }}</option>
-                                    {% endif %}
-                                {% endfor %}
-                            {% endfor %}
-                        </select>
-                        <button class="btn btn-outline-info">Add Ingredient</button>
+                <div class="card">
+                    <div class="card-header">
+                        <h5>Add Ingredients</h5>
                     </div>
-                </form>
-                    <div class="table-responsive">
-                        <table class="table table-striped table-sm table-bordered" style="table-layout: fixed;">
+                    <div class="card-body">
+
+                        <!-- Ingredient Formset -->
+                        <table class="table" id="ingredient-formset">
                             <thead>
                                 <tr>
                                     <th>Ingredient</th>
-                                    <th>Quantity</th>
+                                    <th>Amount</th>
                                     <th>Unit</th>
+                                    <th>Remove</th>
                                 </tr>
                             </thead>
+
                             <tbody>
                                 {{ ingredient_formset.management_form }}
-                                {% for row in table_data %}
-                                <tr>
-                                    <td>{{ form.ingredient }} {{ row.0 }}</td>  <!-- Ingredient name -->
-                                    <td>{{ form.amount }} {{ row.1|floatformat }}</td>  <!-- Quantity -->
-                                    <td>{{ form.unit }}{{ row.2 }}</td>  <!-- Unit -->
+                                {% for form in ingredient_formset%}
+                                <tr id="ingredientRow">
+                                    <td style="position: relative;">
+                                        <!-- Ingredient Search -->
+                                        {% csrf_token %}
+                                        {{ form.ingredient }}
+                                        <ul id="suggestions" class="list-group position-absolute suggestions" style="width: 100%;"></ul>
+                                        <input type="hidden" id="ingredientId" name="ingredient_id">
+                                        
+                                    </td>
+                                    <td>{{ form.amount }}</td>  <!-- Quantity -->
+                                    <td>{{ form.unit }}</td>  <!-- Unit -->
+                                    <td><button type="button" id="add-ingredient-button" class="btn btn-secondary">Add</button></td>
+                                    <td><button type="button" id="remove-ingredient-button" class="btn btn-danger delete-row">Remove</button></td>
+                                        
+                                    
                                 </tr>
                                 {% endfor %}
                             </tbody>
                         </table>
-                    </div> 
-            </div>            
+                        
+                    </div>
+                </div>
+                </form>
+            </div>
         </div>
     </div>
 {% endblock body %}
+
+{% comment %} <div class="col">
+    <h5>Ingredients</h5>
+    <form action="{% url 'recipe_ingredient' %}" method="post" id="recipe_ingredient_input">
+        {% csrf_token %}
+        <div class="input-group mb-3">
+
+            <!-- Ingredient Name -->
+            <input id="searchBox" autocomplete="off" class="form-control" name="ingredient" placeholder="Select ingredient" type="text" required>
+            <ul id="suggestions" class="list-group position-absolute" style="width: auto"></ul>
+            <input type="hidden" id="ingredientId" name="ingredient_id">
+    
+            <!-- Quantity -->
+            <input id="quantity" type="number" step="0.01" class="form-control" name="amount" placeholder="Quantity" aria-label="Quantity" required>
+
+            <!-- Unit Dropdown -->
+            <select id="unit" class="form-select" name="unit" required>
+                <option value="" selected disabled>Select a unit</option>
+                
+                {% for form in ingredient_formset %}
+                    {% for unit in form.unit.field.choices %}
+                        {% if unit.0 %}
+                            <option value="{{ unit.0 }}">{{ unit.1 }}</option>
+                        {% endif %}
+                    {% endfor %}
+                {% endfor %}
+            </select>
+            <button class="btn btn-outline-info">Add Ingredient</button>
+        </div>
+    </form>
+
+    <div class="table-responsive">
+        <table class="table table-striped table-sm table-bordered" style="table-layout: fixed;">
+            <thead>
+                <tr>
+                    <th>Ingredient</th>
+                    <th>Quantity</th>
+                    <th>Unit</th>
+                </tr>
+            </thead>
+            <form method="post">
+                {{ ingredient_formset.management_form }}
+                <tbody>
+                    {% for form in ingredient_formset %}
+                        <tr>
+                            <td>{{ form.ingredient }}</td>  <!-- Ingredient name -->
+                            <td>{{ form.amount }}</td>  <!-- Quantity -->
+                            <td>{{ form.unit }}</td>  <!-- Unit -->
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </form>
+        </table>
+    </div>
+</div>   {% endcomment %}
