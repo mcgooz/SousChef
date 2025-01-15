@@ -114,6 +114,8 @@ document.addEventListener("DOMContentLoaded", function() {
                             } else {
                                 
                                 searchBox.value = itemName;
+                                const itemInput = document.getElementById('ingredientId');
+                                itemInput.value = itemId;
 
                                 const itemObjectID = this.closest('tr')?.querySelector('.search-box-id');
                                 

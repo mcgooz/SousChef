@@ -62,7 +62,7 @@ def add_recipe(request):
             recipe = recipe_form.save(commit=False)
             recipe.created_by = request.user
             recipe.title = recipe.title.title()
-            if Recipe.objects.get(title=recipe.title):
+            if Recipe.objects.filter(title=recipe.title).exists():
                 return JsonResponse({"rename": "This recipe already exists. Please choose another"})
             else:
                 recipe.save()

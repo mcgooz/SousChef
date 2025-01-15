@@ -55,6 +55,7 @@
                                             {{ form.ingredient }}
                                             <input id="searchBox" autocomplete="off" class="form-control search-box" name="name" placeholder="Search for an ingredient" type="text" required>
                                             <ul id="suggestions" class="list-group position-absolute suggestions" style="width: 100%;"></ul>
+                                            <input type="hidden" id="ingredientId" name="ingredient_id">
                                         </td>
                                         <!-- Quantity -->
                                         <td>{{ form.amount }}</td>
