@@ -6,9 +6,10 @@
 <!-- Add a New Recipe-->
     <div class="container m-3">
         <h4>Add a Recipe</h4>
-        <div class="row">
-            <div class="col">
-                <form action="{% url 'add_recipe' %}" method="post">
+        <form action="{% url 'add_recipe' %}" method="post">
+            <div class="row">
+                <div class="col">
+                
                     {% csrf_token %}
                     <h5>Name</h5>
                     <div>{{ recipe_form.name }}</div>
@@ -39,39 +40,40 @@
                                     <th>Ingredient</th>
                                     <th>Amount</th>
                                     <th>Unit</th>
+                                    <th>Add</th>
                                     <th>Remove</th>
                                 </tr>
                             </thead>
 
                             <tbody>
                                 {{ ingredient_formset.management_form }}
-                                {% for form in ingredient_formset %}
+                                
                                 {% csrf_token %}
                                 <tr id="ingredientRow">
-                                    <td style="position: relative;">
-                                        <!-- Ingredient Search -->
-                                        
-                                        {{ form.ingredient }}
-                                        <input id="searchBox" autocomplete="off" class="form-control search-box" name="name" placeholder="Search for an ingredient" type="text" required>
-                                        <ul id="suggestions" class="list-group position-absolute suggestions" style="width: 100%;"></ul>
-                                        
-                                    </td>
-                                    <td>{{ form.amount }}</td>  <!-- Quantity -->
-                                    <td>{{ form.unit }}</td>  <!-- Unit -->
-                                    <td><button type="button" id="add-ingredient-button" class="btn btn-secondary">Add</button></td>
-                                    <td><button type="button" id="remove-ingredient-button" class="btn btn-danger delete-row">Remove</button></td>
-                                        
-                                    
+                                    {% for form in ingredient_formset %}
+                                        {{ form.id }}
+                                        <td style="position: relative;">
+                                            <!-- Ingredient Search -->
+                                            {{ form.ingredient }}
+                                            <input id="searchBox" autocomplete="off" class="form-control search-box" name="name" placeholder="Search for an ingredient" type="text" required>
+                                            <ul id="suggestions" class="list-group position-absolute suggestions" style="width: 100%;"></ul>
+                                        </td>
+                                        <!-- Quantity -->
+                                        <td>{{ form.amount }}</td>
+                                        <!-- Unit -->
+                                        <td>{{ form.unit }}</td>
+                                        <td><button type="button" id="add-ingredient-button" class="btn btn-secondary">Add</button></td>
+                                        <td><button type="button" id="remove-ingredient-button" class="btn btn-danger delete-row">Remove</button></td>
+                                    {% endfor %}
                                 </tr>
-                                {% endfor %}
+                                    
                             </tbody>
                         </table>
                         
                     </div>
                 </div>
-                </form>
             </div>
-        </div>
+        </form>        
     </div>
 {% endblock body %}
 

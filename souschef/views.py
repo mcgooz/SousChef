@@ -69,8 +69,8 @@ def add_recipe(request):
             
             ingredient_formset = IngredientPerRecipeFormSet(request.POST)
             print(f"FORMSET PRE VALIDATION {ingredient_formset}")
-            for form in ingredient_formset:
-                if ingredient_formset.is_valid():    
+            if ingredient_formset.is_valid(): 
+                for form in ingredient_formset:   
                         ingredient_instance = form.save(commit=False)
                         ingredient_instance.recipe = recipe
                         ingredient_instance.save()

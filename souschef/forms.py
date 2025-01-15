@@ -11,7 +11,7 @@ class NewRecipeForm(ModelForm):
         fields = ["name", "description", "steps", "image", "public"]
         widgets = {
             "name": Textarea(attrs={"rows": 1, "class": "textarea custom-input"}),
-            "description": Textarea(attrs={"cols": 40, "rows": 3, "class": "custom-input"}            ),
+            "description": Textarea(attrs={"cols": 40, "rows": 3, "class": "custom-input"}),
             "image": Textarea(attrs={"rows": 1, "class": "textarea custom-input"}),
         }
 
@@ -62,9 +62,10 @@ IngredientPerRecipeFormSet = inlineformset_factory(
     extra=1,
     can_delete=True,
     widgets = {
+        "id": HiddenInput(attrs={"class": "id-input"}),
         "ingredient": HiddenInput(attrs={"required": "required", "class": "form-control search-box-id"}),
         "amount": NumberInput(attrs={"required": "required", "class": "form-control amount-input"}),
-        "unit": Select(attrs={"required": "required", "class": "form-control form-select"}),
+        "unit": Select(attrs={"required": "required", "class": "form-control form-select unit-input"}),
     },
 )
 

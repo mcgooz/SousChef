@@ -4,14 +4,18 @@ from .models import User, UserDashboard, Unit, Ingredient, Pantry, PantryIngredi
 admin.site.register(User)
 admin.site.register(UserDashboard)
 admin.site.register(Unit)
-admin.site.register(Recipe)
-admin.site.register(IngredientPerRecipe)
 
 
 class PantryIngredientInline(admin.TabularInline):
     model = PantryIngredient
     extra = 1
     fields = ['name', 'quantity', 'unit']
+
+
+class IngredientPerRecipeInline(admin.TabularInline):
+    model = IngredientPerRecipe
+    extra = 1
+    fields = ['ingredient', 'amount', 'unit']
 
 
 @admin.register(Pantry)
@@ -25,3 +29,8 @@ class PantryAdmin(admin.ModelAdmin):
 @admin.register(Ingredient)
 class IngredientAdmin(admin.ModelAdmin):
     list_display = ('name', 'ingredient_id')
+
+@admin.register(Recipe)
+class RecipeAdmin(admin.ModelAdmin):
+    list_display = ('name',)
+    inlines = [IngredientPerRecipeInline]
