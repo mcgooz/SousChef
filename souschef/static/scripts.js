@@ -87,7 +87,7 @@ document.addEventListener("DOMContentLoaded", function() {
                         const itemId = this.getAttribute('data-id');
                         const csrfToken = document.querySelector('input[name="csrfmiddlewaretoken"]').value;
                         
-                        console.log(itemId)
+                        
                         fetch('/ingredient_details/', {
                             method: 'POST',
                             headers: {
@@ -105,6 +105,7 @@ document.addEventListener("DOMContentLoaded", function() {
                         .then(response => response.json())
                         .then(data => {
                             const ingredientId = data.details.ingredient.id;
+                            console.log('Item ID', itemId)
                             console.log('Ingredient ID:', ingredientId);
 
                             if (!itemName) {
@@ -113,9 +114,13 @@ document.addEventListener("DOMContentLoaded", function() {
                             } else {
                                 
                                 searchBox.value = itemName;
-                                const itemObjectID = this.closest('tr').querySelector('.search-box-id');
+
+                                const itemObjectID = this.closest('tr')?.querySelector('.search-box-id');
                                 
-                                itemObjectID.value = ingredientId;
+                                if (itemObjectID) {
+                                    itemObjectID.value = ingredientId;
+                                }
+
                                 clearContent(suggestionsContainer);
                             }
                         })
