@@ -63,8 +63,8 @@ IngredientPerRecipeFormSet = inlineformset_factory(
     can_delete=True,
     widgets = {
         "ingredient": HiddenInput(attrs={"required": "required", "class": "form-control search-box-id"}),
-        "amount": NumberInput(attrs={"required": "required", "id": "amount", "class": "form-control"}),
-        "unit": Select(attrs={"required": "required", "id": "unit", "class": "form-control form-select"}),
+        "amount": NumberInput(attrs={"required": "required", "class": "form-control amount-input"}),
+        "unit": Select(attrs={"required": "required", "class": "form-control form-select"}),
     },
 )
 

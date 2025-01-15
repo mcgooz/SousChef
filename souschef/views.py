@@ -36,6 +36,8 @@ def user_dashboard(request):
 ### Recipes View
 def recipes(request):
     recipes = Recipe.objects.all()
+    for recipe in recipes:
+        print(recipe.ingredientperrecipe_set.all())
     return render(request, "SousChef/recipes.html", {
             "recipes": recipes,
         }) 
@@ -67,9 +69,8 @@ def add_recipe(request):
             
             ingredient_formset = IngredientPerRecipeFormSet(request.POST)
             print(f"FORMSET PRE VALIDATION {ingredient_formset}")
-
-            if ingredient_formset.is_valid():
-                    for form in ingredient_formset:
+            for form in ingredient_formset:
+                if ingredient_formset.is_valid():    
                         ingredient_instance = form.save(commit=False)
                         ingredient_instance.recipe = recipe
                         ingredient_instance.save()

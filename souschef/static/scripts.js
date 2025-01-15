@@ -113,7 +113,7 @@ document.addEventListener("DOMContentLoaded", function() {
                             } else {
                                 
                                 searchBox.value = itemName;
-                                const itemObjectID = document.querySelector('.search-box-id')
+                                const itemObjectID = this.closest('tr').querySelector('.search-box-id');
                                 
                                 itemObjectID.value = ingredientId;
                                 clearContent(suggestionsContainer);
@@ -138,8 +138,17 @@ document.addEventListener("DOMContentLoaded", function() {
                     const formRow = document.getElementById('ingredientRow');
                     const newRow = formRow.cloneNode(true);
                     
-                    newRow.querySelectorAll('input').forEach((input) => {
+                    newRow.querySelectorAll('.search-box-id').forEach((input) => {
                         input.name = `ingredientperrecipe_set-${counter}-ingredient`;
+                        input.id = `ingredientperrecipe_set-${counter}-ingredient`;
+                        input.value = '';
+                    });
+
+                    newRow.querySelectorAll('.search-box').forEach((input) => {
+                        input.value = '';
+                    });
+
+                    newRow.querySelectorAll('.amount-input').forEach((input) => {
                         input.value = '';
                     });
                     
