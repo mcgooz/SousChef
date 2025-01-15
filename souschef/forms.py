@@ -8,9 +8,9 @@ from django.forms import inlineformset_factory
 class NewRecipeForm(ModelForm):
     class Meta:
         model = Recipe
-        fields = ["name", "description", "steps", "image", "public"]
+        fields = ["title", "description", "steps", "image", "public"]
         widgets = {
-            "name": Textarea(attrs={"rows": 1, "class": "textarea custom-input"}),
+            "title": Textarea(attrs={"rows": 1, "class": "textarea custom-input"}),
             "description": Textarea(attrs={"cols": 40, "rows": 3, "class": "custom-input"}),
             "image": Textarea(attrs={"rows": 1, "class": "textarea custom-input"}),
         }

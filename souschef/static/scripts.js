@@ -150,6 +150,10 @@ document.addEventListener("DOMContentLoaded", function() {
                         input.value = '';
                     });
 
+                    newRow.querySelectorAll('.search-box').forEach((input) => {
+                        input.value = '';
+                    });
+
                     newRow.querySelectorAll('.amount-input').forEach((input) => {
                         input.name = `ingredientperrecipe_set-${counter}-amount`;
                         input.id = `ingredientperrecipe_set-${counter}-amount`;
@@ -161,17 +165,7 @@ document.addEventListener("DOMContentLoaded", function() {
                         input.id = `ingredientperrecipe_set-${counter}-unit`;
                         input.value = '';
                     });
-
-
-                    // newRow.querySelectorAll('.search-box').forEach((input) => {
-                    //     input.value = '';
-                    // });
-
-                    // newRow.querySelectorAll('.amount-input').forEach((input) => {
-                    //     input.value = '';
-                    // });
                     
-            
                     const formset = document.querySelector('#ingredient-formset tbody');
                     formset.appendChild(newRow);
 
@@ -194,13 +188,16 @@ document.addEventListener("DOMContentLoaded", function() {
                     handleInput(newSearchBox, suggestionsContainer);
                     
             
-                    const newButton = newRow.querySelector('#add-ingredient-button');
+                    const newButton = newRow.querySelector('.add-button');
                     addRowEventListener(newButton);
 
-                    const deleteButton = newRow.querySelector('#remove-ingredient-button');
+                    const deleteButton = newRow.querySelector('.remove-button');
+                    deleteButton.style.display = 'inline-block';
+                    
                     deleteButton.addEventListener('click', function(event) {
                         event.preventDefault();
                         newRow.remove();
+                        totalForms.value = totalForms.value - 1;
                     });    
                 });
             }
@@ -208,11 +205,11 @@ document.addEventListener("DOMContentLoaded", function() {
             const initialButton = document.getElementById('add-ingredient-button');
             addRowEventListener(initialButton);
 
-            const initialDeleteButton = document.querySelector('remove-ingredient-button');
-            initialDeleteButton.addEventListener('click', function(event) {
-            event.preventDefault();
-            initialDeleteButton.closest('tr').remove();
-            });
+            // const initialDeleteButton = document.querySelector('remove-ingredient-button');
+            // initialDeleteButton.addEventListener('click', function(event) {
+            //     event.preventDefault();
+            //     initialDeleteButton.closest('tr').remove();
+            // });
         }
         
     }

@@ -12,7 +12,7 @@
                 
                     {% csrf_token %}
                     <h5>Name</h5>
-                    <div>{{ recipe_form.name }}</div>
+                    <div>{{ recipe_form.title }}</div>
                     <h5>Description</h5>
                     <div>{{ recipe_form.description }}</div>
                     <h5>Steps</h5>
@@ -40,8 +40,6 @@
                                     <th>Ingredient</th>
                                     <th>Amount</th>
                                     <th>Unit</th>
-                                    <th>Add</th>
-                                    <th>Remove</th>
                                 </tr>
                             </thead>
 
@@ -62,8 +60,8 @@
                                         <td>{{ form.amount }}</td>
                                         <!-- Unit -->
                                         <td>{{ form.unit }}</td>
-                                        <td><button type="button" id="add-ingredient-button" class="btn btn-secondary">Add</button></td>
-                                        <td><button type="button" id="remove-ingredient-button" class="btn btn-danger delete-row">Remove</button></td>
+                                        <td><button type="button" id="add-ingredient-button" class="btn btn-secondary add-button">Add</button></td>
+                                        <td><button type="button" id="remove-ingredient-button" class="btn btn-danger delete-row remove-button" style="display: none;">Remove</button></td>
                                     {% endfor %}
                                 </tr>
                                     

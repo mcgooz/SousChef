@@ -45,7 +45,7 @@ class Ingredient(models.Model):
     
 
 class Recipe(models.Model):
-    name = models.CharField(max_length=128)
+    title = models.CharField(max_length=128)
     description = models.TextField()
     ingredients = models.ManyToManyField(Ingredient, through="IngredientPerRecipe")
     steps = models.TextField()
@@ -54,7 +54,7 @@ class Recipe(models.Model):
     public = models.BooleanField(default=False)
 
     def __str__(self):
-        return f"{self.name}"
+        return f"{self.title}"
     
 
 class IngredientPerRecipe(models.Model):

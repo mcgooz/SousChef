@@ -61,14 +61,13 @@ def add_recipe(request):
         if recipe_form.is_valid():
             recipe = recipe_form.save(commit=False)
             recipe.created_by = request.user
-            recipe.name = recipe.name.title()
-            # if Recipe.objects.get(name=recipe.name):
-            #     return JsonResponse({"rename": "This recipe already exists. Please choose another"})
-            
-            recipe.save()
+            recipe.title = recipe.title.title()
+            if Recipe.objects.get(title=recipe.title):
+                return JsonResponse({"rename": "This recipe already exists. Please choose another"})
+            else:
+                recipe.save()
             
             ingredient_formset = IngredientPerRecipeFormSet(request.POST)
-            print(f"FORMSET PRE VALIDATION {ingredient_formset}")
             if ingredient_formset.is_valid(): 
                 for form in ingredient_formset:   
                         ingredient_instance = form.save(commit=False)
