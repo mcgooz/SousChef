@@ -46,7 +46,6 @@ def item_search(s):
         results = response.get("results", [])
         
         print(f"API REQUEST")
-        print(results)
         cache.set(f"item_search_{s}", results)
         print("SEARCH CACHED")
         return results
@@ -60,9 +59,7 @@ def detailed_search(id):
     
     else:
         response = requests.get(f"https://api.spoonacular.com/food/ingredients/{id}/information?apiKey={API_KEY}&amount=1").json()
-        print(response)
         details = response.get("aisle")
-        print(details)
         cache.set(f"item_details_{id}", details)
         print("DETAILS CACHED")
         return details
@@ -74,7 +71,7 @@ def fetch_or_create_ingredient(ingredient_input, item_id):
     name=ingredient_input,
     ingredient_id=item_id
     )
-    print(ingredient)
+    print(f"FETCH_OR_CREATE: {ingredient}, {ingredient.ingredient_id}")
     return ingredient
 
 

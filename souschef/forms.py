@@ -1,4 +1,4 @@
-from django.forms import ModelForm, Textarea, NumberInput, Select, TextInput, ModelChoiceField, IntegerField
+from django.forms import ModelForm, Textarea, NumberInput, Select, TextInput, ModelChoiceField, IntegerField, HiddenInput
 
 from .models import User, UserDashboard, Ingredient, Recipe, Pantry, PantryIngredient, IngredientPerRecipe, Unit
 
@@ -41,6 +41,20 @@ class PantryIngredientForm(ModelForm):
             "unit": Select(attrs={"required": "required"}),
         }
 
+# class IngredientPerRecipeForm(ModelForm):
+#     class Meta:
+#         model = IngredientPerRecipe
+#         fields = ['ingredient', 'amount', 'unit']
+    
+#     def clean_ingredient(self):
+#         ingredient_name = self.cleaned_data.get('ingredient')
+#         try:
+#             ingredient = Ingredient.objects.get(name=ingredient_name)
+#         except Ingredient.DoesNotExist:
+#             raise ValidationError("Selected ingredient does not exist.")
+#         return ingredient
+    
+
 IngredientPerRecipeFormSet = inlineformset_factory(
     Recipe,
     IngredientPerRecipe,
@@ -48,22 +62,10 @@ IngredientPerRecipeFormSet = inlineformset_factory(
     extra=1,
     can_delete=True,
     widgets = {
-        "ingredient": TextInput(attrs={"required": "required", "class": "form-control search-box", "placeholder": "Search ingredients", "autocomplete": "off"}),
+        "ingredient": HiddenInput(attrs={"required": "required", "class": "form-control search-box-id"}),
         "amount": NumberInput(attrs={"required": "required", "id": "amount", "class": "form-control"}),
         "unit": Select(attrs={"required": "required", "id": "unit", "class": "form-control form-select"}),
     },
 )
 
 
-# class IngredientPerRecipeForm(ModelForm):
-#     ingredient = TextInput()
-#     unit = ModelChoiceField(queryset=Unit.objects.all())
-
-#     class Meta:
-#         model = IngredientPerRecipe
-#         fields = ['ingredient', 'amount', 'unit']
-#         widgets = {
-#             "ingredient": TextInput(attrs={"required": "required"}),
-#             "amount": NumberInput(attrs={"required": "required"}),
-#             "unit": Select(attrs={"required": "required"}),
-#         }

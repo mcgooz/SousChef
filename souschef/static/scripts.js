@@ -101,22 +101,21 @@ document.addEventListener("DOMContentLoaded", function() {
                             })
 
                         })
+                        // Add item to field
                         .then(response => response.json())
                         .then(data => {
-                            const itemAisle = data.aisle;
-                            console.log(itemAisle);
+                            const ingredientId = data.details.ingredient.id;
+                            console.log('Ingredient ID:', ingredientId);
 
-                        // Item selection
                             if (!itemName) {
                                 alert("Please select an item from the list");
 
                             } else {
-                                console.log(itemName, itemId);
                                 
                                 searchBox.value = itemName;
-                                const itemInput = document.getElementById('ingredientId')
+                                const itemObjectID = document.querySelector('.search-box-id')
                                 
-                                itemInput.value = itemId;
+                                itemObjectID.value = ingredientId;
                                 clearContent(suggestionsContainer);
                             }
                         })
@@ -130,6 +129,7 @@ document.addEventListener("DOMContentLoaded", function() {
         const recipeIngredientInput = document.querySelector('#ingredient-formset');
         if (recipeIngredientInput) {
             
+            let counter = 1;
             function addRowEventListener(button) {
                 button.addEventListener('click', function(event) {
                     event.preventDefault();
@@ -138,10 +138,16 @@ document.addEventListener("DOMContentLoaded", function() {
                     const formRow = document.getElementById('ingredientRow');
                     const newRow = formRow.cloneNode(true);
                     
-                    newRow.querySelectorAll('input, select').forEach(input => input.value = '');
+                    newRow.querySelectorAll('input').forEach((input) => {
+                        input.name = `ingredientperrecipe_set-${counter}-ingredient`;
+                        input.value = '';
+                    });
+                    
             
                     const formset = document.querySelector('#ingredient-formset tbody');
                     formset.appendChild(newRow);
+
+                    counter++;
 
                     const suggestions = document.createElement('ul');
                     suggestions.id = 'suggestions';
@@ -151,7 +157,6 @@ document.addEventListener("DOMContentLoaded", function() {
 
                     const newSearchBox = newRow.querySelector('.search-box');
                     const suggestionsContainer = newRow.querySelector('.suggestions');
-;
                     handleInput(newSearchBox, suggestionsContainer);
                     
             

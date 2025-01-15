@@ -45,14 +45,15 @@
 
                             <tbody>
                                 {{ ingredient_formset.management_form }}
-                                {% for form in ingredient_formset%}
+                                {% for form in ingredient_formset %}
+                                {% csrf_token %}
                                 <tr id="ingredientRow">
                                     <td style="position: relative;">
                                         <!-- Ingredient Search -->
-                                        {% csrf_token %}
+                                        
                                         {{ form.ingredient }}
+                                        <input id="searchBox" autocomplete="off" class="form-control search-box" name="name" placeholder="Search for an ingredient" type="text" required>
                                         <ul id="suggestions" class="list-group position-absolute suggestions" style="width: 100%;"></ul>
-                                        <input type="hidden" id="ingredientId" name="ingredient_id">
                                         
                                     </td>
                                     <td>{{ form.amount }}</td>  <!-- Quantity -->

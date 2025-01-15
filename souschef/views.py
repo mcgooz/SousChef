@@ -59,22 +59,23 @@ def add_recipe(request):
         if recipe_form.is_valid():
             recipe = recipe_form.save(commit=False)
             recipe.created_by = request.user
+            recipe.name = recipe.name.title()
             # if Recipe.objects.get(name=recipe.name):
             #     return JsonResponse({"rename": "This recipe already exists. Please choose another"})
             
             recipe.save()
             
             ingredient_formset = IngredientPerRecipeFormSet(request.POST)
-            print("FORMSET CREATED:", ingredient_formset)
+            print(f"FORMSET PRE VALIDATION {ingredient_formset}")
 
             if ingredient_formset.is_valid():
-                for form in ingredient_formset:
-                    ingredient_instance = form.save(commit=False)
-                    ingredient_instance.recipe = recipe
-                    ingredient_instance.save()
-                    print("INGREDIENT SAVED:", ingredient_instance)
+                    for form in ingredient_formset:
+                        ingredient_instance = form.save(commit=False)
+                        ingredient_instance.recipe = recipe
+                        ingredient_instance.save()
+                        print("INGREDIENT SAVED:", ingredient_instance)
 
-                    print("RECIPE SAVED")
+                        print("RECIPE SAVED")
             
             else:
                 print(ingredient_formset.errors)
@@ -100,10 +101,18 @@ def ingredient_details(request):
         item = json.loads(request.body)
         item_name = item.get("name")
         item_id = item.get("id")
-        print(item_name, item_id)
 
-        details = detailed_search(item_id)
-        fetch_or_create_ingredient(item_name, item_id)
+        ingredient_details = detailed_search(item_id)
+        ingredient = fetch_or_create_ingredient(item_name, item_id)
+        ingredient_dict = {
+            "name": ingredient.name,
+            "id": ingredient.id,
+        }
+        details = {
+            "ingredient": ingredient_dict,
+            "ingredient_details": ingredient_details
+        }
+        print(f"INGREDIENT DETAILS-FETCH_OR_CREATE {ingredient}")
         return JsonResponse({ "details": details})
 
 
@@ -126,7 +135,7 @@ def recipe_ingredient(request):
             return JsonResponse(add_ingredient)
                 
         else:
-            print(form.errors)
+            print(f"RECIPE_INGREDIENT VIEW {form.errors}")
 
     return HttpResponseRedirect(reverse("add_recipe"))
 

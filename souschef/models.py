@@ -64,7 +64,7 @@ class IngredientPerRecipe(models.Model):
     unit = models.ForeignKey(Unit, on_delete=models.CASCADE)
 
     def __str__(self):
-        return f"{self.recipe} {self.ingredient}"
+        return f"Ingredient: {self.ingredient}"
     
     
 class PantryIngredient(models.Model):
