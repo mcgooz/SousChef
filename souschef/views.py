@@ -11,7 +11,8 @@ from .forms import NewRecipeForm, IngredientForm, PantryIngredientForm, Ingredie
 
 import datetime, json
 
-from .pantry_utils import *
+from .pantry_view import *
+from .add_recipe_view import *
 
 ### Homepage
 def index(request):
@@ -54,47 +55,13 @@ def pantry(request):
 
 ### Add a Recipe View
 def add_recipe(request):
+    if request.method == "GET":
+        return add_recipe_get_request(request)
 
-    if request.method == "POST":
-        recipe_form = NewRecipeForm(request.POST)
-
-        if recipe_form.is_valid():
-            recipe = recipe_form.save(commit=False)
-            recipe.created_by = request.user
-            recipe.title = recipe.title.title()
-            if Recipe.objects.filter(title=recipe.title).exists():
-                return JsonResponse({"rename": "This recipe already exists. Please choose another"})
-            else:
-                recipe.save()
-            
-            ingredient_formset = IngredientPerRecipeFormSet(request.POST)
-            if ingredient_formset.is_valid(): 
-                for form in ingredient_formset:   
-                        ingredient_instance = form.save(commit=False)
-                        ingredient_instance.recipe = recipe
-                        ingredient_instance.save()
-                        print("INGREDIENT SAVED:", ingredient_instance)
-
-                        print("RECIPE SAVED")
-            
-            else:
-                print(ingredient_formset.errors)
-
-            return redirect("add_recipe")
+    elif request.method == "POST":
+        return add_recipe_post_request(request)
         
-        else:
-            print(recipe_form.errors)
-            print(ingredient_formset.errors)
-    
-    else:  
-        recipe_form = NewRecipeForm()
-        ingredient_formset = IngredientPerRecipeFormSet(queryset=IngredientPerRecipe.objects.none()) 
-
-    return render(request, "SousChef/add_recipe.html", {
-        "recipe_form": recipe_form,
-        "ingredient_formset": ingredient_formset
-        })
-
+        
 
 def ingredient_details(request):
     if request.method == "POST":
