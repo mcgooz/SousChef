@@ -1,16 +1,29 @@
 {% extends "SousChef/layout.html" %}
 
 {% block body %}
-    {% for recipe in recipes %}
-        <h5>{{ recipe.name }}</h5>
-        <h5>{{ recipe.description }}</h5>
+{% for recipe in recipes %}
+    <div class="card" style="width: 18rem;">
+        <img src="{{ recipe.image }}" class="card-img-top" alt="recipe image">
+        <div class="card-body">
+        <h5 class="card-title">{{ recipe.title }}</h5>
+        <p class="card-text">{{ recipe.description }}</p>
+        </div>
+        <ul class="list-group list-group-flush">
+        <li class="list-group-item">by {{ recipe.created_by }}</li>
+        </ul>
+        <div class="card-body">
+        <a href="#" class="card-link">View Recipe</a>
+        <a href="#" class="card-link">Add to favourites</a>
+        </div>
+    </div>
+    
+        <h5></h5>
+        <h5></h5>
         <ul>
             {% for ingredient in recipe.ingredientperrecipe_set.all %}
-                <li>{{ ingredient.ingredient.name }}: {{ ingredient.amount }} {{ ingredient.unit.name }}</li>
+                <li>{{ ingredient.ingredient.name }}: {{ ingredient.amount }} {{ ingredient.unit }}</li>
             {% endfor %}
         </ul>
-        <h5>{{ recipe.steps }}</h5>
-        <h5>{{ recipe.image }}</h5>
-        <h5>{{ recipe.created_by }}</h5>    
+        <h5>{{ recipe.steps }}</h5>   
     {% endfor %}
 {% endblock %}

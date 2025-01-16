@@ -1,6 +1,6 @@
-from django.forms import ModelForm, Textarea, NumberInput, Select, TextInput, ModelChoiceField, IntegerField, HiddenInput
+from django.forms import ModelForm, Textarea, NumberInput, Select, TextInput, ModelChoiceField, IntegerField, HiddenInput, ClearableFileInput
 
-from .models import User, UserDashboard, Ingredient, Recipe, Pantry, PantryIngredient, IngredientPerRecipe, Unit
+from .models import Ingredient, Recipe, PantryIngredient, IngredientPerRecipe, Step
 
 from django.forms import inlineformset_factory
 
@@ -8,11 +8,11 @@ from django.forms import inlineformset_factory
 class NewRecipeForm(ModelForm):
     class Meta:
         model = Recipe
-        fields = ["title", "description", "steps", "image", "public"]
+        fields = ["title", "description", "image", "public"]
         widgets = {
             "title": Textarea(attrs={"rows": 1, "class": "textarea custom-input"}),
             "description": Textarea(attrs={"cols": 40, "rows": 3, "class": "custom-input"}),
-            "image": Textarea(attrs={"rows": 1, "class": "textarea custom-input"}),
+            "image": ClearableFileInput(attrs={"rows": 1, "class": "form-control", "type": "file"}),
         }
 
 
@@ -41,20 +41,21 @@ class PantryIngredientForm(ModelForm):
             "unit": Select(attrs={"required": "required"}),
         }
 
-# class IngredientPerRecipeForm(ModelForm):
-#     class Meta:
-#         model = IngredientPerRecipe
-#         fields = ['ingredient', 'amount', 'unit']
-    
-#     def clean_ingredient(self):
-#         ingredient_name = self.cleaned_data.get('ingredient')
-#         try:
-#             ingredient = Ingredient.objects.get(name=ingredient_name)
-#         except Ingredient.DoesNotExist:
-#             raise ValidationError("Selected ingredient does not exist.")
-#         return ingredient
-    
 
+### Receipe Steps Formset
+StepFormSet = inlineformset_factory(
+    Recipe,
+    Step,
+    fields=('step_number', 'step_text'),
+    extra=1,
+    widgets = {
+        "step_number": HiddenInput(attrs={"class": "step-input-number"}),
+        "step_text": TextInput(attrs={"class": "form-control step-input-text", "placeholder": "Step", "aria-label": "Step", "aria-describedby": "button-addon2"}),
+    },
+)    
+
+
+### Recipe Ingredients Formset
 IngredientPerRecipeFormSet = inlineformset_factory(
     Recipe,
     IngredientPerRecipe,
@@ -70,3 +71,15 @@ IngredientPerRecipeFormSet = inlineformset_factory(
 )
 
 
+# class IngredientPerRecipeForm(ModelForm):
+#     class Meta:
+#         model = IngredientPerRecipe
+#         fields = ['ingredient', 'amount', 'unit']
+    
+#     def clean_ingredient(self):
+#         ingredient_name = self.cleaned_data.get('ingredient')
+#         try:
+#             ingredient = Ingredient.objects.get(name=ingredient_name)
+#         except Ingredient.DoesNotExist:
+#             raise ValidationError("Selected ingredient does not exist.")
+#         return ingredient

@@ -1,4 +1,5 @@
 from django.contrib.auth.models import AbstractUser
+from django.core.validators import MinValueValidator
 from django.db import models
 
 
@@ -19,13 +20,6 @@ class Pantry(models.Model):
 
     def __str__(self):
         return f"{self.user.user_name}'s Pantry"
-
-
-# class FoodType(models.Model):
-#     category = models.CharField(max_length=64)
-
-#     def __str__(self):
-#         return self.category
     
     
 class Unit(models.Model):
@@ -48,7 +42,6 @@ class Recipe(models.Model):
     title = models.CharField(max_length=128)
     description = models.TextField()
     ingredients = models.ManyToManyField(Ingredient, through="IngredientPerRecipe")
-    steps = models.TextField()
     image = models.ImageField(upload_to="static/images/recipe_pics", null=True, blank=True)
     created_by = models.ForeignKey(User, on_delete=models.CASCADE)
     public = models.BooleanField(default=False)
@@ -75,3 +68,18 @@ class PantryIngredient(models.Model):
 
     def __str__(self):
         return f"{self.name} - {self.quantity} {self.unit}"
+
+class Step(models.Model):
+    recipe = models.ForeignKey(Recipe, on_delete=models.CASCADE)
+    step_number = models.IntegerField(default=1, validators=[MinValueValidator(1)])
+    step_text = models.CharField(max_length=128)
+
+    def __str__(self):
+        return f"{self.step_number}"
+    
+
+# class FoodType(models.Model):
+#     category = models.CharField(max_length=64)
+
+#     def __str__(self):
+#         return self.category

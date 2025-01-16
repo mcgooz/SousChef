@@ -15,10 +15,38 @@
                     <div>{{ recipe_form.title }}</div>
                     <h5>Description</h5>
                     <div>{{ recipe_form.description }}</div>
-                    <h5>Steps</h5>
-                    <div>{{ recipe_form.steps }}</div>
+
+                    <div class="card">
+                        <div class="card-header">
+                            <h5>Steps</h5>
+                        </div>
+                        <div class="card-body">
+                            <table class="table" id="steps-table">
+                                <tbody>
+                                {{ step_formset.management_form }}
+                                {% for stepform in step_formset %}
+                                    <tr>
+                                        <td>
+                                            <div class="input-group flex-nowrap">
+                                                <span class="input-group-text" id="addon-wrapping">1</span>
+                                                {{ stepform.id }}
+                                                {{ stepform.step_number }}
+                                                {{ stepform.step_text }}
+                                                <button class="btn btn-outline-secondary add-step" type="button" id="button-addon2">Add a Step</button>
+                                            </div>
+                                        </td>
+                                    </tr>   
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
                     <h5>Image</h5>
-                    <div>{{ recipe_form.image }}</div>
+                    <div class="mb-3">
+                        <label for="formFile" class="form-label">Upload an image</label>
+                        {{ recipe_form.image }}
+                    </div>
                     <h5>Public</h5>
                     <div>{{ recipe_form.public }}</div>
                     <button type="submit">Save Recipe</button>                   

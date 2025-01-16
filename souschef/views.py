@@ -4,8 +4,6 @@ from django.http import HttpResponseRedirect
 from django.contrib.auth import authenticate, login, logout
 from django.urls import reverse
 
-
-
 from .models import User, UserDashboard, Pantry, Recipe
 from .forms import NewRecipeForm, IngredientForm, PantryIngredientForm, IngredientPerRecipeFormSet
 
@@ -38,7 +36,7 @@ def user_dashboard(request):
 def recipes(request):
     recipes = Recipe.objects.all()
     for recipe in recipes:
-        print(recipe.ingredientperrecipe_set.all())
+        print(f"RECIPE_INGREDIENTSET: {recipe.ingredientperrecipe_set.all()}")
     return render(request, "SousChef/recipes.html", {
             "recipes": recipes,
         }) 
@@ -62,7 +60,7 @@ def add_recipe(request):
         return add_recipe_post_request(request)
         
         
-
+### Ingredient Lookup
 def ingredient_details(request):
     if request.method == "POST":
         item = json.loads(request.body)
@@ -81,30 +79,6 @@ def ingredient_details(request):
         }
         print(f"INGREDIENT DETAILS-FETCH_OR_CREATE {ingredient}")
         return JsonResponse({ "details": details})
-
-
-def recipe_ingredient(request):
-    if request.method == "POST":
-        print("RECIPE INGREDIENT")
-        
-        ingredient_input = request.POST.get("ingredient")
-        ingredient_id = request.POST.get("ingredientId")
-        ingredient_check = fetch_or_create_ingredient(ingredient_input, ingredient_id)
-        form_data = request.POST.copy()
-        
-        form = IngredientPerRecipeFormSet(form_data)
-        if form.is_valid():
-            ingredient = ingredient_check
-            amount = form.cleaned_data["amount"]
-            unit_id = form.cleaned_data["unit"]
-            unit = Unit.objects.get(unit_type=unit_id)
-            add_ingredient = {"ingredient": ingredient.name, "amount": amount, "unit": unit.unit_type, "ingredient_id": ingredient_id}
-            return JsonResponse(add_ingredient)
-                
-        else:
-            print(f"RECIPE_INGREDIENT VIEW {form.errors}")
-
-    return HttpResponseRedirect(reverse("add_recipe"))
 
 
 ### Login View
@@ -172,3 +146,27 @@ def register(request):
         return HttpResponseRedirect(reverse("index"))
     else:
         return render(request, "SousChef/register.html")
+
+
+# def recipe_ingredient(request):
+#     if request.method == "POST":
+#         print("RECIPE INGREDIENT")
+        
+#         ingredient_input = request.POST.get("ingredient")
+#         ingredient_id = request.POST.get("ingredientId")
+#         ingredient_check = fetch_or_create_ingredient(ingredient_input, ingredient_id)
+#         form_data = request.POST.copy()
+        
+#         form = IngredientPerRecipeFormSet(form_data)
+#         if form.is_valid():
+#             ingredient = ingredient_check
+#             amount = form.cleaned_data["amount"]
+#             unit_id = form.cleaned_data["unit"]
+#             unit = Unit.objects.get(unit_type=unit_id)
+#             add_ingredient = {"ingredient": ingredient.name, "amount": amount, "unit": unit.unit_type, "ingredient_id": ingredient_id}
+#             return JsonResponse(add_ingredient)
+                
+#         else:
+#             print(f"RECIPE_INGREDIENT VIEW {form.errors}")
+
+#     return HttpResponseRedirect(reverse("add_recipe"))

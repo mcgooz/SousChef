@@ -1,31 +1,41 @@
 from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.shortcuts import render, redirect
-from .forms import NewRecipeForm, IngredientPerRecipeFormSet
+from .forms import NewRecipeForm, StepFormSet, IngredientPerRecipeFormSet
 from .models import Recipe, IngredientPerRecipe
 
 
 def add_recipe_get_request(request):  
     recipe_form = NewRecipeForm()
+    step_formset = StepFormSet()
     ingredient_formset = IngredientPerRecipeFormSet(queryset=IngredientPerRecipe.objects.none()) 
 
     return render(request, "SousChef/add_recipe.html", {
         "recipe_form": recipe_form,
+        "step_formset": step_formset,
         "ingredient_formset": ingredient_formset
     })
 
 
 def add_recipe_post_request(request):
     recipe_form = NewRecipeForm(request.POST)
+    step_formset = StepFormSet(request.POST)
 
-    if recipe_form.is_valid():
+    if recipe_form.is_valid() and step_formset.is_valid():
         recipe = recipe_form.save(commit=False)
         recipe.created_by = request.user
         recipe.title = recipe.title.title()
         if Recipe.objects.filter(title=recipe.title).exists():
-            return JsonResponse({"rename": "This recipe already exists. Please choose another"})
+            return JsonResponse({"rename": "This recipe already exists. Please choose another name"})
         else:
             recipe.save()
-        
+
+        steps = step_formset.save(commit=False)
+        for step in steps:
+             step.recipe = recipe
+             print(step)
+             step.save()
+
+
         ingredient_formset = IngredientPerRecipeFormSet(request.POST)
         if ingredient_formset.is_valid(): 
             for form in ingredient_formset:   
@@ -35,4 +45,8 @@ def add_recipe_post_request(request):
         else:
             print(ingredient_formset.errors)
 
-        return redirect("add_recipe")
+    else:
+        print(recipe_form.errors)
+        print(step_formset.errors)
+
+    return redirect("add_recipe")
