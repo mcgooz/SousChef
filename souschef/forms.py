@@ -10,8 +10,8 @@ class NewRecipeForm(ModelForm):
         model = Recipe
         fields = ["title", "description", "image", "public"]
         widgets = {
-            "title": Textarea(attrs={"rows": 1, "class": "textarea custom-input"}),
-            "description": Textarea(attrs={"cols": 40, "rows": 3, "class": "custom-input"}),
+            "title": Textarea(attrs={"rows": 1, "class": "form-control custom-input"}),
+            "description": Textarea(attrs={"cols": 40, "rows": 3, "class": "form-control custom-input"}),
             "image": ClearableFileInput(attrs={"rows": 1, "class": "form-control", "type": "file"}),
         }
 

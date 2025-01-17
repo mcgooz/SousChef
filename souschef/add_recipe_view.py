@@ -32,7 +32,6 @@ def add_recipe_post_request(request):
         steps = step_formset.save(commit=False)
         for step in steps:
              step.recipe = recipe
-             print(step)
              step.save()
 
 

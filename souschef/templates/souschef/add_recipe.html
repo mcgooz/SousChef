@@ -1,61 +1,99 @@
 {% extends "SousChef/layout.html" %}
 {% load custom_filters %}
-
+{% load static %}
 
 {% block body %}
-<!-- Add a New Recipe-->
-    <div class="container m-3">
-        <h4>Add a Recipe</h4>
+    <div class="container-fluid">
+        <!-- Form -->
         <form action="{% url 'add_recipe' %}" method="post">
-            <div class="row">
-                <div class="col">
-                
-                    {% csrf_token %}
-                    <h5>Name</h5>
-                    <div>{{ recipe_form.title }}</div>
-                    <h5>Description</h5>
-                    <div>{{ recipe_form.description }}</div>
+            {% csrf_token %}
+        
+        <!-- Row 1 -->
+        <div class="row align-items-start mb-2">
 
-                    <div class="card">
-                        <div class="card-header">
-                            <h5>Steps</h5>
-                        </div>
-                        <div class="card-body">
-                            <table class="table" id="steps-table">
-                                <tbody>
-                                {{ step_formset.management_form }}
-                                {% for stepform in step_formset %}
-                                    <tr id="steprow">
-                                        <td>
-                                            <div class="input-group flex-nowrap">
-                                                <span class="input-group-text" id="addon-wrapping">1</span>
-                                                {{ stepform.id }}
-                                                {{ stepform.step_number }}
-                                                {{ stepform.step_text }}
-                                                <button class="btn btn-outline-secondary add-step-0" type="button" id="button-addon2">Add a Step</button>
-                                                <button class="btn-close remove-step-0 m-2" type="button" aria-label="Close" disabled></button>
-                                            </div>
-                                        </td>
-                                    </tr>   
-                                {% endfor %}
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-
-                    <h5>Image</h5>
-                    <div class="mb-3">
-                        <label for="formFile" class="form-label">Upload an image</label>
-                        {{ recipe_form.image }}
-                    </div>
-                    <h5>Public</h5>
-                    <div>{{ recipe_form.public }}</div>
-                    <button type="submit">Save Recipe</button>                   
+            <!-- Column 1 -->
+            <div class="col">
+                <h4 class="ms-1">Add a Recipe</h4>
             </div>
 
-            <!-- Ingredients -->
+            <!-- Column 2 -->
+            <div class="col d-flex justify-content-end me-1">
+                <button type="submit" class="btn btn-secondary">Save Recipe</button>
+            </div>
+        </div>
+
+        
+
+        <!-- Row 2 -->
+        <div class="row justify-content-between">
+
+            <!-- Column 1 -->
             <div class="col">
-                
+                <div class="card">
+                    <div class="card-header">
+                        <h5>Describe your Recipe</h5>
+                    </div>
+                    <div class="card-body">
+                        <h6 class="mb-2 text-body-secondary fw-normal">Name</h6>
+                        <div>{{ recipe_form.title }}</div>
+
+                        <h6 class="my-2 text-body-secondary fw-normal">Description</h6>
+                        <div>{{ recipe_form.description }}</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Column 2-->
+            <div class="col">
+                <div class="card">
+                    <div class="card-header">
+                        <h5>Image</h5>
+                    </div>
+                    <img src="{% static 'images/recipe_pics/default_recipe.png' %}" class="card-img-top recipe-image mx-auto mt-2" alt="recipe image">
+                    <div class="card-body">
+                        <label for="formFile" class="mb-2 text-body-secondary fw-normal">Upload an image</label>
+                        {{ recipe_form.image }}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Row 3 -->
+        <div class="row justify-content-between my-3">
+
+            <!-- Column 1-->
+            <div class="col">
+                <div class="card">
+                    <div class="card-header">
+                        <h5>Steps</h5>
+                    </div>
+                    <div class="card-body">
+                        <table class="table" id="steps-table">
+                            <tbody>
+                            {{ step_formset.management_form }}
+                            {% for stepform in step_formset %}
+                                <tr id="steprow">
+                                    <td>
+                                        <div class="input-group flex-nowrap">
+                                            <span class="input-group-text" id="addon-wrapping">1</span>
+                                            {{ stepform.id }}
+                                            {{ stepform.step_number }}
+                                            {{ stepform.step_text }}
+                                            <button class="btn btn-outline-secondary add-step-0" type="button" id="button-addon2">Add a Step</button>
+                                            <button class="btn-close remove-step-0 m-2" type="button" aria-label="Close" disabled></button>
+                                        </div>
+                                    </td>
+                                </tr>   
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Column 2-->
+            <div class="col">
+                <!-- Ingredients -->
                 <div class="card">
                     <div class="card-header">
                         <h5>Add Ingredients</h5>
@@ -66,9 +104,9 @@
                         <table class="table" id="ingredient-formset">
                             <thead>
                                 <tr>
-                                    <th>Ingredient</th>
-                                    <th>Amount</th>
-                                    <th>Unit</th>
+                                    <th class="text-body-secondary fs-6 fw-normal">Ingredient</th>
+                                    <th class="text-body-secondary fs-6 fw-normal">Amount</th>
+                                    <th class="text-body-secondary fs-6 fw-normal">Unit</th>
                                 </tr>
                             </thead>
 
@@ -91,16 +129,16 @@
                                         <!-- Unit -->
                                         <td>{{ form.unit }}</td>
                                         <td><button type="button" id="add-ingredient-button" class="btn btn-secondary add-button">Add</button></td>
-                                        <td><button type="button" id="remove-ingredient-button" class="btn btn-danger delete-row remove-button" style="display: none;">Remove</button></td>
+                                        <td><button type="button" id="remove-ingredient-button" class="btn-close delete-row remove-button my-2" disabled></button></td>
                                     {% endfor %}
                                 </tr>
                                     
                             </tbody>
-                        </table>
-                        
+                        </table>    
                     </div>
                 </div>
             </div>
+        </div> 
         </form>        
     </div>
 {% endblock body %}

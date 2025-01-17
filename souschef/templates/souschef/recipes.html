@@ -1,29 +1,44 @@
 {% extends "SousChef/layout.html" %}
+{% load static %}
 
 {% block body %}
-{% for recipe in recipes %}
-    <div class="card" style="width: 18rem;">
-        <img src="{{ recipe.image }}" class="card-img-top" alt="recipe image">
-        <div class="card-body">
-        <h5 class="card-title">{{ recipe.title }}</h5>
-        <p class="card-text">{{ recipe.description }}</p>
+    <div class="container">
+        <div class="row justify-content-evenly">
+        {% for recipe in recipes %}
+            <div class="col-md-3">
+                <div class="card" style="width: 18rem;">
+                    {% if recipe.image %}
+                        <img src="{{ recipe.image }}" class="card-img-top recipe-image mx-auto m-2" alt="recipe image">
+                    {% else %}
+                        <img src="{% static 'images/recipe_pics/default_recipe.png' %}" class="card-img-top recipe-image mx-auto m-2" alt="recipe image">
+                    {% endif %}
+
+                    <div class="card-header">
+                        <h5 class="card-title">{{ recipe.title }}</h5>
+                    </div>
+
+                    <div class="card-body">
+                        <p class="card-text">{{ recipe.description }}</p>
+                    </div>
+                        <ul class="list-group list-group-flush">
+                        <li class="list-group-item">by {{ recipe.created_by }}</li>
+                        </ul>
+                    <div class="card-body">
+                        <a href="#" class="card-link">View Recipe</a>
+                        <a href="#" class="card-link">Add to favourites</a>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
         </div>
-        <ul class="list-group list-group-flush">
-        <li class="list-group-item">by {{ recipe.created_by }}</li>
-        </ul>
-        <div class="card-body">
-        <a href="#" class="card-link">View Recipe</a>
-        <a href="#" class="card-link">Add to favourites</a>
+
+            {% comment %} <ul>
+                {% for ingredient in recipe.ingredientperrecipe_set.all %}
+                    <li>{{ ingredient.ingredient.name }}: {{ ingredient.amount|floatformat }}{{ ingredient.unit }}</li>
+                {% endfor %}
+            </ul>
+            <h5>{{ recipe.steps }}</h5> {% endcomment %}
+
+        
         </div>
-    </div>
-    
-        <h5></h5>
-        <h5></h5>
-        <ul>
-            {% for ingredient in recipe.ingredientperrecipe_set.all %}
-                <li>{{ ingredient.ingredient.name }}: {{ ingredient.amount }} {{ ingredient.unit }}</li>
-            {% endfor %}
-        </ul>
-        <h5>{{ recipe.steps }}</h5>   
-    {% endfor %}
 {% endblock %}

@@ -199,7 +199,7 @@ document.addEventListener("DOMContentLoaded", function() {
                     addRowEventListener(newButton);
 
                     const deleteButton = newRow.querySelector('.remove-button');
-                    deleteButton.style.display = 'inline-block';
+                    deleteButton.removeAttribute('disabled');
                     
                     deleteButton.addEventListener('click', function(event) {
                         event.preventDefault();
