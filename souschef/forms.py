@@ -49,8 +49,9 @@ StepFormSet = inlineformset_factory(
     fields=('step_number', 'step_text'),
     extra=1,
     widgets = {
-        "step_number": HiddenInput(attrs={"class": "step-input-number"}),
-        "step_text": TextInput(attrs={"class": "form-control step-input-text", "placeholder": "Step", "aria-label": "Step", "aria-describedby": "button-addon2"}),
+        "id": HiddenInput(attrs={"class": "step-id-input"}),
+        "step_number": HiddenInput(attrs={"class": "step-number-input"}),
+        "step_text": TextInput(attrs={"class": "form-control step-text-input", "placeholder": "Step", "aria-label": "Step", "aria-describedby": "button-addon2"}),
     },
 )    
 

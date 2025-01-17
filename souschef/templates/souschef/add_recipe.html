@@ -25,14 +25,15 @@
                                 <tbody>
                                 {{ step_formset.management_form }}
                                 {% for stepform in step_formset %}
-                                    <tr>
+                                    <tr id="steprow">
                                         <td>
                                             <div class="input-group flex-nowrap">
                                                 <span class="input-group-text" id="addon-wrapping">1</span>
                                                 {{ stepform.id }}
                                                 {{ stepform.step_number }}
                                                 {{ stepform.step_text }}
-                                                <button class="btn btn-outline-secondary add-step" type="button" id="button-addon2">Add a Step</button>
+                                                <button class="btn btn-outline-secondary add-step-0" type="button" id="button-addon2">Add a Step</button>
+                                                <button class="btn-close remove-step-0 m-2" type="button" aria-label="Close" disabled></button>
                                             </div>
                                         </td>
                                     </tr>   

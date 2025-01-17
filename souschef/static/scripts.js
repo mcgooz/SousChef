@@ -229,6 +229,93 @@ document.addEventListener("DOMContentLoaded", function() {
             element.value = '';
         });
     }
+
+    // Recipe Steps
+    const recipeSteps = document.querySelector('#steps-table')
+    if (recipeSteps) {
+            
+        let counter = 1;
+        
+        function addStepEventListener(button) {
+            button.addEventListener('click', function(event) {
+                event.preventDefault();
+                console.log("add a step clicked");
+                console.log("counter = ", parseInt(counter));
+        
+                const stepRow = document.getElementById('steprow');
+                const newStepRow = stepRow.cloneNode(true);
+
+                newStepRow.querySelectorAll('.step-id-input').forEach((input) => {
+                    input.name = `step_set-${counter}-id`;
+                    input.id = `step_set-${counter}-id`;
+                });
+
+                newStepRow.querySelectorAll('.input-group-text').forEach((span) => {
+                    span.textContent = counter + 1;
+                });
+                
+                newStepRow.querySelectorAll('.step-number-input').forEach((input) => {
+                    input.name = `step_set-${counter}-step_number`;
+                    input.id = `id_step_set-${counter}-step_number`;
+                    input.value = parseInt(input.value) + counter;
+                });
+
+                newStepRow.querySelectorAll('.step-text-input').forEach((input) => {
+                    input.name = `step_set-${counter}-step_text`;
+                    input.id = `id_step_set-${counter}-step_text`;
+                    input.value = '';
+                });
+
+                const newStepButton = newStepRow.querySelector('.add-step-0');
+                newStepButton.className = `btn btn-outline-secondary add-step-${counter}`;
+            
+                const stepFormset = document.querySelector('#steps-table tbody');
+                stepFormset.appendChild(newStepRow);
+                
+                button.setAttribute('disabled', true);
+                newStepButton.removeAttribute('disabled');
+                
+                let totalStepForms = document.querySelector('#id_step_set-TOTAL_FORMS');
+                let currentCount = parseInt(totalStepForms.value);               
+
+                const newDeleteStepButton = newStepRow.querySelector('.remove-step-0');
+                newDeleteStepButton.className = `btn-close remove-step-${counter} m-2`;
+                document.querySelectorAll('.btn-close').forEach((btn) => {
+                    btn.setAttribute('disabled', true);
+                });
+                newDeleteStepButton.removeAttribute('disabled');
+
+                counter++;
+                totalStepForms.value = currentCount + 1;
+
+                addStepEventListener(newStepButton);
+                
+                newDeleteStepButton.addEventListener('click', function(event) {
+                    event.preventDefault();
+                    console.log("counter minus = ", counter -2);
+
+                    newStepRow.remove();
+
+                    totalStepForms.value = totalStepForms.value - 1;
+                    counter --;
+                    const lastStepButton = document.querySelector(`.add-step-${counter - 1}`);
+                    if (lastStepButton) {
+                        lastStepButton.removeAttribute('disabled');
+                    }
+                    if (counter > 1) {
+                        const previousDeleteButton = document.querySelector(`.remove-step-${counter - 1}`);
+                        if (previousDeleteButton) {
+                            previousDeleteButton.removeAttribute('disabled');
+                        }
+                    } 
+                });    
+            });
+        }
+
+        const initialStepButton = document.getElementById('button-addon2');
+        addStepEventListener(initialStepButton);
+        
+    }
 });
 
 
