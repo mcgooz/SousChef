@@ -35,8 +35,7 @@ def user_dashboard(request):
 ### Recipes View
 def recipes(request):
     recipes = Recipe.objects.all()
-    for recipe in recipes:
-        print(f"RECIPE_INGREDIENTSET: {recipe.ingredientperrecipe_set.all()}")
+
     return render(request, "SousChef/recipes.html", {
             "recipes": recipes,
         }) 
@@ -58,6 +57,16 @@ def add_recipe(request):
 
     elif request.method == "POST":
         return add_recipe_post_request(request)
+    
+
+### View a Recipe
+def recipe(request, id):
+    recipe = Recipe.objects.get(id=id)
+
+    return render(request, "souschef/recipe.html", {
+        "recipe": recipe
+    })
+
         
         
 ### Ingredient Lookup

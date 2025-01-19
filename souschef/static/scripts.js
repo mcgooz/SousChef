@@ -317,17 +317,22 @@ document.addEventListener("DOMContentLoaded", function() {
     }
 
     // Image Display
-    document.getElementById('imageUpload').addEventListener('change', function(event){
-        const [file] = event.target.files;
-        if (file) {
-            const preview = document.getElementById('imagePreview');
-            preview.src = URL.createObjectURL(file);
-            preview.style.display = 'block';
-        }
-    });
+    if (document.getElementById('imageUpload')) {
+        document.getElementById('imageUpload').addEventListener('change', function(event){
+            const [file] = event.target.files;
+            if (file) {
+                const preview = document.getElementById('imagePreview');
+                preview.src = URL.createObjectURL(file);
+                preview.style.display = 'block';
+            }
+        });
+    }
 });
 
-
+// Favourite Icon
+function toggleIcon() {
+    var iconImage = document.getElementById('favRecipeIcon');
+}
 
 // Show Password
 function togglePassword() {

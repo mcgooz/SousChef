@@ -10,6 +10,7 @@ class UserDashboard(models.Model):
     user_name = models.OneToOneField(User, on_delete=models.CASCADE, related_name="user_name")
     created = models.DateTimeField(auto_now_add=True)
     profile_picture = models.ImageField(upload_to="static/images/profile_pics", null=True, blank=True)
+    favourites = models.ManyToManyField('Recipe', blank=True, related_name='favourite_of')
 
     def __str__(self):
         return f"{self.user_name}"
@@ -47,7 +48,7 @@ class Recipe(models.Model):
     public = models.BooleanField(default=False)
 
     def __str__(self):
-        return f"{self.title}"
+        return f"{self.title}, ID:{self.id}"
     
 
 class IngredientPerRecipe(models.Model):

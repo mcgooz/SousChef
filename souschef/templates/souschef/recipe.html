@@ -1,0 +1,79 @@
+{% extends "SousChef/layout.html" %}
+{% load static %}
+
+{% block body %}
+    <div class="container bg-body-secondary" style="--bs-bg-opacity: .66;">
+
+        <!-- Row 1 -->
+        <div class="row justify-content-start">
+        
+            <!-- Column 1 -->
+            <div class="col my-2">
+
+                <!-- Image -->
+                <div>
+                    {% if recipe.image %}
+                        <img src="{{ recipe.image.url }}" class="recipe-image-full mx-auto m-2" alt="recipe image">
+                    {% else %}
+                        <img src="{% static 'images/recipe_pics/default_recipe.png' %}" class="recipe-image-full mx-auto m-2" alt="recipe image">
+                    {% endif %}
+                </div>
+            </div> 
+            
+            <!-- Column 2 -->
+            <div class="col my-2">
+                
+                <!-- Steps -->
+                <h5>Steps</h5>
+                <ul class="list-group list-group-flush">
+                    {% for step in recipe.step_set.all %}
+                        <li class="list-group-item">
+                            {{ step.step_number }}. {{ step.step_text }}
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+
+        <!-- Row 2 -->
+        <div class="row">
+
+            <!-- Column 1 -->
+            <div class="col my-2">
+                
+                <!-- Recipe Name -->
+                <div class="d-flex align-items-center mb-4">
+                    <h5 class="card-title mb-0">{{ recipe.title }}</h5>
+                    {% if user.is_authenticated %}
+                    <button type="button" class="btn fav-button" onclick="toggleIcon()">
+                        <img class="fav-recipe-icon" id="favRecipeIcon" src="/static/images/appleiconbw.png" alt="Button Image">
+                    </button>
+                    {% endif %}
+                </div>
+
+                <!-- Created by -->
+                <div class="">
+                    <p class="blockquote-footer">by {{ recipe.created_by }}</p>
+                </div>
+
+                <!-- Description -->
+                 <div>Description</div>
+                <p>{{ recipe.description }}</p>
+            </div>
+
+            <!-- Column 2 -->
+            <div class="col my-2">
+
+                <!-- Ingredients -->
+                <h5>Ingredients</h5>
+                <ul class="list-group">
+                    {% for ingredient in recipe.ingredientperrecipe_set.all %}
+                        <li class="list-group-item">
+                            {{ ingredient.ingredient.name }}: {{ ingredient.amount|floatformat }} {{ ingredient.unit }}
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>       
+    </div>
+{% endblock %}

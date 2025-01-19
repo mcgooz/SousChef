@@ -39,5 +39,5 @@ class IngredientAdmin(admin.ModelAdmin):
 
 @admin.register(Recipe)
 class RecipeAdmin(admin.ModelAdmin):
-    list_display = ('title',)
+    list_display = ('title', 'id')
     inlines = [IngredientPerRecipeInline, StepInline]

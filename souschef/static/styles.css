@@ -156,3 +156,18 @@ body {
     height: 108px;
     width: auto; 
 }
+
+.recipe-image-full {
+    height: 250px;
+    width: auto;
+    border-radius: 10px;
+}
+
+.fav-button {
+    align-items: center;
+}
+
+.fav-recipe-icon {
+    height: 20px;
+    width: auto;
+}
