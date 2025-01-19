@@ -17,7 +17,7 @@ def add_recipe_get_request(request):
 
 
 def add_recipe_post_request(request):
-    recipe_form = NewRecipeForm(request.POST)
+    recipe_form = NewRecipeForm(request.POST, request.FILES)
     step_formset = StepFormSet(request.POST)
 
     if recipe_form.is_valid() and step_formset.is_valid():

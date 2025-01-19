@@ -3,12 +3,12 @@
 
 {% block body %}
     <div class="container">
-        <div class="row justify-content-evenly">
+        <div class="row justify-content-start">
         {% for recipe in recipes %}
-            <div class="col-md-3">
+            <div class="col-md-3 mb-2">
                 <div class="card" style="width: 18rem;">
                     {% if recipe.image %}
-                        <img src="{{ recipe.image }}" class="card-img-top recipe-image mx-auto m-2" alt="recipe image">
+                        <img src="{{ recipe.image.url }}" class="card-img-top recipe-image mx-auto m-2" alt="recipe image">
                     {% else %}
                         <img src="{% static 'images/recipe_pics/default_recipe.png' %}" class="card-img-top recipe-image mx-auto m-2" alt="recipe image">
                     {% endif %}

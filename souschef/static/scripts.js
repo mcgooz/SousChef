@@ -313,9 +313,18 @@ document.addEventListener("DOMContentLoaded", function() {
         }
 
         const initialStepButton = document.getElementById('button-addon2');
-        addStepEventListener(initialStepButton);
-        
+        addStepEventListener(initialStepButton);   
     }
+
+    // Image Display
+    document.getElementById('imageUpload').addEventListener('change', function(event){
+        const [file] = event.target.files;
+        if (file) {
+            const preview = document.getElementById('imagePreview');
+            preview.src = URL.createObjectURL(file);
+            preview.style.display = 'block';
+        }
+    });
 });
 
 
