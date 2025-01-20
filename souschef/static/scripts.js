@@ -1,5 +1,50 @@
 document.addEventListener("DOMContentLoaded", function() {
 
+    // Main Search
+    let searchInput = document.getElementById('homeSearch');
+    if (searchInput) {
+        searchInput.addEventListener('input', function() {
+            let query = this.value;
+            homeSuggestions.innerHTML = '';
+
+            if (query === '') {
+                return;
+
+            } else {
+                fetch(`home_search/?word=${query}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        const recipeResult = data.recipe_result;
+                        const ingredientResult = data.ingredient_result;
+                        console.log(recipeResult, ingredientResult);
+                        const recipeItems = recipeResult.map(item => ({name: item, type: 'recipe'}));
+                        const ingredientItems = ingredientResult.map(item => ({ name: item, type: 'ingredient' }));
+                        
+                        let groupedItems = [...recipeItems, ...ingredientItems];
+
+                        const homeSuggestions = document.getElementById('homeSuggestions');
+                        
+
+                        function createListItem(text) {
+                            const listItem = document.createElement('li');
+                            listItem.className = 'list-group-item';
+                            listItem.textContent = text;
+                            homeSuggestions.appendChild(listItem);
+                        }
+                        
+                        if (groupedItems.length === 0) {
+                            createListItem('No results found');
+
+                        } else {
+                            groupedItems.forEach(item => {
+                                createListItem(`${item.name} (${item.type})`);
+                            });
+                        }
+                    });
+            }
+        });
+    }
+
     // Search via API and autocomplete
     const searchBoxes = document.querySelectorAll('.search-box');
     const suggestionsContainers = document.querySelectorAll('.suggestions');

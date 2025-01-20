@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.db import IntegrityError
-from django.http import HttpResponseRedirect
+from django.db.models import Q
+from django.http import HttpResponseRedirect, JsonResponse
 from django.contrib.auth import authenticate, login, logout
 from django.urls import reverse
 
@@ -20,6 +21,19 @@ def index(request):
     return render(request, "SousChef/index.html", {
         "date": date,
     })
+
+### Main Search
+def home_search(request):
+    
+    if 'word' in request.GET:
+        word = request.GET.get('word')
+        recipes = Recipe.objects.filter(title__icontains=word).values_list('title', flat=True)
+        ingredients = Ingredient.objects.filter(name__icontains=word).values_list('name', flat=True)
+        recipe_result = list(recipes)
+        ingredient_result = list(ingredients)
+        return JsonResponse({"recipe_result": recipe_result, "ingredient_result": ingredient_result})
+    
+
 
 ### User dashboard
 def user_dashboard(request):

@@ -55,12 +55,18 @@
                     </tr>
                 </thead>
                 <tbody>
-                    {% for row in table_data %}
-                    <tr>
-                        <td>{{ row.0 }}</td>  <!-- Ingredient name -->
-                        <td>{{ row.1|floatformat }} {{ row.2 }}</td>  <!-- Quantity -->
-                    </tr>
-                    {% endfor %}
+                    {% if table_data %}
+                        {% for row in table_data %}
+                        <tr>
+                            <td>{{ row.0 }}</td>  <!-- Ingredient name -->
+                            <td>{{ row.1|floatformat }} {{ row.2 }}</td>  <!-- Quantity -->
+                        </tr>
+                        {% endfor %}
+                    {% else %}
+                        <tr>
+                            <td class="text-center" colspan="2">You might want to go shopping!</td>
+                        </tr>
+                    {% endif %}
                 </tbody>
             </table>
         </div>

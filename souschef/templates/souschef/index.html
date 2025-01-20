@@ -9,19 +9,14 @@
     <div class="row mt-2 mx-3 p-1">
         <h2> {{ date }}</h2>
         <div class="col">
-            <h6>Welcome to your new kitchen!</h6>
+            <h6>Welcome to your kitchen!</h6>
         </div>
     </div>
     
     <div class="row mt-2 mx-3 p-1">
         <div class="col">
-            {% comment %} <form id="searchForm" data-url="{% url 'search' %}">
-                {% csrf_token %}
-                <div class="form-group my-1">
-                    <input id="wordInput" autofocus class="form-control-sm" type="text" name="recipeSearch" placeholder="Search for a recipe">
-                </div>
-                <input class="btn btn-light my-2" type="submit" value="Search">
-            </form> {% endcomment %}
+            <input type="text" class="form-control" id="homeSearch" placeholder="Search for a recipe or ingredient...">
+            <ul id="homeSuggestions" class="list-group homeSuggestions" style="width: auto;"></ul>
         </div>
         <div class="col">
             <span id="searchResult">
