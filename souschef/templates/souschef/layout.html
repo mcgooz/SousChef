@@ -27,21 +27,21 @@
 
                     <!-- Nav options -->
                     <ul class="navbar-nav me-auto mb-3 mb-lg-0 nav-colours">
+
                         <!-- Recipes -->
                         <li class="nav-item">
                             <a class="nav-link" href="{% url 'recipes' %}">Recipes</a>
                         </li>
                         
                         {% if user.is_authenticated %}
-                        <!-- Add a Recipe -->
-                        <li class="nav-item">
-                            <a class="nav-link" href="{% url 'add_recipe' %}">Add a Recipe</a>
-                        </li>
-                        <!-- Pantry -->
+                            <!-- Add a Recipe -->
+                            <li class="nav-item">
+                                <a class="nav-link" href="{% url 'add_recipe' %}">Add a Recipe</a>
+                            </li>
+                            <!-- Pantry -->
                             <li class="nav-item">
                                 <a class="nav-link" href="{% url 'pantry' %}">Pantry</a>
                             </li>
-
                             <!-- Logout -->
                             <li class="nav-item">
                                 <a class="nav-link" href="{% url 'logout' %}">Log Out</a>

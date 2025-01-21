@@ -15,8 +15,11 @@
     
     <div class="row mt-2 mx-3 p-1">
         <div class="col">
-            <input type="text" class="form-control" id="homeSearch" placeholder="Search for a recipe or ingredient...">
-            <ul id="homeSuggestions" class="list-group homeSuggestions" style="width: auto;"></ul>
+            <form id="homeSearchForm" method="POST" action="recipe">
+                {% csrf_token %}
+                <input type="text" class="form-control" id="homeSearch" placeholder="Search for a recipe or ingredient...">
+                <ul id="homeSuggestions" class="list-group homeSuggestions" style="width: auto;"></ul>
+            </form>
         </div>
         <div class="col">
             <span id="searchResult">

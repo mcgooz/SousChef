@@ -27,11 +27,15 @@ def home_search(request):
     
     if 'word' in request.GET:
         word = request.GET.get('word')
-        recipes = Recipe.objects.filter(title__icontains=word).values_list('title', flat=True)
-        ingredients = Ingredient.objects.filter(name__icontains=word).values_list('name', flat=True)
+        recipes = Recipe.objects.filter(
+            Q(title__icontains=word) | Q(ingredients__name__icontains=word)
+            ).values('title', 'id', 'ingredients__name')
         recipe_result = list(recipes)
-        ingredient_result = list(ingredients)
-        return JsonResponse({"recipe_result": recipe_result, "ingredient_result": ingredient_result})
+        print(recipe_result)
+
+        return JsonResponse({"recipe_result": recipe_result})
+    
+    ## Add result logic
     
 
 
@@ -52,7 +56,25 @@ def recipes(request):
 
     return render(request, "SousChef/recipes.html", {
             "recipes": recipes,
-        }) 
+        })
+
+
+### Detailed Recipe View
+def recipe(request, id):
+    recipe = Recipe.objects.get(id=id)
+
+    if request.method == "POST":
+        data = json.loads(request.body)
+        id = data['id']
+        recipe = Recipe.objects.get(id=id)
+        print(f"Recipe Search: {recipe}")
+
+        return redirect('recipe', id=id)
+
+
+    return render(request, "souschef/recipe.html", {
+        "recipe": recipe
+    })
     
 
 ### Pantry View
@@ -72,17 +94,7 @@ def add_recipe(request):
     elif request.method == "POST":
         return add_recipe_post_request(request)
     
-
-### View a Recipe
-def recipe(request, id):
-    recipe = Recipe.objects.get(id=id)
-
-    return render(request, "souschef/recipe.html", {
-        "recipe": recipe
-    })
-
-        
-        
+            
 ### Ingredient Lookup
 def ingredient_details(request):
     if request.method == "POST":
@@ -102,6 +114,15 @@ def ingredient_details(request):
         }
         print(f"INGREDIENT DETAILS-FETCH_OR_CREATE {ingredient}")
         return JsonResponse({ "details": details})
+
+
+### Detailed Ingredient View
+def ingredient(request, id):
+    ingredient = Ingredient.objects.get(id=id)
+
+    return render(request, "souschef/ingredient.html", {
+        "ingredient": ingredient
+    })
 
 
 ### Login View
@@ -124,6 +145,7 @@ def login_view(request):
     else:
         return render(request, "SousChef/login.html")
     
+
 ### Logout View   
 def logout_view(request):
     logout(request)

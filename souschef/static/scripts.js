@@ -15,29 +15,49 @@ document.addEventListener("DOMContentLoaded", function() {
                     .then(response => response.json())
                     .then(data => {
                         const recipeResult = data.recipe_result;
-                        const ingredientResult = data.ingredient_result;
-                        console.log(recipeResult, ingredientResult);
-                        const recipeItems = recipeResult.map(item => ({name: item, type: 'recipe'}));
-                        const ingredientItems = ingredientResult.map(item => ({ name: item, type: 'ingredient' }));
-                        
-                        let groupedItems = [...recipeItems, ...ingredientItems];
+                        const recipeItems = recipeResult.map(item => ({id: item.id, title: item.title, ingredient: item.ingredients__name }));
+                        console.log('recipeItems', recipeItems);
 
                         const homeSuggestions = document.getElementById('homeSuggestions');
                         
-
-                        function createListItem(text) {
+                        function createListItem(text, id) {
                             const listItem = document.createElement('li');
                             listItem.className = 'list-group-item';
                             listItem.textContent = text;
+                            listItem.dataset.id = id;
                             homeSuggestions.appendChild(listItem);
+                            return listItem;
                         }
                         
-                        if (groupedItems.length === 0) {
+                        if (recipeItems.length === 0) {
                             createListItem('No results found');
 
                         } else {
-                            groupedItems.forEach(item => {
-                                createListItem(`${item.name} (${item.type})`);
+                            recipeItems.forEach(item => {
+                                const listItem = createListItem(`${item.title} (${item.ingredient})`, item.id);
+
+                                listItem.addEventListener('click', function() {
+                                    const itemId = listItem.dataset.id;
+                                    const csrfToken = document.querySelector('input[name="csrfmiddlewaretoken"]').value;
+
+                                    fetch(`/recipe/${itemId}`, {
+                                        method: 'POST',
+                                        headers: {
+                                            'Content-Type': 'application/json',
+                                            'X-CSRFToken': csrfToken
+                                        },
+                                        
+                                        body: JSON.stringify({ 
+                                            id: itemId
+                                        })
+            
+                                    })
+                                    .then(response => {
+                                        if (response.ok) {
+                                            window.location.href = `/recipe/${itemId}`;
+                                        }
+                                    });     
+                                })
                             });
                         }
                     });
