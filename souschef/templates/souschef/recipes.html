@@ -6,14 +6,14 @@
         <div class="row justify-content-start">
         {% for recipe in recipes %}
             <div class="col-md-3 mb-1">
-                <div class="card" style="width: 18rem;">
+                <div class="card" style="width: 20rem;">
                     {% if recipe.image %}
                         <a class="mx-auto" href="{% url 'recipe' recipe.id %}">
-                        <img src="{{ recipe.image.url }}" class="card-img-top recipe-image m-2" alt="recipe image">
+                        <img src="{{ recipe.image.url }}" class="card-img-top img-fluid" alt="recipe image">
                         </a>
                     {% else %}
                         <a class="mx-auto" href="{% url 'recipe' recipe.id %}">
-                        <img src="{% static 'images/recipe_pics/default_recipe.png' %}" class="card-img-top recipe-image m-2" alt="recipe image">
+                        <img src="{% static 'images/recipe_pics/default_recipe.png' %}" class="card-img-top img-fluid" alt="recipe image">
                         </a>
                     {% endif %}
 

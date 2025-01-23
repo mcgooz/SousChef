@@ -184,3 +184,7 @@ body {
     height: 20px;
     width: auto;
 }
+
+.img-container img {
+    max-width: 50%;
+}

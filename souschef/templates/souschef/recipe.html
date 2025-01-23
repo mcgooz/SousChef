@@ -13,7 +13,7 @@
                 <!-- Image -->
                 <div>
                     {% if recipe.image %}
-                        <img src="{{ recipe.image.url }}" class="recipe-image-full mx-auto m-2" alt="recipe image">
+                        <img src="{{ recipe.image.url }}" class="img-fluid mx-auto m-2" alt="recipe image">
                     {% else %}
                         <img src="{% static 'images/recipe_pics/default_recipe.png' %}" class="recipe-image-full mx-auto m-2" alt="recipe image">
                     {% endif %}

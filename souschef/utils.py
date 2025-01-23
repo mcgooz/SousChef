@@ -181,3 +181,15 @@ def add_recipe_ingredient(r, i, a, u):
     )
 
     ingredient_to_add.save()
+
+
+def crop_image(image):
+    width, height = image.size
+ 
+    new_dimension = min(width, height)
+    left = (width - new_dimension) / 2
+    top = (height - new_dimension) / 2
+    right = (width + new_dimension) / 2
+    bottom = (height + new_dimension) / 2
+    
+    return image.crop((left, top, right, bottom))

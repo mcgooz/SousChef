@@ -2,6 +2,9 @@ from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.shortcuts import render, redirect
 from .forms import NewRecipeForm, StepFormSet, IngredientPerRecipeFormSet
 from .models import Recipe, IngredientPerRecipe
+from PIL import Image
+
+from .utils import crop_image
 
 
 def add_recipe_get_request(request):  
@@ -24,10 +27,14 @@ def add_recipe_post_request(request):
         recipe = recipe_form.save(commit=False)
         recipe.created_by = request.user
         recipe.title = recipe.title.title()
+
         if Recipe.objects.filter(title=recipe.title).exists():
             return JsonResponse({"rename": "This recipe already exists. Please choose another name"})
         else:
             recipe.save()
+            image = Image.open(recipe.image.path)
+            cropped_image = crop_image(image)
+            cropped_image.save(recipe.image.path)
 
         steps = step_formset.save(commit=False)
         for step in steps:

@@ -73,7 +73,7 @@ class PantryIngredient(models.Model):
 class Step(models.Model):
     recipe = models.ForeignKey(Recipe, on_delete=models.CASCADE)
     step_number = models.IntegerField(default=1, validators=[MinValueValidator(1)])
-    step_text = models.CharField(max_length=128)
+    step_text = models.CharField(max_length=256)
 
     def __str__(self):
         return f"{self.step_number}"

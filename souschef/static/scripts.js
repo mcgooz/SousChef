@@ -383,12 +383,67 @@ document.addEventListener("DOMContentLoaded", function() {
 
     // Image Display
     if (document.getElementById('imageUpload')) {
-        document.getElementById('imageUpload').addEventListener('change', function(event){
+        const imageUpload = document.getElementById('imageUpload');
+        const saveButton = document.getElementById('saveButton');
+        const cancelButton = document.getElementById('cancelButton');
+        const closeButton = document.querySelector('.btn-close');
+        let cropper;
+    
+        imageUpload.addEventListener('change', function (event) {
             const [file] = event.target.files;
+    
             if (file) {
-                const preview = document.getElementById('imagePreview');
-                preview.src = URL.createObjectURL(file);
-                preview.style.display = 'block';
+                const image = document.getElementById('image');
+                image.src = URL.createObjectURL(file);
+
+    
+                const modalElement = document.getElementById('modal');
+                const modalInstance = bootstrap.Modal.getOrCreateInstance(modalElement);
+                modalInstance.show();
+    
+                modalElement.addEventListener('shown.bs.modal', function () {
+                    image.style.display = ''; // Make the image visible
+                    if (cropper) {
+                        cropper.destroy(); // Destroy any previous Cropper instance
+                    }
+    
+                    cropper = new Cropper(image, {
+                        viewMode: 2,
+                        aspectRatio: 1,
+                        autoCropArea: 1,
+                        responsive: true,
+                    });
+                });
+                
+                saveButton.addEventListener('click', function() {
+                    const preview  = document.getElementById('imagePreview');
+                    if (cropper) {
+                        console.log("Save Clicked")
+                        cropper.getCroppedCanvas().toBlob((blob) => {
+                            const url = URL.createObjectURL(blob);
+                            preview.src = url;
+                            modalInstance.hide();
+                        });
+                    }
+                });
+
+                cancelButton.addEventListener('click', function() {
+                    imageUpload.value = '';
+                    image.src = '';
+                });
+
+                closeButton.addEventListener('click', function() {
+                    imageUpload.value = ''; // Clear the file input
+                    image.src = ''; // Reset the image preview
+                });
+                
+                modalElement.addEventListener('hidden.bs.modal', function () {
+                    if (cropper) {
+                        cropper.destroy();
+                        cropper = null;
+                    }
+                    image.src = '';
+                });
             }
         });
     }

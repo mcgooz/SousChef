@@ -22,6 +22,7 @@ def index(request):
         "date": date,
     })
 
+
 ### Main Search
 def home_search(request):
     
@@ -31,13 +32,12 @@ def home_search(request):
             Q(title__icontains=word) | Q(ingredients__name__icontains=word)
             ).values('title', 'id', 'ingredients__name')
         recipe_result = list(recipes)
-        print(recipe_result)
+        # print(recipe_result)
 
         return JsonResponse({"recipe_result": recipe_result})
     
     ## Add result logic
     
-
 
 ### User dashboard
 def user_dashboard(request):
