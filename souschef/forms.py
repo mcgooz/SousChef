@@ -47,7 +47,6 @@ StepFormSet = inlineformset_factory(
     Recipe,
     Step,
     fields=('step_number', 'step_text'),
-    extra=1,
     widgets = {
         "id": HiddenInput(attrs={"class": "step-id-input"}),
         "step_number": HiddenInput(attrs={"class": "step-number-input"}),
@@ -61,7 +60,6 @@ IngredientPerRecipeFormSet = inlineformset_factory(
     Recipe,
     IngredientPerRecipe,
     fields = ['ingredient', 'amount', 'unit'],
-    extra=1,
     can_delete=True,
     widgets = {
         "id": HiddenInput(attrs={"class": "id-input"}),

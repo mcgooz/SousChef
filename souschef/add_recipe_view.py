@@ -7,7 +7,10 @@ from PIL import Image
 from .utils import crop_image
 
 
-def add_recipe_get_request(request):  
+def add_recipe_get_request(request):
+    StepFormSet.extra = 1
+    IngredientPerRecipeFormSet.extra = 1
+    
     recipe_form = NewRecipeForm()
     step_formset = StepFormSet()
     ingredient_formset = IngredientPerRecipeFormSet(queryset=IngredientPerRecipe.objects.none()) 

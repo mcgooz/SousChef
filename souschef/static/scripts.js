@@ -195,150 +195,133 @@ document.addEventListener("DOMContentLoaded", function() {
                 })
             }
         }
-    
+    }
 
-        // Update recipe ingredeints
-        const recipeIngredientInput = document.querySelector('#ingredient-formset');
-        if (recipeIngredientInput) {
-            
-            let initialForms = document.getElementById('id_ingredientperrecipe_set-INITIAL_FORMS').value;
-            let counter = parseInt(initialForms);
-            
-
-            function addRowEventListener(button) {
-                button.addEventListener('click', function(event) {
-                    event.preventDefault();
-                    console.log("clicked");
-            
-                    const formRow = document.getElementById('ingredientRow');
-                    const newRow = formRow.cloneNode(true);
-
-                    newRow.querySelectorAll('.id-input').forEach((input) => {
-                        input.name = `ingredientperrecipe_set-${counter}-id`;
-                        input.id = `ingredientperrecipe_set-${counter}-id`;
-                        input.value = '';
-                    });
-                    
-                    newRow.querySelectorAll('.search-box-id').forEach((input) => {
-                        input.name = `ingredientperrecipe_set-${counter}-ingredient`;
-                        input.id = `ingredientperrecipe_set-${counter}-ingredient`;
-                        input.value = '';
-                    });
-
-                    newRow.querySelectorAll('.search-box').forEach((input) => {
-                        input.value = '';
-                    });
-
-                    newRow.querySelectorAll('.amount-input').forEach((input) => {
-                        input.name = `ingredientperrecipe_set-${counter}-amount`;
-                        input.id = `ingredientperrecipe_set-${counter}-amount`;
-                        input.value = '';
-                    });
-
-                    newRow.querySelectorAll('.unit-input').forEach((input) => {
-                        input.name = `ingredientperrecipe_set-${counter}-unit`;
-                        input.id = `ingredientperrecipe_set-${counter}-unit`;
-                        input.value = '';
-                    });
-                    
-                    const formset = document.querySelector('#ingredient-formset tbody');
-                    formset.appendChild(newRow);
-
-                    counter++;
-                    console.log("Counter:", counter)
-
-                    let totalForms = document.querySelector('#id_ingredientperrecipe_set-TOTAL_FORMS');
-                    let currentCount = parseInt(totalForms.value);
-                
-                    totalForms.value = currentCount + 1;
-
-                    const suggestions = document.createElement('ul');
-                    suggestions.id = 'suggestions';
-                    suggestions.className = 'list-group position-absolute suggestions';
-                    suggestions.style.width = '100%';
-
-                    
-
-                    const newSearchBox = newRow.querySelector('.search-box');
-                    const suggestionsContainer = newRow.querySelector('.suggestions');
-                    handleInput(newSearchBox, suggestionsContainer);
-                    
-            
-                    const newButton = newRow.querySelector('.add-button');
-                    addRowEventListener(newButton);
-
-                    const deleteButton = newRow.querySelector('.remove-button');
-                    deleteButton.removeAttribute('disabled');
-                    
-                    deleteButton.addEventListener('click', function(event) {
-                        event.preventDefault();
-                        newRow.remove();
-                        totalForms.value = totalForms.value - 1;
-                    });    
-                });
-            }
-
-            const initialButton = document.getElementById('add-ingredient-button');
-            addRowEventListener(initialButton);
-
-            // const initialDeleteButton = document.querySelector('remove-ingredient-button');
-            // initialDeleteButton.addEventListener('click', function(event) {
-            //     event.preventDefault();
-            //     initialDeleteButton.closest('tr').remove();
-            // });
-        }
+    // Update recipe ingredeints
+    const recipeIngredientInput = document.querySelector('#ingredient-formset');
+    if (recipeIngredientInput) {
         
+        let initialForms = document.getElementById('id_ingredientperrecipe_set-INITIAL_FORMS').value;
+        let counter = parseInt(initialForms);
+
+        function addRowEventListener(button) {
+            button.addEventListener('click', function(event) {
+                event.preventDefault();
+                console.log("clicked");
+        
+                const formRow = document.getElementById('ingredientRow');
+                const newRow = formRow.cloneNode(true);
+
+                newRow.querySelectorAll('.id-input').forEach((input) => {
+                    input.name = `ingredientperrecipe_set-${counter}-id`;
+                    input.id = `ingredientperrecipe_set-${counter}-id`;
+                    input.value = '';
+                });
+                
+                newRow.querySelectorAll('.search-box-id').forEach((input) => {
+                    input.name = `ingredientperrecipe_set-${counter}-ingredient`;
+                    input.id = `ingredientperrecipe_set-${counter}-ingredient`;
+                    input.value = '';
+                });
+
+                newRow.querySelectorAll('.search-box').forEach((input) => {
+                    input.value = '';
+                });
+
+                newRow.querySelectorAll('.amount-input').forEach((input) => {
+                    input.name = `ingredientperrecipe_set-${counter}-amount`;
+                    input.id = `ingredientperrecipe_set-${counter}-amount`;
+                    input.value = '';
+                });
+
+                newRow.querySelectorAll('.unit-input').forEach((input) => {
+                    input.name = `ingredientperrecipe_set-${counter}-unit`;
+                    input.id = `ingredientperrecipe_set-${counter}-unit`;
+                    input.value = '';
+                });
+                
+                const formset = document.querySelector('#ingredient-formset tbody');
+                formset.appendChild(newRow);
+
+                counter++;
+                console.log("Counter:", counter)
+
+                let totalForms = document.querySelector('#id_ingredientperrecipe_set-TOTAL_FORMS');
+                let currentCount = parseInt(totalForms.value);
+            
+                totalForms.value = currentCount + 1;
+
+                const suggestions = document.createElement('ul');
+                suggestions.id = 'suggestions';
+                suggestions.className = 'list-group position-absolute suggestions';
+                suggestions.style.width = '100%';
+
+                
+
+                const newSearchBox = newRow.querySelector('.search-box');
+                const suggestionsContainer = newRow.querySelector('.suggestions');
+                handleInput(newSearchBox, suggestionsContainer);
+                
+        
+                const newButton = newRow.querySelector('.add-button');
+                addRowEventListener(newButton);
+
+                const deleteButton = newRow.querySelector('.remove-button');
+                deleteButton.removeAttribute('disabled');
+                
+                deleteButton.addEventListener('click', function(event) {
+                    event.preventDefault();
+                    newRow.remove();
+                    totalForms.value = totalForms.value - 1;
+                });    
+            });
+        }
+
+        const initialButton = document.getElementById('add-ingredient-button');
+        addRowEventListener(initialButton);
     }
-    
-    // Clear suggestions
-    function clearContent(...elements) {
-        elements.forEach(element => {
-            console.log("clearContent called");
-            element.innerHTML = '';
-            element.value = '';
-        });
-    }
+        
 
     // Recipe Steps
     const recipeSteps = document.querySelector('#steps-table')
     if (recipeSteps) {
             
-        let initialForms = document.getElementById('id_step_set-INITIAL_FORMS').value;
-        let counter = parseInt(initialForms) + 1;
+        let initialStepForms = document.getElementById('id_step_set-INITIAL_FORMS').value;
+        let stepCounter = parseInt(initialStepForms) + 1;
 
         
         function addStepEventListener(button) {
             button.addEventListener('click', function(event) {
                 event.preventDefault();
                 console.log("add a step clicked");
-                console.log("counter = ", parseInt(counter));
+                console.log("counter = ", parseInt(stepCounter));
         
                 const stepRow = document.getElementById('steprow');
                 const newStepRow = stepRow.cloneNode(true);
 
                 newStepRow.querySelectorAll('.step-id-input').forEach((input) => {
-                    input.name = `step_set-${counter}-id`;
-                    input.id = `step_set-${counter}-id`;
+                    input.name = `step_set-${stepCounter}-id`;
+                    input.id = `step_set-${stepCounter}-id`;
                 });
 
                 newStepRow.querySelectorAll('.input-group-text').forEach((span) => {
-                    span.textContent = counter + 1;
+                    span.textContent = stepCounter + 1;
                 });
                 
                 newStepRow.querySelectorAll('.step-number-input').forEach((input) => {
-                    input.name = `step_set-${counter}-step_number`;
-                    input.id = `id_step_set-${counter}-step_number`;
-                    input.value = parseInt(input.value) + counter;
+                    input.name = `step_set-${stepCounter}-step_number`;
+                    input.id = `id_step_set-${stepCounter}-step_number`;
+                    input.value = parseInt(input.value) + stepCounter;
                 });
 
                 newStepRow.querySelectorAll('.step-text-input').forEach((input) => {
-                    input.name = `step_set-${counter}-step_text`;
-                    input.id = `id_step_set-${counter}-step_text`;
+                    input.name = `step_set-${stepCounter}-step_text`;
+                    input.id = `id_step_set-${stepCounter}-step_text`;
                     input.value = '';
                 });
 
                 const newStepButton = newStepRow.querySelector('.add-step-0');
-                newStepButton.className = `btn btn-outline-secondary add-step-${counter}`;
+                newStepButton.className = `btn btn-outline-secondary add-step-${stepCounter}`;
             
                 const stepFormset = document.querySelector('#steps-table tbody');
                 stepFormset.appendChild(newStepRow);
@@ -350,31 +333,31 @@ document.addEventListener("DOMContentLoaded", function() {
                 let currentCount = parseInt(totalStepForms.value);               
 
                 const newDeleteStepButton = newStepRow.querySelector('.remove-step-0');
-                newDeleteStepButton.className = `btn-close remove-step-${counter} m-2`;
-                document.querySelectorAll('.btn-close').forEach((btn) => {
+                newDeleteStepButton.className = `btn-close remove-step-${stepCounter} m-2`;
+                document.querySelectorAll(`.btn-close.remove-step-${stepCounter - 1}.m-2`).forEach((btn) => {
                     btn.setAttribute('disabled', true);
                 });
                 newDeleteStepButton.removeAttribute('disabled');
 
-                counter++;
+                stepCounter++;
                 totalStepForms.value = currentCount + 1;
 
                 addStepEventListener(newStepButton);
                 
                 newDeleteStepButton.addEventListener('click', function(event) {
                     event.preventDefault();
-                    console.log("counter minus = ", counter -2);
+                    console.log("counter minus = ", stepCounter -2);
 
                     newStepRow.remove();
 
                     totalStepForms.value = totalStepForms.value - 1;
-                    counter --;
-                    const lastStepButton = document.querySelector(`.add-step-${counter - 1}`);
+                    stepCounter --;
+                    const lastStepButton = document.querySelector(`.add-step-${stepCounter - 1}`);
                     if (lastStepButton) {
                         lastStepButton.removeAttribute('disabled');
                     }
-                    if (counter > 1) {
-                        const previousDeleteButton = document.querySelector(`.remove-step-${counter - 1}`);
+                    if (stepCounter > 1) {
+                        const previousDeleteButton = document.querySelector(`.remove-step-${stepCounter - 1}`);
                         if (previousDeleteButton) {
                             previousDeleteButton.removeAttribute('disabled');
                         }
@@ -383,8 +366,17 @@ document.addEventListener("DOMContentLoaded", function() {
             });
         }
 
-        const initialStepButton = document.getElementById('button-addon2');
+        const initialStepButton = document.getElementById('add-step-button');
         addStepEventListener(initialStepButton);   
+    }
+
+    // Clear suggestions
+    function clearContent(...elements) {
+        elements.forEach(element => {
+            console.log("clearContent called");
+            element.innerHTML = '';
+            element.value = '';
+        });
     }
 
     // Image Display

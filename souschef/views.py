@@ -106,14 +106,13 @@ def edit_recipe(request, id):
     recipe = Recipe.objects.get(id=id)
     if recipe.created_by == request.user:
 
-        StepFormSet.extra = 0
-        IngredientPerRecipeFormSet.extra = 0
-    
-        recipe_form = NewRecipeForm(instance=recipe)
-        step_formset = StepFormSet(instance=recipe)
-        ingredient_formset = IngredientPerRecipeFormSet(instance=recipe)
-
         if request.method == "GET":
+            StepFormSet.extra = 0
+            IngredientPerRecipeFormSet.extra = 0
+    
+            recipe_form = NewRecipeForm(instance=recipe)
+            step_formset = StepFormSet(instance=recipe)
+            ingredient_formset = IngredientPerRecipeFormSet(instance=recipe)
 
             return render(request, "souschef/edit_recipe.html", {
                 "recipe": recipe,
