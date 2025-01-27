@@ -8,7 +8,7 @@ from django.urls import reverse
 from .models import User, UserDashboard, Pantry, Recipe
 from .forms import NewRecipeForm, IngredientForm, PantryIngredientForm, IngredientPerRecipeFormSet
 
-import datetime, json
+import datetime, json, random
 
 from .pantry_view import *
 from .add_recipe_view import *
@@ -17,9 +17,13 @@ from .add_recipe_view import *
 def index(request):
     today = datetime.datetime.today().date()
     date = datetime.datetime.strftime(today, '%a %d %b %Y')
+
+    recipes = Recipe.objects.all()
+    random_recipe = random.choice(recipes)
     
     return render(request, "SousChef/index.html", {
         "date": date,
+        "random_recipe": random_recipe
     })
 
 
@@ -44,9 +48,11 @@ def user_dashboard(request):
     if request.user.is_authenticated:
         current_user = request.user
         profile = UserDashboard.objects.get(user_name=current_user)
+        recipes = Recipe.objects.filter(created_by=current_user)
 
         return render(request, "SousChef/user_dashboard.html", {
             "profile": profile,
+            "recipes": recipes
         })
     
 
@@ -93,7 +99,36 @@ def add_recipe(request):
 
     elif request.method == "POST":
         return add_recipe_post_request(request)
+
+
+## Edit Recipe View
+def edit_recipe(request, id):
+    recipe = Recipe.objects.get(id=id)
+    if recipe.created_by == request.user:
+
+        StepFormSet.extra = 0
+        IngredientPerRecipeFormSet.extra = 0
     
+        recipe_form = NewRecipeForm(instance=recipe)
+        step_formset = StepFormSet(instance=recipe)
+        ingredient_formset = IngredientPerRecipeFormSet(instance=recipe)
+
+        if request.method == "GET":
+
+            return render(request, "souschef/edit_recipe.html", {
+                "recipe_form": recipe_form,
+                "step_formset": step_formset,
+                "ingredient_formset": ingredient_formset,
+            })
+    
+    if request.method == "POST":
+    
+        form = Recipe(request.POST, request.FILES, instance=recipe)
+        if form.is_valid():
+            if 'image-clear' in request.POST:
+                recipe.image.delete()
+            form.save()
+
             
 ### Ingredient Lookup
 def ingredient_details(request):

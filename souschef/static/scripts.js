@@ -201,7 +201,10 @@ document.addEventListener("DOMContentLoaded", function() {
         const recipeIngredientInput = document.querySelector('#ingredient-formset');
         if (recipeIngredientInput) {
             
-            let counter = 1;
+            let initialForms = document.getElementById('id_ingredientperrecipe_set-INITIAL_FORMS').value;
+            let counter = parseInt(initialForms);
+            
+
             function addRowEventListener(button) {
                 button.addEventListener('click', function(event) {
                     event.preventDefault();
@@ -242,6 +245,7 @@ document.addEventListener("DOMContentLoaded", function() {
                     formset.appendChild(newRow);
 
                     counter++;
+                    console.log("Counter:", counter)
 
                     let totalForms = document.querySelector('#id_ingredientperrecipe_set-TOTAL_FORMS');
                     let currentCount = parseInt(totalForms.value);
@@ -299,7 +303,9 @@ document.addEventListener("DOMContentLoaded", function() {
     const recipeSteps = document.querySelector('#steps-table')
     if (recipeSteps) {
             
-        let counter = 1;
+        let initialForms = document.getElementById('id_step_set-INITIAL_FORMS').value;
+        let counter = parseInt(initialForms) + 1;
+
         
         function addStepEventListener(button) {
             button.addEventListener('click', function(event) {
@@ -402,9 +408,9 @@ document.addEventListener("DOMContentLoaded", function() {
                 modalInstance.show();
     
                 modalElement.addEventListener('shown.bs.modal', function () {
-                    image.style.display = ''; // Make the image visible
+                    image.style.display = ''; 
                     if (cropper) {
-                        cropper.destroy(); // Destroy any previous Cropper instance
+                        cropper.destroy();
                     }
     
                     cropper = new Cropper(image, {
@@ -419,7 +425,10 @@ document.addEventListener("DOMContentLoaded", function() {
                     const preview  = document.getElementById('imagePreview');
                     if (cropper) {
                         console.log("Save Clicked")
-                        cropper.getCroppedCanvas().toBlob((blob) => {
+                        cropper.getCroppedCanvas({
+                            width: 300,
+                            height: 300,
+                        }).toBlob((blob) => {
                             const url = URL.createObjectURL(blob);
                             preview.src = url;
                             modalInstance.hide();

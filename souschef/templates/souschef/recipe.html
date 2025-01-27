@@ -2,18 +2,18 @@
 {% load static %}
 
 {% block body %}
-    <div class="container bg-body-secondary" style="--bs-bg-opacity: .66;">
+    <div class="container bg-body-secondary" style="--bs-bg-opacity: .5;">
 
         <!-- Row 1 -->
         <div class="row justify-content-start">
         
             <!-- Column 1 -->
-            <div class="col my-2">
+            <div class="col d-flex justify-content-center my-2">
 
                 <!-- Image -->
                 <div>
                     {% if recipe.image %}
-                        <img src="{{ recipe.image.url }}" class="img-fluid mx-auto m-2" alt="recipe image">
+                        <img src="{{ recipe.image.url }}" class="img-fluid mx-auto m-2 recipe-image-full" alt="recipe image">
                     {% else %}
                         <img src="{% static 'images/recipe_pics/default_recipe.png' %}" class="recipe-image-full mx-auto m-2" alt="recipe image">
                     {% endif %}
@@ -21,25 +21,7 @@
             </div> 
             
             <!-- Column 2 -->
-            <div class="col my-2">
-                
-                <!-- Steps -->
-                <h5>Steps</h5>
-                <ul class="list-group list-group-flush">
-                    {% for step in recipe.step_set.all %}
-                        <li class="list-group-item">
-                            {{ step.step_number }}. {{ step.step_text }}
-                        </li>
-                    {% endfor %}
-                </ul>
-            </div>
-        </div>
-
-        <!-- Row 2 -->
-        <div class="row">
-
-            <!-- Column 1 -->
-            <div class="col my-2">
+            <div class="col my-2" style="--bs-bg-opacity: .5;">
                 
                 <!-- Recipe Name -->
                 <div class="d-flex align-items-center mb-4">
@@ -60,19 +42,60 @@
                  <div>Description</div>
                 <p>{{ recipe.description }}</p>
             </div>
+        </div>
+
+        <!-- Row 2 -->
+        <div class="row">
+
+            <!-- Column 1 -->
+            <div class="col my-2">
+                
+                <!-- Steps -->
+                <div class="accordion" id="stepsAccordion">
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                Steps
+                            </button>
+                        </h2>
+                        <div id="collapseOne" class="accordion-collapse collapse" data-bs-parent="#stepsAccordion">
+                            <div class="accordion-body">
+                                <ul class="list-group list-group-flush">
+                                    {% for step in recipe.step_set.all %}
+                                        <li class="list-group-item">
+                                            {{ step.step_number }}. {{ step.step_text }}
+                                        </li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
             <!-- Column 2 -->
             <div class="col my-2">
 
                 <!-- Ingredients -->
-                <h5>Ingredients</h5>
-                <ul class="list-group">
-                    {% for ingredient in recipe.ingredientperrecipe_set.all %}
-                        <li class="list-group-item">
-                            {{ ingredient.ingredient.name }}: {{ ingredient.amount|floatformat }} {{ ingredient.unit }}
-                        </li>
-                    {% endfor %}
-                </ul>
+                <div class="accordion" id="ingAccordion">
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="true" aria-controls="collapseOne">
+                                Ingredients
+                            </button>
+                        </h2>
+                        <div id="collapseTwo" class="accordion-collapse collapse" data-bs-parent="#ingAccordion">
+                            <div class="accordion-body">
+                                <ul class="list-group list-group-flush">
+                                    {% for ingredient in recipe.ingredientperrecipe_set.all %}
+                                        <li class="list-group-item">
+                                            {{ ingredient.ingredient.name }}: {{ ingredient.amount|floatformat }} {{ ingredient.unit }}
+                                        </li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        </div>
+                
             </div>
         </div>       
     </div>

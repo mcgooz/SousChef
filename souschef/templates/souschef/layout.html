@@ -75,12 +75,8 @@
                     <!-- Login Status -->
                     <div class="me-2 nav-colours">
                         {% if user.is_authenticated %}
-                            <div class="navbar-text d-flex align-items-center">Logged in as<a class="nav-link mx-1" href="{% url 'user_dashboard' %}">{{ user.username }}</a>
-                            {% if profile.profile_picture %}
-                                <span class="picico mx-1"><a href="{% url 'user_dashboard' %}"><img class="profilepicico" src="{{ profile.profile_picture }}"></img></a></span>
-                            {% else %}
-                                <span class="picico mx-1"><a href="{% url 'user_dashboard' %}"><img class="profilepicico" src="/static/images/profile_pics/default_profile_white.png"></a></img></span>
-                            {% endif %}
+                            <div class="navbar-text d-flex align-items-center">
+                                Logged in as<a class="nav-link ms-1" href="{% url 'user_dashboard' %}">{{ user.username }}</a>
                             </div>
                         {% else %}
                             <span class="navbar-text">Not logged in</span>

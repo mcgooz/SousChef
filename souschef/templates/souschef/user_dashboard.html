@@ -1,51 +1,70 @@
 {% extends "SousChef/layout.html" %}
+{% load static %}
+
 
 {% block title %}
     {{ "Dashboard" }}
 {% endblock %}
 
 {% block body %}
-    <div class="row mt-2 mx-3 align-items-end">
-        <!-- User -->
-        <div class="col col d-flex justify-content-between">
-            <div class="d-flex flex-column align-items-center">
-                <!-- Profile Pic -->
-                <div class="mb-2">
-                {% if profile.profile_picture %}
-                    <img class="profilepic" src="{{ profile.profile_picture }}"></img>
-                {% else %}
-                    <img class="profilepic" src="/static/images/profile_pics/default_profile.png"></img>
-                {% endif %}
+<div class="container p-3">
+        <div class="row mt-2 mx-3">
+            <div class="col"></div>
+            <!-- User -->
+            <div class="col d-flex justify-content-end">
+                <div class="d-flex flex-column align-items-center">
+                    <!-- Profile Pic -->
+                    <div class="mb-2">
+                    {% if profile.profile_picture %}
+                        <img class="profilepic" src="{{ profile.profile_picture }}"></img>
+                    {% else %}
+                        <img class="profilepic" src="/static/images/profile_pics/default_profile.png"></img>
+                    {% endif %}
+                    </div>
+                    <!-- Username -->
+                    <div class="fs-4">{{ profile.user_name }}</div>  
                 </div>
-                <!-- Username -->
-                <div class="fs-4">{{ profile.user_name }}</div>  
             </div>
         </div>
-    <span class="custom-alert" id="alert-message"></span>
+        <div class="row mt-2 mx-3">
+
+            <!-- My Recipes -->
+            
+                <h5>My Recipes</h5>
+                {% for recipe in recipes %}
+                    <div class="col-md-3 my-1">
+                        <div class="card" style="width: 14rem;">
+                            {% if recipe.image %}
+                                <a class="my-2 mx-auto" href="{% url 'recipe' recipe.id %}">
+                                <img src="{{ recipe.image.url }}" class="card-img-top img-fluid recipe-image" alt="recipe image">
+                                </a>
+                            {% else %}
+                                <a class="my-2 mx-auto" href="{% url 'recipe' recipe.id %}">
+                                <img src="{% static 'images/recipe_pics/default_recipe.png' %}" class="card-img-top img-fluid" alt="recipe image">
+                                </a>
+                            {% endif %}
+        
+                            <div class="card-header">
+                                <h6 class="card-title">{{ recipe.title }}</h6>
+                            </div>
+        
+                            <div class="card-footer">
+                                <a href="{% url 'recipe' recipe.id %}"class="card-link">View Recipe</a>
+                                <a href="{% url 'edit_recipe' recipe.id %}" class="card-link">Edit Recipe</a>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            
+        </div>
+
+        <span class="custom-alert" id="alert-message"></span>
 
 
 
 
     <!-- Favourites -->
 
-    <!-- Pagination -->
-    {% comment %} {% if page_obj.paginator.num_pages > 1 %}
-        <nav aria-label="page_nav">
-            <ul class="pagination my-2">
-                {% if page_obj.has_previous %}
-                    <li class="page-item"><a class="page-link" href="?page={{ page_obj.previous_page_number }}">Previous</a></li>
-                {% endif %}
-                
-                {% for num in page_obj.paginator.page_range %}
-                    <li class="page-item {% if page_obj.number == num %}active{% endif%}">
-                        <a class="page-link" href="?page={{ num }}">{{ num }}</a>
-                    </li>
-                {% endfor %}
-        
-                {% if page_obj.has_next %}
-                    <li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number }}">Next</a></li>
-                {% endif %}
-            </ul>
-        </nav>
-    {% endif %} {% endcomment %}
+    
+
 {% endblock %}

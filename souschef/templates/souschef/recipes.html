@@ -8,11 +8,11 @@
             <div class="col-md-3 mb-1">
                 <div class="card" style="width: 20rem;">
                     {% if recipe.image %}
-                        <a class="mx-auto" href="{% url 'recipe' recipe.id %}">
-                        <img src="{{ recipe.image.url }}" class="card-img-top img-fluid" alt="recipe image">
+                        <a class="mt-2 mx-auto" href="{% url 'recipe' recipe.id %}">
+                        <img src="{{ recipe.image.url }}" class="card-img-top img-fluid recipe-image-full" alt="recipe image">
                         </a>
                     {% else %}
-                        <a class="mx-auto" href="{% url 'recipe' recipe.id %}">
+                        <a class="mt-2 mx-auto" href="{% url 'recipe' recipe.id %}">
                         <img src="{% static 'images/recipe_pics/default_recipe.png' %}" class="card-img-top img-fluid" alt="recipe image">
                         </a>
                     {% endif %}
@@ -23,11 +23,9 @@
 
                     <div class="card-body">
                         <p class="card-text">{{ recipe.description }}</p>
+                        <p class="card-text">by {{ recipe.created_by }}</p>
                     </div>
-                        <ul class="list-group list-group-flush">
-                        <li class="list-group-item">by {{ recipe.created_by }}</li>
-                        </ul>
-                    <div class="card-body">
+                    <div class="card-footer">
                         <a href="{% url 'recipe' recipe.id %}"class="card-link">View Recipe</a>
                         <a href="#" class="card-link">Add to favourites</a>
                     </div>

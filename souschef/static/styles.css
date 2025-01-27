@@ -1,7 +1,12 @@
-/* @font-face {
-    font-family: 'tbc';
-    src: url('/static/network/fonts/tbc.TTF') format('truetype');
-} */
+
+@font-face {
+    font-family: 'sofiapro-light';
+    src: url('/static/fonts/sofiapro-light-webfont.woff2') format('woff2'),
+         url('/static/fonts/sofiapro-light-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+
+}
 
 a {
     text-decoration: none;
@@ -18,9 +23,11 @@ a:hover {
 body {
     background-image: url("/static/images/background.jpg");
     background-position: center;
-    background-repeat: no-repeat;
+    background-repeat: vertical;
     background-attachment: fixed;
     background-size: 2000px;
+    color: whitesmoke;
+    font-family: 'sofiapro-light', 'Helvetica', 'Arial', sans-serif;
 }
 
 .btn-custom {
@@ -42,12 +49,8 @@ body {
     color: #c9c9c9;
 }
 
-.navbar {
-    margin: 0;
-}
-
 .nav-colours {
-    background-color: #09b2ea;
+    background-color: rgba(177, 213, 231, 0.2)
 }
 
 .navbar-text {
@@ -59,7 +62,7 @@ body {
 }
 
 .nav-link:hover {
-    color: #c9c9c9 !important;
+    color: #548CA7 !important;
 }
 
 /* Navbar Toggle */
@@ -171,7 +174,7 @@ body {
 }
 
 .recipe-image-full {
-    height: 250px;
+    height: 300px;
     width: auto;
     border-radius: 10px;
 }
@@ -187,4 +190,8 @@ body {
 
 .img-container img {
     max-width: 50%;
+}
+
+.card {
+    background-color: #DDEFF8;
 }

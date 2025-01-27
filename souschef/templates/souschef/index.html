@@ -5,24 +5,29 @@
 {% endblock %}
 
 {% block body %}
-
-    <div class="row mt-2 mx-3 p-1">
-        <h2> {{ date }}</h2>
-        <div class="col">
-            <h6>Welcome to your kitchen!</h6>
+<div class="container mt-2 p-3">
+    <div class="row justify-content-center mb-4">
+        <div class="col text-center">
+            <h2>Welcome to your kitchen!</h2>
+            <h5> {{ date }}</h5>    
         </div>
     </div>
     
-    <div class="row mt-2 mx-3 p-1">
+    <div class="row justify-content-center mt-4">
         <div class="col">
             <form id="homeSearchForm" method="POST" action="recipe">
                 {% csrf_token %}
                 <input type="text" class="form-control" id="homeSearch" placeholder="Search for a recipe or ingredient...">
                 <ul id="homeSuggestions" class="list-group homeSuggestions" style="width: auto;"></ul>
+                <span id="searchResult"></span>
             </form>
         </div>
-        <div class="col">
-            <span id="searchResult">
+    </div>
+    <div class="row justify-content-center mt-4">
+        <div class="col text-center">
+            <h5>Random Recipe</h5>
+            <a href="{% url 'recipe' random_recipe.id %}">{{ random_recipe.title }}</a> 
         </div>
-    </div> 
+    </div>
+</div> 
 {% endblock %}
