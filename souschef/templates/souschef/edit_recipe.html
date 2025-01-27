@@ -10,7 +10,7 @@
 {% block body %}
     <div class="container-fluid px-4">
         <!-- Form -->
-        <form action="{% url 'add_recipe' %}" method="post" enctype="multipart/form-data">
+        <form action="{% url 'edit_recipe' recipe.id %}" method="post" enctype="multipart/form-data">
             {% csrf_token %}
         
         <!-- Row 1 -->
@@ -23,7 +23,8 @@
 
             <!-- Column 2 -->
             <div class="col d-flex justify-content-end me-1">
-                <button type="submit" class="btn btn-secondary">Save Recipe</button>
+                <button type="submit" class="btn btn-secondary mx-1">Save Changes</button>
+                <button type="submit" class="btn btn-danger mx-1">Delete Recipe</button>
             </div>
         </div>
 
@@ -55,7 +56,6 @@
                         <h5>Image</h5>
                     </div>
 
-                    {% comment %} <div data-bs-toggle="modal" data-bs-target="#imageModal"></div> {% endcomment %}
                     <!-- Modal -->
                     <div class="modal fade" id="modal" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
                         <div class="modal-dialog">
@@ -98,7 +98,7 @@
         <!-- Row 3 -->
         <div class="row justify-content-between my-3">
 
-            <!-- Column 1-->
+            <!-- Column 1 || Steps -->
             <div class="col">
                 <div class="card">
                     <div class="card-header">
@@ -107,30 +107,43 @@
                     <div class="card-body">
                         <table class="table" id="steps-table">
                             <tbody>
-                            {{ step_formset.management_form }}
-                            {% for stepform in step_formset %}
-                                <tr id="steprow">
+                                <!-- Management Form -->
+                                {{ step_formset.management_form }}
+                                
+                                <!-- Existing Step Forms -->
+                                {% for stepform in step_formset %}
+                                <tr id="step-row-{{ forloop.counter0 }}" class="step-row" data-index="{{ forloop.counter0 }}">
                                     <td>
                                         <div class="input-group flex-nowrap">
                                             <span class="input-group-text" id="addon-wrapping">{{ forloop.counter }}</span>
                                             {{ stepform.id }}
                                             {{ stepform.step_number }}
                                             {{ stepform.step_text }}
-                                            <button class="btn btn-outline-secondary add-step-0" type="button" id="button-addon2">Add a Step</button>
-                                            <button class="btn-close remove-step-0 m-2" type="button" aria-label="Close" disabled></button>
+                                            <button 
+                                                class="btn btn-outline-secondary add-step" 
+                                                type="button" 
+                                                data-index="{{ forloop.counter0 }}">Add Step
+                                            </button>
+                                            <button 
+                                                class="btn-close remove-step m-2" 
+                                                type="button" 
+                                                aria-label="Close" 
+                                                data-index="{{ forloop.counter0 }}">
+                                            </button>
                                         </div>
                                     </td>
                                 </tr>   
-                            {% endfor %}
+                                {% endfor %}
                             </tbody>
                         </table>
                     </div>
                 </div>
             </div>
 
-            <!-- Column 2-->
+
+
+            <!-- Column 2 || Ingredients -->
             <div class="col">
-                <!-- Ingredients -->
                 <div class="card">
                     <div class="card-header">
                         <h5>Add Ingredients</h5>

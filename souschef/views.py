@@ -116,6 +116,7 @@ def edit_recipe(request, id):
         if request.method == "GET":
 
             return render(request, "souschef/edit_recipe.html", {
+                "recipe": recipe,
                 "recipe_form": recipe_form,
                 "step_formset": step_formset,
                 "ingredient_formset": ingredient_formset,
