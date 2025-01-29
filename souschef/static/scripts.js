@@ -197,7 +197,7 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     }
 
-    // Update recipe ingredeints
+    // Update recipe ingredients
     const recipeIngredientInput = document.querySelector('#ingredient-formset');
     if (recipeIngredientInput) {
         

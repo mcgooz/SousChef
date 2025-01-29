@@ -35,9 +35,10 @@ def add_recipe_post_request(request):
             return JsonResponse({"rename": "This recipe already exists. Please choose another name"})
         else:
             recipe.save()
-            image = Image.open(recipe.image.path)
-            cropped_image = crop_image(image)
-            cropped_image.save(recipe.image.path)
+            if recipe.image:
+                image = Image.open(recipe.image.path)
+                cropped_image = crop_image(image)
+                cropped_image.save(recipe.image.path)
 
         steps = step_formset.save(commit=False)
         for step in steps:

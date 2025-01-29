@@ -123,11 +123,32 @@ def edit_recipe(request, id):
     
     if request.method == "POST":
     
-        form = Recipe(request.POST, request.FILES, instance=recipe)
-        if form.is_valid():
+        recipe_form = NewRecipeForm(request.POST, request.FILES, instance=recipe)
+        step_formset = StepFormSet(request.POST, instance=recipe)
+        ingredient_formset = IngredientPerRecipeFormSet(request.POST, instance=recipe)
+
+        if recipe_form.is_valid() and step_formset.is_valid():
             if 'image-clear' in request.POST:
                 recipe.image.delete()
-            form.save()
+            recipe_form.save()
+            image = Image.open(recipe.image.path)
+            cropped_image = crop_image(image)
+            cropped_image.save(recipe.image.path)
+
+            steps = step_formset.save(commit=False)
+            for step in steps:
+                step.recipe = recipe
+                step.save()
+
+            if ingredient_formset.is_valid(): 
+                for form in ingredient_formset:   
+                    ingredient_instance = form.save(commit=False)
+                    ingredient_instance.recipe = recipe
+                    ingredient_instance.save()
+
+        return render(request, "souschef/recipe.html", { 
+            "recipe": recipe,
+        })
 
             
 ### Ingredient Lookup
