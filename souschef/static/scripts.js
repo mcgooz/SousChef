@@ -197,13 +197,11 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     }
 
-    // Update recipe ingredients
+    // Update recipe ingredeints
     const recipeIngredientInput = document.querySelector('#ingredient-formset');
     if (recipeIngredientInput) {
         
-        let initialForms = document.getElementById('id_ingredientperrecipe_set-INITIAL_FORMS').value;
-        let counter = parseInt(initialForms);
-
+        let counter = 1;
         function addRowEventListener(button) {
             button.addEventListener('click', function(event) {
                 event.preventDefault();
@@ -244,7 +242,6 @@ document.addEventListener("DOMContentLoaded", function() {
                 formset.appendChild(newRow);
 
                 counter++;
-                console.log("Counter:", counter)
 
                 let totalForms = document.querySelector('#id_ingredientperrecipe_set-TOTAL_FORMS');
                 let currentCount = parseInt(totalForms.value);
@@ -279,6 +276,12 @@ document.addEventListener("DOMContentLoaded", function() {
 
         const initialButton = document.getElementById('add-ingredient-button');
         addRowEventListener(initialButton);
+
+        // const initialDeleteButton = document.querySelector('remove-ingredient-button');
+        // initialDeleteButton.addEventListener('click', function(event) {
+        //     event.preventDefault();
+        //     initialDeleteButton.closest('tr').remove();
+        // });
     }
         
 
