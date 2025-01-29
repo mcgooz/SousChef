@@ -170,13 +170,14 @@ body {
 
 .recipe-image {
     height: 108px;
-    width: auto; 
+    width: auto;
+    border-radius: 7px;
 }
 
 .recipe-image-full {
     height: 300px;
     width: auto;
-    border-radius: 10px;
+    border-radius: 7px;
 }
 
 .fav-button {
