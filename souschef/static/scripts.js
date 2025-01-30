@@ -276,12 +276,6 @@ document.addEventListener("DOMContentLoaded", function() {
 
         const initialButton = document.getElementById('add-ingredient-button');
         addRowEventListener(initialButton);
-
-        // const initialDeleteButton = document.querySelector('remove-ingredient-button');
-        // initialDeleteButton.addEventListener('click', function(event) {
-        //     event.preventDefault();
-        //     initialDeleteButton.closest('tr').remove();
-        // });
     }
         
 
@@ -526,7 +520,12 @@ document.addEventListener("DOMContentLoaded", function() {
                 newRemoveButton.disabled = false;
                 newRemoveButton.addEventListener('click', function(event) {
                     event.preventDefault();
-                    newRow.remove();
+                    const deleteField = row.querySelector('[name$="-DELETE"]'); 
+                    if (deleteField) {
+                        deleteField.checked = true;
+                    }
+                    console.log("Delete field value set to:", deleteField.value);
+                    newRow.style.display = 'none';
                     totalForms.value = totalForms.value - 1;
                     console.log("Row removed, total forms:", totalForms.value);
                 });
@@ -549,7 +548,12 @@ document.addEventListener("DOMContentLoaded", function() {
                 button.addEventListener('click', function(event) {
                     event.preventDefault();
                     const row = button.closest('.ingredient-row');
-                    row.remove();
+                    const deleteField = row.querySelector('[name$="-DELETE"]'); 
+                    if (deleteField) {
+                        deleteField.checked = true;
+                    }
+                    console.log("Delete field value set to:", deleteField.value);
+                    row.style.display = 'none';
                     let totalForms = document.querySelector('#id_ingredientperrecipe_set-TOTAL_FORMS');
                     totalForms.value = totalForms.value - 1;
                     console.log("Row removed, total forms:", totalForms.value);
@@ -576,7 +580,13 @@ document.addEventListener("DOMContentLoaded", function() {
                 const rowIndex = row.getAttribute('data-index');
 
                 // Remove the row
-                row.remove();
+                
+                const deleteField = row.querySelector('[name$="-DELETE"]'); 
+                if (deleteField) {
+                    deleteField.checked = true;
+                }
+                console.log("Delete field value set to:", deleteField.value);
+                row.style.display = 'none';
 
                 // Decrement the total forms count
                 let totalStepForms = document.querySelector('#id_step_set-TOTAL_FORMS');
@@ -692,6 +702,11 @@ document.addEventListener("DOMContentLoaded", function() {
             addStepEventListener(button);
         });
     }
+
+    // Confirm Delete
+    document.getElementById('confirmDeleteButton').addEventListener('click', function() {
+        document.getElementById('editForm').submit();
+    });
 
 });
 

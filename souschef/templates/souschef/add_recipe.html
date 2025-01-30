@@ -43,7 +43,7 @@
                         <div>{{ recipe_form.title }}</div>
 
                         <h6 class="my-2 text-body-secondary fw-normal">Description</h6>
-                        <div>{{ recipe_form.description }}</div>
+                        <div class="custom-pad-b">{{ recipe_form.description }}</div>
                     </div>
                 </div>
             </div>
@@ -55,7 +55,6 @@
                         <h5>Image</h5>
                     </div>
 
-                    {% comment %} <div data-bs-toggle="modal" data-bs-target="#imageModal"></div> {% endcomment %}
                     <!-- Modal -->
                     <div class="modal fade" id="modal" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
                         <div class="modal-dialog">

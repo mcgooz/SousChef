@@ -59,4 +59,6 @@ def add_recipe_post_request(request):
         print(recipe_form.errors)
         print(step_formset.errors)
 
-    return redirect("add_recipe")
+    return render(request, "souschef/recipe.html", {
+        "recipe": recipe
+    })

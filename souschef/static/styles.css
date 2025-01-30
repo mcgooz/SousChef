@@ -1,3 +1,5 @@
+/* colour scheme: b1d5e7, 558ca7, 82b4cc, ddeff8 */
+
 
 @font-face {
     font-family: 'sofiapro-light';
@@ -5,15 +7,15 @@
          url('/static/fonts/sofiapro-light-webfont.woff') format('woff');
     font-weight: normal;
     font-style: normal;
-
 }
 
 a {
     text-decoration: none;
+    color: whitesmoke;
 }
 
 a:hover {
-    color: #c9c9c9;
+    color: #548CA7;
 }
 
 .alert {
@@ -28,6 +30,7 @@ body {
     background-size: 2000px;
     color: whitesmoke;
     font-family: 'sofiapro-light', 'Helvetica', 'Arial', sans-serif;
+    font-size: 1.1em;
 }
 
 .btn-custom {
@@ -97,8 +100,8 @@ body {
     border-style: none;
 }
 
-.indent {
-    padding-left: 7px;
+.custom-pad-b {
+    padding-bottom: 6px;
 }
 
 .pagination {
@@ -169,7 +172,7 @@ body {
 }
 
 .recipe-image {
-    height: 108px;
+    height: 160px;
     width: auto;
     border-radius: 7px;
 }
@@ -196,3 +199,15 @@ body {
 .card {
     background-color: #DDEFF8;
 }
+
+.card-link {
+    color: whitesmoke;
+}
+
+.card-link:hover {
+    color: #c9c9c9;
+}
+
+.modal-content {
+    color: #558CA7;
+  }

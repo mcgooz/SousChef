@@ -122,33 +122,66 @@ def edit_recipe(request, id):
             })
     
     if request.method == "POST":
-    
+
         recipe_form = NewRecipeForm(request.POST, request.FILES, instance=recipe)
         step_formset = StepFormSet(request.POST, instance=recipe)
         ingredient_formset = IngredientPerRecipeFormSet(request.POST, instance=recipe)
 
-        if recipe_form.is_valid() and step_formset.is_valid():
-            if 'image-clear' in request.POST:
-                recipe.image.delete()
-            recipe_form.save()
-            image = Image.open(recipe.image.path)
-            cropped_image = crop_image(image)
-            cropped_image.save(recipe.image.path)
+        if request.POST.get("action") == "save":
+            print(request.POST)
 
-            steps = step_formset.save(commit=False)
-            for step in steps:
-                step.recipe = recipe
-                step.save()
+            if recipe_form.is_valid():
+                
+                recipe = recipe_form.save(commit=False)
+                recipe.created_by = request.user
+                recipe.title = recipe.title.title()
 
-            if ingredient_formset.is_valid(): 
-                for form in ingredient_formset:   
-                    ingredient_instance = form.save(commit=False)
-                    ingredient_instance.recipe = recipe
-                    ingredient_instance.save()
+                if 'image-clear' in request.POST:
+                    recipe.image.delete()
+                
+                recipe.save()
 
-        return render(request, "souschef/recipe.html", { 
-            "recipe": recipe,
-        })
+                if recipe.image:
+                    image = Image.open(recipe.image.path)
+                    cropped_image = crop_image(image)
+                    cropped_image.save(recipe.image.path)
+
+                if step_formset.is_valid():
+                    steps = step_formset.save(commit=False)
+
+                    for old_step in step_formset.deleted_forms:
+                        old_step.instance.delete()
+
+                    for step in steps:
+                        step.recipe = recipe
+                        step.save()
+
+                    step_formset.save()
+
+                if ingredient_formset.is_valid():
+                    ingredients = ingredient_formset.save(commit=False)
+                        
+                    for ing in ingredient_formset.deleted_objects:
+                        print(f"Deleted Ingredient: {ing}")
+                        ing.delete()
+                    for ingredient_instance in ingredients:
+                        ingredient_instance.recipe = recipe
+                        ingredient_instance.save()
+                    
+                    ingredient_formset.save()
+
+            return render(request, "souschef/recipe.html", { 
+                "recipe": recipe,
+            })
+        
+        elif request.POST.get("action") == "delete":
+            recipe.delete()
+            recipes = Recipe.objects.all()
+
+            return render(request, "souschef/recipes.html", {
+                "recipes": recipes
+            })
+             
 
             
 ### Ingredient Lookup

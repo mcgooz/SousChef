@@ -11,7 +11,7 @@ class NewRecipeForm(ModelForm):
         fields = ["title", "description", "image", "public"]
         widgets = {
             "title": Textarea(attrs={"rows": 1, "class": "form-control custom-input"}),
-            "description": Textarea(attrs={"cols": 40, "rows": 3, "class": "form-control custom-input"}),
+            "description": Textarea(attrs={"cols": 40, "rows": 5, "class": "form-control custom-input"}),
             "image": ClearableFileInput(attrs={"rows": 1, "class": "form-control", "id": "imageUpload", "type": "file"}),
         }
 
@@ -46,6 +46,7 @@ class PantryIngredientForm(ModelForm):
 StepFormSet = inlineformset_factory(
     Recipe,
     Step,
+    can_delete=True,
     fields=('step_number', 'step_text'),
     widgets = {
         "id": HiddenInput(attrs={"class": "step-id-input"}),
@@ -59,8 +60,8 @@ StepFormSet = inlineformset_factory(
 IngredientPerRecipeFormSet = inlineformset_factory(
     Recipe,
     IngredientPerRecipe,
-    fields = ['ingredient', 'amount', 'unit'],
     can_delete=True,
+    fields = ['ingredient', 'amount', 'unit'],
     widgets = {
         "id": HiddenInput(attrs={"class": "id-input"}),
         "ingredient": HiddenInput(attrs={"required": "required", "class": "form-control search-box-id"}),
