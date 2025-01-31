@@ -520,7 +520,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 newRemoveButton.disabled = false;
                 newRemoveButton.addEventListener('click', function(event) {
                     event.preventDefault();
-                    const deleteField = row.querySelector('[name$="-DELETE"]'); 
+                    const deleteField = newRow.querySelector('[name$="-DELETE"]'); 
                     if (deleteField) {
                         deleteField.checked = true;
                     }

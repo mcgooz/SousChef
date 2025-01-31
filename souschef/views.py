@@ -163,7 +163,8 @@ def edit_recipe(request, id):
                         
                     for ing in ingredient_formset.deleted_objects:
                         print(f"Deleted Ingredient: {ing}")
-                        ing.delete()
+                        ing.instance.delete()
+                        
                     for ingredient_instance in ingredients:
                         ingredient_instance.recipe = recipe
                         ingredient_instance.save()
