@@ -447,10 +447,14 @@ document.addEventListener("DOMContentLoaded", function() {
     }
 
         // Confirm Delete
-        const confirmDeleteButton = document.getElementById('confirmDeleteButton')
-        if (confirmDeleteButton) {
-            confirmDeleteButton.addEventListener('click', function() {
-                document.getElementById('deleteForm').submit();
+        const confirmDeleteButtons = document.querySelectorAll('.confirm-delete')
+        if (confirmDeleteButtons) {
+            confirmDeleteButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const formId = this.getAttribute('data-form-id');
+                    console.log(formId)
+                    document.getElementById(formId).submit();
+                });
             });
         }
     });

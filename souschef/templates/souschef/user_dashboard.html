@@ -97,9 +97,11 @@
                                             <div class="modal-footer">
                                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
                                                 <!-- Delete Form -->
-                                                <form action="{% url 'delete_recipe' recipe.id %}" method="post" enctype="multipart/form-data" id="deleteForm">
+                                                <form action="{% url 'delete_recipe' recipe.id %}" method="post" enctype="multipart/form-data" id="deleteForm{{ recipe.id }}">
                                                     {% csrf_token %}
-                                                    <button type="submit" name="action" value="delete" class="btn btn-danger" id="confirmDeleteButton">Delete</button>
+                                                    <button type="submit" name="action" value="delete" class="btn btn-danger confirm-delete" data-form-id="deleteForm{{ recipe.id }}">
+                                                        Delete
+                                                    </button>
                                                 </form>
                                             </div>
                                         </div>

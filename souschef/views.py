@@ -127,16 +127,18 @@ def pantry_delete(request):
 
 ### Add a Recipe View
 def add_recipe(request):
-    if request.method == "GET":
-        return add_recipe_get_request(request)
+    if request.user.is_authenticated:
+        if request.method == "GET":
+            return add_recipe_get_request(request)
 
-    elif request.method == "POST":
-        return add_recipe_post_request(request)
+        elif request.method == "POST":
+            return add_recipe_post_request(request)
 
 
 ### Delete Recipe
 def delete_recipe(request, id):
     recipe = Recipe.objects.get(id=id)
+    print(recipe)
     if recipe.created_by == request.user:
         
         if request.method == "POST":
