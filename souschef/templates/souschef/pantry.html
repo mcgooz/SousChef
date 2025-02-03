@@ -60,7 +60,7 @@
                         <form type="hidden" method="POST" action="{% url 'pantry_delete' %}">
                             {% csrf_token %}
                             <tr>
-                                <td><a href="{% url 'ingredient' row.3 %}">{{ row.0 }}</a></td>  <!-- Ingredient name -->
+                                <td><a class="pantry-table" href="{% url 'ingredient' row.3 %}">{{ row.0 }}</a></td>  <!-- Ingredient name -->
                                 <td>{{ row.1|floatformat }} {{ row.2 }}  <!-- Quantity -->
                                     <button type="submit" class="btn btn-close" style="position: absolute; right: 25px;"></button>
                                         <input type="hidden" name="item_id" value="{{ row.3}}">
