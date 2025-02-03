@@ -6,7 +6,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.urls import reverse
 
 from .models import User, UserDashboard, Pantry, Recipe
-from .forms import NewRecipeForm, IngredientForm, PantryIngredientForm, IngredientPerRecipeFormSet
+from .forms import NewRecipeForm, IngredientForm, PantryIngredientForm, IngredientPerRecipeFormSet, UserDashboardForm
 
 import datetime, json, random
 
@@ -52,11 +52,23 @@ def user_dashboard(request):
         current_user = request.user
         profile = UserDashboard.objects.get(user_name=current_user)
         recipes = Recipe.objects.filter(created_by=current_user)
+        form = UserDashboardForm()
 
-        return render(request, "SousChef/user_dashboard.html", {
-            "profile": profile,
-            "recipes": recipes
-        })
+        if request.method == "GET":
+
+            return render(request, "SousChef/user_dashboard.html", {
+                "profile": profile,
+                "recipes": recipes,
+                "form": form
+            })
+        
+        elif request.method == "POST":
+            if form.is_valid():
+                profile_picture = form.save(commit=False)
+                if profile_picture.image:
+                    image = Image.open(profile_picture.image.path)
+                    cropped_image = crop_image(image)
+                    cropped_image.save(profile_picture.image.path)
     
 
 ### Recipes View
