@@ -9,7 +9,7 @@ class User(AbstractUser):
 class UserDashboard(models.Model):
     user_name = models.OneToOneField(User, on_delete=models.CASCADE, related_name="user_name")
     created = models.DateTimeField(auto_now_add=True)
-    profile_picture = models.ImageField(upload_to="profile_pics/", null=True, blank=True)
+    profile_picture = models.ImageField(upload_to="profile_pics", null=True, blank=True)
     favourites = models.ManyToManyField('Recipe', blank=True, related_name='favourite_of')
 
     def __str__(self):
@@ -43,7 +43,7 @@ class Recipe(models.Model):
     title = models.CharField(max_length=128)
     description = models.TextField()
     ingredients = models.ManyToManyField(Ingredient, through="IngredientPerRecipe")
-    image = models.ImageField(upload_to="recipe_pics/", null=True, blank=True)
+    image = models.ImageField(upload_to="recipe_pics", null=True, blank=True)
     created_by = models.ForeignKey(User, on_delete=models.CASCADE)
     created_on = models.DateTimeField(auto_now_add=True)
 
