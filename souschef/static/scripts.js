@@ -431,8 +431,8 @@ document.addEventListener("DOMContentLoaded", function() {
                 });
 
                 closeButton.addEventListener('click', function() {
-                    imageUpload.value = ''; // Clear the file input
-                    image.src = ''; // Reset the image preview
+                    imageUpload.value = '';
+                    image.src = '';
                 });
                 
                 modalElement.addEventListener('hidden.bs.modal', function () {
