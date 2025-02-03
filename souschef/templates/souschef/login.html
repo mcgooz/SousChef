@@ -1,7 +1,7 @@
 {% extends "SousChef/layout.html" %}
 
 {% block body %}
-
+<div class="container">
     <h2>Login</h2>
 
 
@@ -11,7 +11,7 @@
         </div>
     {% endif %}
 
-    <div class="row mt-2 p-1">
+    <div class="row mt-2">
         <div class="col">
             <form action="{% url 'login' %}" method="post">
                 {% csrf_token %}
@@ -28,5 +28,5 @@
     </div>    
 
     <div class="my-3">Don't have an account? <a href="{% url 'register' %}">Register here.</a></div>
-
+</div>
 {% endblock %}

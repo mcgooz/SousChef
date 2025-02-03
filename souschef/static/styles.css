@@ -1,4 +1,6 @@
-/* colour scheme: b1d5e7, 558ca7, 82b4cc, ddeff8 */
+.colour-scheme{
+    color: #b1d5e7, #558ca7, #82b4cc, #ddeff8;
+ } 
 
 
 @font-face {
@@ -15,7 +17,7 @@ a {
 }
 
 a:hover {
-    color: #548CA7;
+    color: #82b4cc;
 }
 
 .alert {
