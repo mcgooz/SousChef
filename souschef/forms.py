@@ -10,7 +10,7 @@ class UserDashboardForm(ModelForm):
         model = UserDashboard
         fields = ["profile_picture"]
         widgets = {
-            "profile_picture": ClearableFileInput(attrs={"rows": 1, "class": "form-control", "id": "pictureUpload", "type": "file"}),
+            "profile_picture": ClearableFileInput(attrs={"rows": 1, "class": "form-control, profile_form", "id": "pictureUpload", "type": "file"}),
         }
 
 

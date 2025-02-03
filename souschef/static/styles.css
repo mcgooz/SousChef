@@ -138,6 +138,10 @@ body {
     opacity: 0.5;
 }
 
+.profile_form {
+    display: none;
+}
+
 #searchBox.autocomplete-active:focus {
     outline: none;
     box-shadow: none;
