@@ -8,7 +8,7 @@ from django.forms import inlineformset_factory
 class NewRecipeForm(ModelForm):
     class Meta:
         model = Recipe
-        fields = ["title", "description", "image", "public"]
+        fields = ["title", "description", "image"]
         widgets = {
             "title": Textarea(attrs={"rows": 1, "class": "form-control custom-input"}),
             "description": Textarea(attrs={"cols": 40, "rows": 5, "class": "form-control custom-input"}),
@@ -51,7 +51,7 @@ StepFormSet = inlineformset_factory(
     widgets = {
         "id": HiddenInput(attrs={"class": "step-id-input"}),
         "step_number": HiddenInput(attrs={"class": "step-number-input"}),
-        "step_text": TextInput(attrs={"class": "form-control step-text-input", "placeholder": "Step", "aria-label": "Step", "aria-describedby": "button-addon2"}),
+        "step_text": TextInput(attrs={"required": "required", "class": "form-control step-text-input", "placeholder": "Step", "aria-label": "Step", "aria-describedby": "button-addon2"}),
     },
 )    
 

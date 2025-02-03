@@ -26,7 +26,11 @@
     <div class="row justify-content-center mt-4">
         <div class="col text-center">
             <h5>Random Recipe</h5>
-            <a href="{% url 'recipe' random_recipe.id %}">{{ random_recipe.title }}</a> 
+            {% if random_recipe %}
+                <a href="{% url 'recipe' random_recipe.id %}">{{ random_recipe.title }}</a>
+            {% else %}
+                <a href="{% url 'add_recipe' %}">Add a Recipe!</a>
+            {% endif %}
         </div>
     </div>
 </div> 

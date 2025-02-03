@@ -57,10 +57,16 @@
                 <tbody>
                     {% if table_data %}
                         {% for row in table_data %}
-                        <tr>
-                            <td>{{ row.0 }}</td>  <!-- Ingredient name -->
-                            <td>{{ row.1|floatformat }} {{ row.2 }}</td>  <!-- Quantity -->
-                        </tr>
+                        <form type="hidden" method="POST" action="{% url 'pantry_delete' %}">
+                            {% csrf_token %}
+                            <tr>
+                                <td><a href="{% url 'ingredient' row.3 %}">{{ row.0 }}</a></td>  <!-- Ingredient name -->
+                                <td>{{ row.1|floatformat }} {{ row.2 }}  <!-- Quantity -->
+                                    <button type="submit" class="btn btn-close" style="position: absolute; right: 25px;"></button>
+                                        <input type="hidden" name="item_id" value="{{ row.3}}">
+                                </td>
+                            </tr>
+                        </form>
                         {% endfor %}
                     {% else %}
                         <tr>

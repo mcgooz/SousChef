@@ -5,7 +5,7 @@
     <div class="container">
         <div class="row justify-content-start">
         {% for recipe in recipes %}
-            <div class="col-md-4 mb-1">
+            <div class="col-md-3 m-1">
                 <div class="card" style="width: 20rem;">
                     {% if recipe.image %}
                         <a class="mt-2 mx-auto" href="{% url 'recipe' recipe.id %}">

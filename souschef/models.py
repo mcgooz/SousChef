@@ -36,7 +36,7 @@ class Ingredient(models.Model):
     # category = models.ForeignKey(FoodType, on_delete=models.CASCADE)
 
     def __str__(self):
-        return f"{self.name}"
+        return f"{self.name} ID:{self.id}"
     
 
 class Recipe(models.Model):
@@ -45,7 +45,7 @@ class Recipe(models.Model):
     ingredients = models.ManyToManyField(Ingredient, through="IngredientPerRecipe")
     image = models.ImageField(upload_to="static/images/recipe_pics", null=True, blank=True)
     created_by = models.ForeignKey(User, on_delete=models.CASCADE)
-    public = models.BooleanField(default=False)
+    created_on = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return f"{self.title}, ID:{self.id}"

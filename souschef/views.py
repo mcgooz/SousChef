@@ -19,7 +19,10 @@ def index(request):
     date = datetime.datetime.strftime(today, '%a %d %b %Y')
 
     recipes = Recipe.objects.all()
-    random_recipe = random.choice(recipes)
+    if recipes:
+        random_recipe = random.choice(recipes)
+    else: 
+        random_recipe = None
     
     return render(request, "SousChef/index.html", {
         "date": date,
@@ -91,6 +94,16 @@ def pantry(request):
     elif request.method == "POST":
         return pantry_post_request(request)
     
+### Pantry Delete
+def pantry_delete(request):
+    if request.method == "POST":
+        item_id = request.POST.get("item_id")
+        print(item_id)
+        item = PantryIngredient.objects.get(id=item_id)
+        item.delete()
+
+        return HttpResponseRedirect(reverse("pantry"))
+
 
 ### Add a Recipe View
 def add_recipe(request):
@@ -101,89 +114,16 @@ def add_recipe(request):
         return add_recipe_post_request(request)
 
 
-## Edit Recipe View
-def edit_recipe(request, id):
+### Delete Recipe
+def delete_recipe(request, id):
     recipe = Recipe.objects.get(id=id)
     if recipe.created_by == request.user:
-
-        if request.method == "GET":
-            StepFormSet.extra = 0
-            IngredientPerRecipeFormSet.extra = 0
-    
-            recipe_form = NewRecipeForm(instance=recipe)
-            step_formset = StepFormSet(instance=recipe)
-            ingredient_formset = IngredientPerRecipeFormSet(instance=recipe)
-
-            return render(request, "souschef/edit_recipe.html", {
-                "recipe": recipe,
-                "recipe_form": recipe_form,
-                "step_formset": step_formset,
-                "ingredient_formset": ingredient_formset,
-            })
-    
-    if request.method == "POST":
-
-        recipe_form = NewRecipeForm(request.POST, request.FILES, instance=recipe)
-        step_formset = StepFormSet(request.POST, instance=recipe)
-        ingredient_formset = IngredientPerRecipeFormSet(request.POST, instance=recipe)
-
-        if request.POST.get("action") == "save":
-            print(request.POST)
-
-            if recipe_form.is_valid():
-                
-                recipe = recipe_form.save(commit=False)
-                recipe.created_by = request.user
-                recipe.title = recipe.title.title()
-
-                if 'image-clear' in request.POST:
-                    recipe.image.delete()
-                
-                recipe.save()
-
-                if recipe.image:
-                    image = Image.open(recipe.image.path)
-                    cropped_image = crop_image(image)
-                    cropped_image.save(recipe.image.path)
-
-                if step_formset.is_valid():
-                    steps = step_formset.save(commit=False)
-
-                    for old_step in step_formset.deleted_forms:
-                        old_step.instance.delete()
-
-                    for step in steps:
-                        step.recipe = recipe
-                        step.save()
-
-                    step_formset.save()
-
-                if ingredient_formset.is_valid():
-                    ingredients = ingredient_formset.save(commit=False)
-                        
-                    for ing in ingredient_formset.deleted_objects:
-                        print(f"Deleted Ingredient: {ing}")
-                        ing.instance.delete()
-                        
-                    for ingredient_instance in ingredients:
-                        ingredient_instance.recipe = recipe
-                        ingredient_instance.save()
-                    
-                    ingredient_formset.save()
-
-            return render(request, "souschef/recipe.html", { 
-                "recipe": recipe,
-            })
         
-        elif request.POST.get("action") == "delete":
+        if request.method == "POST":
             recipe.delete()
-            recipes = Recipe.objects.all()
 
-            return render(request, "souschef/recipes.html", {
-                "recipes": recipes
-            })
+            return HttpResponseRedirect(reverse("user_dashboard"))
              
-
             
 ### Ingredient Lookup
 def ingredient_details(request):
@@ -209,6 +149,7 @@ def ingredient_details(request):
 ### Detailed Ingredient View
 def ingredient(request, id):
     ingredient = Ingredient.objects.get(id=id)
+    print(ingredient)
 
     return render(request, "souschef/ingredient.html", {
         "ingredient": ingredient
@@ -282,26 +223,78 @@ def register(request):
     else:
         return render(request, "SousChef/register.html")
 
+#### FUTURE UPDATES ####
 
-# def recipe_ingredient(request):
+## Edit Recipe View
+# def edit_recipe(request, id):
+#     recipe = Recipe.objects.get(id=id)
+#     if recipe.created_by == request.user:
+
+#         if request.method == "GET":
+#             StepFormSet.extra = 0
+#             IngredientPerRecipeFormSet.extra = 0
+    
+#             recipe_form = NewRecipeForm(instance=recipe)
+#             step_formset = StepFormSet(instance=recipe)
+#             ingredient_formset = IngredientPerRecipeFormSet(instance=recipe)
+
+#             return render(request, "souschef/edit_recipe.html", {
+#                 "recipe": recipe,
+#                 "recipe_form": recipe_form,
+#                 "step_formset": step_formset,
+#                 "ingredient_formset": ingredient_formset,
+#             })
+    
 #     if request.method == "POST":
-#         print("RECIPE INGREDIENT")
-        
-#         ingredient_input = request.POST.get("ingredient")
-#         ingredient_id = request.POST.get("ingredientId")
-#         ingredient_check = fetch_or_create_ingredient(ingredient_input, ingredient_id)
-#         form_data = request.POST.copy()
-        
-#         form = IngredientPerRecipeFormSet(form_data)
-#         if form.is_valid():
-#             ingredient = ingredient_check
-#             amount = form.cleaned_data["amount"]
-#             unit_id = form.cleaned_data["unit"]
-#             unit = Unit.objects.get(unit_type=unit_id)
-#             add_ingredient = {"ingredient": ingredient.name, "amount": amount, "unit": unit.unit_type, "ingredient_id": ingredient_id}
-#             return JsonResponse(add_ingredient)
-                
-#         else:
-#             print(f"RECIPE_INGREDIENT VIEW {form.errors}")
 
-#     return HttpResponseRedirect(reverse("add_recipe"))
+#         recipe_form = NewRecipeForm(request.POST, request.FILES, instance=recipe)
+#         step_formset = StepFormSet(request.POST, instance=recipe)
+#         ingredient_formset = IngredientPerRecipeFormSet(request.POST, instance=recipe)
+
+#         if request.POST.get("action") == "save":
+#             print(request.POST)
+
+#             if recipe_form.is_valid():
+                
+#                 recipe = recipe_form.save(commit=False)
+#                 recipe.created_by = request.user
+#                 recipe.title = recipe.title.title()
+
+#                 if 'image-clear' in request.POST:
+#                     recipe.image.delete()
+                
+#                 recipe.save()
+
+#                 if recipe.image:
+#                     image = Image.open(recipe.image.path)
+#                     cropped_image = crop_image(image)
+#                     cropped_image.save(recipe.image.path)
+
+#                 if step_formset.is_valid():
+#                     steps = step_formset.save(commit=False)
+
+#                     for old_step in step_formset.deleted_forms:
+#                         old_step.instance.delete()
+
+#                     for step in steps:
+#                         step.recipe = recipe
+#                         step.save()
+
+#                     step_formset.save()
+
+#                 if ingredient_formset.is_valid():
+#                     ingredients = ingredient_formset.save(commit=False)
+                        
+#                     for ing in ingredient_formset.deleted_objects:
+#                         print(f"Deleted Ingredient: {ing}")
+#                         ing.instance.delete()
+                        
+#                     for ingredient_instance in ingredients:
+#                         ingredient_instance.recipe = recipe
+#                         ingredient_instance.save()
+                    
+#                     ingredient_formset.save()
+
+#             return render(request, "souschef/recipe.html", { 
+#                 "recipe": recipe,
+#             })

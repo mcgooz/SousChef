@@ -446,410 +446,294 @@ document.addEventListener("DOMContentLoaded", function() {
         });
     }
 
-    // Edit Recipe Ingredients
-    const EditRecipeIngredientInput = document.querySelector('#edit-ingredient-formset');
-    if (EditRecipeIngredientInput) {
-        
-        let initialForms = document.getElementById('id_ingredientperrecipe_set-INITIAL_FORMS').value;
-        let counter = parseInt(initialForms);
-        console.log("Edit Ingredient Counter = ", counter);
-
-        // Disable the first remove button
-        const firstRemoveButton = document.querySelector('#remove-ingredient-button0');
-        if (firstRemoveButton) {
-            firstRemoveButton.disabled = true;
-        }
-
-        // Function to add a new row
-        function addRowEventListener(button) {
-            button.addEventListener('click', function(event) {
-                event.preventDefault();
-                console.log("Add button clicked");
-                
-                const formRow = document.querySelector('.ingredient-row');
-                const newRow = formRow.cloneNode(true);
-                
-                // Update IDs and names for the new row
-                newRow.querySelectorAll('.id-input').forEach((input) => {
-                    input.name = `ingredientperrecipe_set-${counter}-id`;
-                    input.id = `ingredientperrecipe_set-${counter}-id`;
-                    input.value = '';
-                });
-                
-                newRow.querySelectorAll('.search-box-id').forEach((input) => {
-                    input.name = `ingredientperrecipe_set-${counter}-ingredient`;
-                    input.id = `ingredientperrecipe_set-${counter}-ingredient`;
-                    input.value = '';
-                });
-
-                newRow.querySelectorAll('.search-box').forEach((input) => {
-                    input.value = '';
-                });
-
-                newRow.querySelectorAll('.amount-input').forEach((input) => {
-                    input.name = `ingredientperrecipe_set-${counter}-amount`;
-                    input.id = `ingredientperrecipe_set-${counter}-amount`;
-                    input.value = '';
-                });
-
-                newRow.querySelectorAll('.unit-input').forEach((input) => {
-                    input.name = `ingredientperrecipe_set-${counter}-unit`;
-                    input.id = `ingredientperrecipe_set-${counter}-unit`;
-                    input.value = '';
-                });
-                
-                // Append the new row to the formset
-                const formset = document.querySelector('#edit-ingredient-formset tbody');
-                formset.appendChild(newRow);
-
-                // Increment the counter
-                counter++;
-                console.log("Counter:", counter);
-
-                // Update the total forms count
-                let totalForms = document.querySelector('#id_ingredientperrecipe_set-TOTAL_FORMS');
-                let currentCount = parseInt(totalForms.value);
-                totalForms.value = currentCount + 1;
-
-                // Attach event listener to the new add button
-                const newAddButton = newRow.querySelector('.add-button');
-                addRowEventListener(newAddButton);
-
-                // Enable and attach event listener to the new remove button
-                const newRemoveButton = newRow.querySelector('.remove-button');
-                newRemoveButton.disabled = false;
-                newRemoveButton.addEventListener('click', function(event) {
-                    event.preventDefault();
-                    const deleteField = newRow.querySelector('[name$="-DELETE"]'); 
-                    if (deleteField) {
-                        deleteField.checked = true;
-                    }
-                    console.log("Delete field value set to:", deleteField.value);
-                    newRow.style.display = 'none';
-                    totalForms.value = totalForms.value - 1;
-                    console.log("Row removed, total forms:", totalForms.value);
-                });
-
-                // Handle input for the new search box
-                const newSearchBox = newRow.querySelector('.search-box');
-                const suggestionsContainer = newRow.querySelector('.suggestions');
-                handleInput(newSearchBox, suggestionsContainer);
+        // Confirm Delete
+        const confirmDeleteButton = document.getElementById('confirmDeleteButton')
+        if (confirmDeleteButton) {
+            confirmDeleteButton.addEventListener('click', function() {
+                document.getElementById('deleteForm').submit();
             });
         }
-
-        // Attach event listeners to ALL existing add buttons on page load
-        document.querySelectorAll('.add-button').forEach(button => {
-            addRowEventListener(button);
-        });
-
-        // Attach event listeners to existing remove buttons (except the first one)
-        document.querySelectorAll('.remove-button').forEach((button, index) => {
-            if (index !== 0) { // Skip the first remove button
-                button.addEventListener('click', function(event) {
-                    event.preventDefault();
-                    const row = button.closest('.ingredient-row');
-                    const deleteField = row.querySelector('[name$="-DELETE"]'); 
-                    if (deleteField) {
-                        deleteField.checked = true;
-                    }
-                    console.log("Delete field value set to:", deleteField.value);
-                    row.style.display = 'none';
-                    let totalForms = document.querySelector('#id_ingredientperrecipe_set-TOTAL_FORMS');
-                    totalForms.value = totalForms.value - 1;
-                    console.log("Row removed, total forms:", totalForms.value);
-                });
-            }
-        });
-    }
-        
-
-    const EditRecipeSteps = document.querySelector('#edit-steps-table');
-    if (EditRecipeSteps) {
-        
-        let initialStepForms = document.getElementById('id_step_set-INITIAL_FORMS').value;
-        let stepCounter = parseInt(initialStepForms);
-        console.log("Initial Step Counter = ", stepCounter);
-
-        // Function to handle removing a step row
-        function removeStepEventListener(button) {
-            button.addEventListener('click', function(event) {
-                event.preventDefault();
-                console.log("Remove step button clicked");
-
-                const row = button.closest('.step-row');
-                const rowIndex = row.getAttribute('data-index');
-
-                // Remove the row
-                
-                const deleteField = row.querySelector('[name$="-DELETE"]'); 
-                if (deleteField) {
-                    deleteField.checked = true;
-                }
-                console.log("Delete field value set to:", deleteField.value);
-                row.style.display = 'none';
-
-                // Decrement the total forms count
-                let totalStepForms = document.querySelector('#id_step_set-TOTAL_FORMS');
-                let currentCount = parseInt(totalStepForms.value);
-                totalStepForms.value = currentCount - 1;
-
-                // Decrement the counter
-                stepCounter--;
-                console.log("Step Counter after removal:", stepCounter);
-
-                // Enable the previous row's buttons
-                const previousRow = document.querySelector(`.step-row[data-index="${stepCounter - 1}"]`);
-                if (previousRow) {
-                    const previousAddStepButton = previousRow.querySelector('.add-step');
-                    const previousRemoveStepButton = previousRow.querySelector('.remove-step');
-                    if (previousAddStepButton) previousAddStepButton.disabled = false;
-                    if (previousRemoveStepButton) {
-                        previousRemoveStepButton.disabled = false;
-                        // Reattach the event listener to the previous "Remove Step" button
-                        removeStepEventListener(previousRemoveStepButton);
-                    }
-                }
-
-                const lastRow = document.querySelector('.step-row:last-child');
-                if (lastRow) {
-                    const lastAddStepButton = lastRow.querySelector('.add-step');
-                    const lastRemoveStepButton = lastRow.querySelector('.remove-step');
-                    if (lastAddStepButton) lastAddStepButton.disabled = false;
-                    if (lastRemoveStepButton) lastRemoveStepButton.disabled = false;
-                }
-            });
-        }
-
-        const stepRows = document.querySelectorAll('.step-row');
-        stepRows.forEach((row, index) => {
-            const addButton = row.querySelector('.add-step');
-            const removeButton = row.querySelector('.remove-step');
-
-            if (index === stepRows.length - 1) {
-                addButton.disabled = false;
-                removeButton.disabled = false;
-            } else {
-                addButton.disabled = true;
-                removeButton.disabled = true;
-            }
-
-            if (index === 0) {
-                removeButton.disabled = true;
-            }
-
-            if (!removeButton.disabled) {
-                removeStepEventListener(removeButton);
-            }
-        });
-
-        // Add a new step row
-        function addStepEventListener(button) {
-            button.addEventListener('click', function(event) {
-                event.preventDefault();
-                console.log("Add step button clicked");
-
-                const stepRow = document.querySelector('.step-row');
-                const newStepRow = stepRow.cloneNode(true);
-
-                newStepRow.querySelectorAll('.step-id-input').forEach((input) => {
-                    input.name = `step_set-${stepCounter}-id`;
-                    input.id = `step_set-${stepCounter}-id`;
-                    input.value = '';
-                });
-
-                newStepRow.querySelectorAll('.step-number-input').forEach((input) => {
-                    input.name = `step_set-${stepCounter}-step_number`;
-                    input.id = `id_step_set-${stepCounter}-step_number`;
-                    input.value = stepCounter + 1; // Update step number
-                });
-
-                newStepRow.querySelectorAll('.step-text-input').forEach((input) => {
-                    input.name = `step_set-${stepCounter}-step_text`;
-                    input.id = `id_step_set-${stepCounter}-step_text`;
-                    input.value = '';
-                });
-
-                newStepRow.querySelector('.input-group-text').textContent = stepCounter + 1;
-
-                const stepFormset = document.querySelector('#edit-steps-table tbody');
-                stepFormset.appendChild(newStepRow);
-
-                button.disabled = true;
-                const currentRemoveButton = button.closest('.step-row').querySelector('.remove-step');
-                if (currentRemoveButton) {
-                    currentRemoveButton.disabled = true;
-                }
-
-                const newAddStepButton = newStepRow.querySelector('.add-step');
-                const newRemoveStepButton = newStepRow.querySelector('.remove-step');
-                if (newAddStepButton) newAddStepButton.disabled = false;
-                if (newRemoveStepButton) newRemoveStepButton.disabled = false;
-
-                addStepEventListener(newAddStepButton);
-                removeStepEventListener(newRemoveStepButton);
-
-                stepCounter++;
-                console.log("Step Counter:", stepCounter);
-
-                // Update form count
-                let totalStepForms = document.querySelector('#id_step_set-TOTAL_FORMS');
-                let currentCount = parseInt(totalStepForms.value);
-                totalStepForms.value = currentCount + 1;
-            });
-        }
-
-        document.querySelectorAll('.add-step').forEach(button => {
-            addStepEventListener(button);
-        });
-    }
-
-    // Confirm Delete
-    document.getElementById('confirmDeleteButton').addEventListener('click', function() {
-        document.getElementById('editForm').submit();
     });
-
-});
-
-// Favourite Icon
-function toggleIcon() {
-    var iconImage = document.getElementById('favRecipeIcon');
-}
-
-// Show Password
-function togglePassword() {
-    var passwordField = document.getElementById("password");
-    var confirmPasswordField = document.getElementById("confirmation");
-    if (passwordField.type === "password") {
-        passwordField.type = "text";
-        confirmPasswordField.type = "text";
-    } else {
-        passwordField.type = "password";
-        confirmPasswordField.type = "password";
-    }
-}
-
-
-
-    // // Error messages
-    // let alertMessage = document.getElementById('alert-message');
-    // let form = document.querySelector('#pantryIngredientForm');
-    // form.addEventListener('submit', function(event) {
-    //     event.preventDefault();
-
-    //     fetch('pantry', {
-    //         method: 'POST',
-    //         body: new FormData(pantryIngredientForm)
-    //     })
     
-    //     .then(response => response.json())
-    //     .then(data => {
-    //         console.log(data);
-    //         if (data.error) {
-    //         alertMessage.innerHTML = `<div class="alert custom-alert alert-light alert-dismissible fade show" role="alert">
-    //         ${data.error}<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>`;
-    //         } else {
-    //             window.location.reload();
+    // Favourite Icon
+    function toggleIcon() {
+        var iconImage = document.getElementById('favRecipeIcon');
+    }
+    
+    // Show Password
+    function togglePassword() {
+        var passwordField = document.getElementById("password");
+        var confirmPasswordField = document.getElementById("confirmation");
+        if (passwordField.type === "password") {
+            passwordField.type = "text";
+            confirmPasswordField.type = "text";
+        } else {
+            passwordField.type = "password";
+            confirmPasswordField.type = "password";
+        }
+    }
+
+    // FUTURE UPDATES //
+
+    // // Edit Recipe Ingredients
+    // const EditRecipeIngredientInput = document.querySelector('#edit-ingredient-formset');
+    // if (EditRecipeIngredientInput) {
+        
+    //     let initialForms = document.getElementById('id_ingredientperrecipe_set-INITIAL_FORMS').value;
+    //     let counter = parseInt(initialForms);
+    //     console.log("Edit Ingredient Counter = ", counter);
+
+    //     // Disable the first remove button
+    //     const firstRemoveButton = document.querySelector('#remove-ingredient-button0');
+    //     if (firstRemoveButton) {
+    //         firstRemoveButton.disabled = true;
+    //     }
+
+    //     // Function to add a new row
+    //     function addRowEventListener(button) {
+    //         button.addEventListener('click', function(event) {
+    //             event.preventDefault();
+    //             console.log("Add button clicked");
+                
+    //             const formRow = document.querySelector('.ingredient-row');
+    //             const newRow = formRow.cloneNode(true);
+                
+    //             // Update IDs and names for the new row
+    //             newRow.querySelectorAll('.id-input').forEach((input) => {
+    //                 input.name = `ingredientperrecipe_set-${counter}-id`;
+    //                 input.id = `ingredientperrecipe_set-${counter}-id`;
+    //                 input.value = '';
+    //             });
+                
+    //             newRow.querySelectorAll('.search-box-id').forEach((input) => {
+    //                 input.name = `ingredientperrecipe_set-${counter}-ingredient`;
+    //                 input.id = `ingredientperrecipe_set-${counter}-ingredient`;
+    //                 input.value = '';
+    //             });
+
+    //             newRow.querySelectorAll('.search-box').forEach((input) => {
+    //                 input.value = '';
+    //             });
+
+    //             newRow.querySelectorAll('.amount-input').forEach((input) => {
+    //                 input.name = `ingredientperrecipe_set-${counter}-amount`;
+    //                 input.id = `ingredientperrecipe_set-${counter}-amount`;
+    //                 input.value = '';
+    //             });
+
+    //             newRow.querySelectorAll('.unit-input').forEach((input) => {
+    //                 input.name = `ingredientperrecipe_set-${counter}-unit`;
+    //                 input.id = `ingredientperrecipe_set-${counter}-unit`;
+    //                 input.value = '';
+    //             });
+                
+    //             // Append the new row to the formset
+    //             const formset = document.querySelector('#edit-ingredient-formset tbody');
+    //             formset.appendChild(newRow);
+
+    //             // Increment the counter
+    //             counter++;
+    //             console.log("Counter:", counter);
+
+    //             // Update the total forms count
+    //             let totalForms = document.querySelector('#id_ingredientperrecipe_set-TOTAL_FORMS');
+    //             let currentCount = parseInt(totalForms.value);
+    //             totalForms.value = currentCount + 1;
+
+    //             // Attach event listener to the new add button
+    //             const newAddButton = newRow.querySelector('.add-button');
+    //             addRowEventListener(newAddButton);
+
+    //             // Enable and attach event listener to the new remove button
+    //             const newRemoveButton = newRow.querySelector('.remove-button');
+    //             newRemoveButton.disabled = false;
+    //             newRemoveButton.addEventListener('click', function(event) {
+    //                 event.preventDefault();
+    //                 const deleteField = newRow.querySelector('[name$="-DELETE"]'); 
+    //                 if (deleteField) {
+    //                     deleteField.checked = true;
+    //                 }
+    //                 console.log("Delete field value set to:", deleteField.value);
+    //                 newRow.style.display = 'none';
+    //                 totalForms.value = totalForms.value - 1;
+    //                 console.log("Row removed, total forms:", totalForms.value);
+    //             });
+
+    //             // Handle input for the new search box
+    //             const newSearchBox = newRow.querySelector('.search-box');
+    //             const suggestionsContainer = newRow.querySelector('.suggestions');
+    //             handleInput(newSearchBox, suggestionsContainer);
+    //         });
+    //     }
+
+    //     // Attach event listeners to ALL existing add buttons on page load
+    //     document.querySelectorAll('.add-button').forEach(button => {
+    //         addRowEventListener(button);
+    //     });
+
+    //     // Attach event listeners to existing remove buttons (except the first one)
+    //     document.querySelectorAll('.remove-button').forEach((button, index) => {
+    //         if (index !== 0) { // Skip the first remove button
+    //             button.addEventListener('click', function(event) {
+    //                 event.preventDefault();
+    //                 const row = button.closest('.ingredient-row');
+    //                 const deleteField = row.querySelector('[name$="-DELETE"]'); 
+    //                 if (deleteField) {
+    //                     deleteField.checked = true;
+    //                 }
+    //                 console.log("Delete field value set to:", deleteField.value);
+    //                 row.style.display = 'none';
+    //                 let totalForms = document.querySelector('#id_ingredientperrecipe_set-TOTAL_FORMS');
+    //                 totalForms.value = totalForms.value - 1;
+    //                 console.log("Row removed, total forms:", totalForms.value);
+    //             });
     //         }
     //     });
-    // });
-
-    // const csrfToken = document.querySelector('input[name="csrfmiddlewaretoken"]').value;
-
-// Update List
-// function updateList(event) {
-//     event.preventDefault();
-//     console.log("post stopped")
-//     const ingredientToAdd = document.getElementById('searchBox');
-//     const quantityToAdd = document.getElementById('quantity');
-//     const unitToAdd = document.getElementById('unit');
-//     const unitType = unitToAdd.selectedOptions[0].text;
-//     const unitID = unitToAdd.value;
-
-//     addIngredientToList(ingredientToAdd.value, quantityToAdd.value, unitType, unitID);
-
-//     function clearSearch() {
-//         ingredientToAdd.value = '';
-//         quantityToAdd.value = '';
-//         unitToAdd.value = '';
-//     }
-
-//     clearSearch();
-// }
-
-// // Add ingredient to list
-// function addIngredientToList(ingredient, quantity, unitType, unitID) {
-//     const ingredientList = document.getElementById("ingredientList");
-//     const newIngredient = `${ingredient}`;
-//     const newQuantity = Number(quantity);
-//     const newUnit = `${unitType}`;
-
-//     let exists = false;
-
-//     // Check for existing ingredient
-//     for (let i = 1; i < ingredientList.rows.length; i++) {
-//         if (ingredientList.rows[i].cells[0].innerText === newIngredient) {
-//             exists = true;
-
-//             const ingredientData = {
-//                 name: ingredientList.rows[i].cells[0].innerText,
-//                 quantity: ingredientList.rows[i].cells[1].innerText,
-//                 unit: {
-//                     id: ingredientList.rows[i].cells[2].querySelector('input[name="unitID"]').value,
-//                     unit_type: ingredientList.rows[i].cells[2].innerText, 
-//                 }     
-//             };
-
-//             const unitData = {
-//                 id: unitID,
-//                 unit_type: unitType   
-//             };
-            
-//             console.log(unitType)
-
-//             async function updateMeasurement(ingredientData, newQuantity, unitData) {
-//                 const response = await fetch('/table_update/', {
-//                     method: 'POST',
-//                     headers: {
-//                         'Content-Type': 'application/json'
-//                     },
-//                     body: JSON.stringify({ingredientData, newQuantity, unitData})
-//                 });
-
-//                 const data = await response.json();
-//                 if (data.status === 'success') {
-//                     console.log(data);
-//                     ingredientList.rows[i].cells[1].innerText = data.quantity;
-//                     ingredientList.rows[i].cells[2].innerText = data.unit;
-//                     ingredientList.rows[i].cells[2].hidden = data.unit_id;
-//                 }
-//             }
-            
-//             updateMeasurement(ingredientData, newQuantity, unitData);
-//             console.log("updateMeasure called")
-//         }      
-//     }
-
-//     if (!exists) {
-//         // Define table elements
-//         const row = ingredientList.insertRow();
-//         const cell1 = row.insertCell(0);
-//         const cell2 = row.insertCell(1);
-//         const cell3 = row.insertCell(2);
-//         const hidden = document.createElement("input");
-//         hidden.type = "hidden";
-//         hidden.name = "unitID";
-//         hidden.value = unitID;
+    // }
         
-//         cell1.innerHTML = newIngredient;
-//         cell2.innerHTML = newQuantity; 
-//         cell3.innerHTML = newUnit;
-//         cell3.appendChild(hidden);
-//     }
-    
-//     ingredientList.style.display = "block";
-// }
 
-// const ingredient = document.getElementById('ingredientID');
-//                 const ingredientId = document.getElementById('ingredientID');
-//                 const amount = document.getElementById('amount');
-//                 const unit = document.getElementById('unit');
+    // const EditRecipeSteps = document.querySelector('#edit-steps-table');
+    // if (EditRecipeSteps) {
+        
+    //     let initialStepForms = document.getElementById('id_step_set-INITIAL_FORMS').value;
+    //     let stepCounter = parseInt(initialStepForms);
+    //     console.log("Initial Step Counter = ", stepCounter);
+
+    //     // Function to handle removing a step row
+    //     function removeStepEventListener(button) {
+    //         button.addEventListener('click', function(event) {
+    //             event.preventDefault();
+    //             console.log("Remove step button clicked");
+
+    //             const row = button.closest('.step-row');
+    //             const rowIndex = row.getAttribute('data-index');
+
+    //             // Remove the row
+                
+    //             const deleteField = row.querySelector('[name$="-DELETE"]'); 
+    //             if (deleteField) {
+    //                 deleteField.checked = true;
+    //             }
+    //             console.log("Delete field value set to:", deleteField.value);
+    //             row.style.display = 'none';
+
+    //             // Decrement the total forms count
+    //             let totalStepForms = document.querySelector('#id_step_set-TOTAL_FORMS');
+    //             let currentCount = parseInt(totalStepForms.value);
+    //             totalStepForms.value = currentCount - 1;
+
+    //             // Decrement the counter
+    //             stepCounter--;
+    //             console.log("Step Counter after removal:", stepCounter);
+
+    //             // Enable the previous row's buttons
+    //             const previousRow = document.querySelector(`.step-row[data-index="${stepCounter - 1}"]`);
+    //             if (previousRow) {
+    //                 const previousAddStepButton = previousRow.querySelector('.add-step');
+    //                 const previousRemoveStepButton = previousRow.querySelector('.remove-step');
+    //                 if (previousAddStepButton) previousAddStepButton.disabled = false;
+    //                 if (previousRemoveStepButton) {
+    //                     previousRemoveStepButton.disabled = false;
+    //                     // Reattach the event listener to the previous "Remove Step" button
+    //                     removeStepEventListener(previousRemoveStepButton);
+    //                 }
+    //             }
+
+    //             const lastRow = document.querySelector('.step-row:last-child');
+    //             if (lastRow) {
+    //                 const lastAddStepButton = lastRow.querySelector('.add-step');
+    //                 const lastRemoveStepButton = lastRow.querySelector('.remove-step');
+    //                 if (lastAddStepButton) lastAddStepButton.disabled = false;
+    //                 if (lastRemoveStepButton) lastRemoveStepButton.disabled = false;
+    //             }
+    //         });
+    //     }
+
+    //     const stepRows = document.querySelectorAll('.step-row');
+    //     stepRows.forEach((row, index) => {
+    //         const addButton = row.querySelector('.add-step');
+    //         const removeButton = row.querySelector('.remove-step');
+
+    //         if (index === stepRows.length - 1) {
+    //             addButton.disabled = false;
+    //             removeButton.disabled = false;
+    //         } else {
+    //             addButton.disabled = true;
+    //             removeButton.disabled = true;
+    //         }
+
+    //         if (index === 0) {
+    //             removeButton.disabled = true;
+    //         }
+
+    //         if (!removeButton.disabled) {
+    //             removeStepEventListener(removeButton);
+    //         }
+    //     });
+
+    //     // Add a new step row
+    //     function addStepEventListener(button) {
+    //         button.addEventListener('click', function(event) {
+    //             event.preventDefault();
+    //             console.log("Add step button clicked");
+
+    //             const stepRow = document.querySelector('.step-row');
+    //             const newStepRow = stepRow.cloneNode(true);
+
+    //             newStepRow.querySelectorAll('.step-id-input').forEach((input) => {
+    //                 input.name = `step_set-${stepCounter}-id`;
+    //                 input.id = `step_set-${stepCounter}-id`;
+    //                 input.value = '';
+    //             });
+
+    //             newStepRow.querySelectorAll('.step-number-input').forEach((input) => {
+    //                 input.name = `step_set-${stepCounter}-step_number`;
+    //                 input.id = `id_step_set-${stepCounter}-step_number`;
+    //                 input.value = stepCounter + 1; // Update step number
+    //             });
+
+    //             newStepRow.querySelectorAll('.step-text-input').forEach((input) => {
+    //                 input.name = `step_set-${stepCounter}-step_text`;
+    //                 input.id = `id_step_set-${stepCounter}-step_text`;
+    //                 input.value = '';
+    //             });
+
+    //             newStepRow.querySelector('.input-group-text').textContent = stepCounter + 1;
+
+    //             const stepFormset = document.querySelector('#edit-steps-table tbody');
+    //             stepFormset.appendChild(newStepRow);
+
+    //             button.disabled = true;
+    //             const currentRemoveButton = button.closest('.step-row').querySelector('.remove-step');
+    //             if (currentRemoveButton) {
+    //                 currentRemoveButton.disabled = true;
+    //             }
+
+    //             const newAddStepButton = newStepRow.querySelector('.add-step');
+    //             const newRemoveStepButton = newStepRow.querySelector('.remove-step');
+    //             if (newAddStepButton) newAddStepButton.disabled = false;
+    //             if (newRemoveStepButton) newRemoveStepButton.disabled = false;
+
+    //             addStepEventListener(newAddStepButton);
+    //             removeStepEventListener(newRemoveStepButton);
+
+    //             stepCounter++;
+    //             console.log("Step Counter:", stepCounter);
+
+    //             // Update form count
+    //             let totalStepForms = document.querySelector('#id_step_set-TOTAL_FORMS');
+    //             let currentCount = parseInt(totalStepForms.value);
+    //             totalStepForms.value = currentCount + 1;
+    //         });
+    //     }
+
+    //     document.querySelectorAll('.add-step').forEach(button => {
+    //         addStepEventListener(button);
+    //     });
+    // }
+
+
+
+
+
+    

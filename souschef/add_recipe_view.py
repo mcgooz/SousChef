@@ -1,5 +1,6 @@
 from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.shortcuts import render, redirect
+from django.urls import reverse
 from .forms import NewRecipeForm, StepFormSet, IngredientPerRecipeFormSet
 from .models import Recipe, IngredientPerRecipe
 from PIL import Image
@@ -52,13 +53,14 @@ def add_recipe_post_request(request):
                     ingredient_instance = form.save(commit=False)
                     ingredient_instance.recipe = recipe
                     ingredient_instance.save()
+
         else:
             print(ingredient_formset.errors)
+
+        return redirect('recipe', id=recipe.id)
 
     else:
         print(recipe_form.errors)
         print(step_formset.errors)
 
-    return render(request, "souschef/recipe.html", {
-        "recipe": recipe
-    })
+    

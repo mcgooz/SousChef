@@ -93,7 +93,8 @@ def get_table_data(contents):
         row = [
             item.name.name.title(),  # Ingredient name
             item.quantity,   # Ingredient quantity
-            item.unit   # Unit name (assuming there's a unit field)
+            item.unit,   # Unit name (assuming there's a unit field)
+            item.id
         ]
         table_data.append(row)
     
@@ -108,6 +109,7 @@ def convert_to_milli(quantity, unit):
         return quantity * 1000, Unit.objects.get(unit_type="g")
     else:
         return quantity, unit
+    
 
 ### Convert to appropriate unit
 def change_unit(quantity, unit):
@@ -120,6 +122,7 @@ def change_unit(quantity, unit):
             return Unit.objects.get(unit_type="l")
     else:
         return unit
+    
     
 ### Return unit as decimal measure (kg,l) if more than 1000   
 def check_quantity(total_quantity):

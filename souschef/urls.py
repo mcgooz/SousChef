@@ -10,12 +10,14 @@ urlpatterns = [
     path("recipes", views.recipes, name="recipes"),
     path("recipe/<int:id>", views.recipe, name="recipe"),
     path("add_recipe/", views.add_recipe, name="add_recipe"),
-    path("edit_recipe/<int:id>", views.edit_recipe, name="edit_recipe"),
+    path("delete_recipe/<int:id>", views.delete_recipe, name="delete_recipe"),
     path("pantry/", views.pantry, name="pantry"),
+    path("pantry_delete/", views.pantry_delete, name="pantry_delete"),
     path("ingredient_details/", views.ingredient_details, name="ingredient_details"),
+    path("ingredient/<int:id>", views.ingredient, name="ingredient"),
     path("register", views.register, name="register"),
     path("login", views.login_view, name="login"),
     path("logout", views.logout_view, name="logout")
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
-# path("recipe_ingredient/", views.recipe_ingredient, name="recipe_ingredient"),
+# path("edit_recipe/<int:id>", views.edit_recipe, name="edit_recipe"),
