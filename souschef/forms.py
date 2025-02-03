@@ -1,8 +1,17 @@
 from django.forms import ModelForm, Textarea, NumberInput, Select, TextInput, ModelChoiceField, IntegerField, HiddenInput, ClearableFileInput
 
-from .models import Ingredient, Recipe, PantryIngredient, IngredientPerRecipe, Step
+from .models import Ingredient, Recipe, PantryIngredient, IngredientPerRecipe, Step, UserDashboard
 
 from django.forms import inlineformset_factory
+
+
+class UserDashboardForm(ModelForm):
+    class Meta:
+        model = UserDashboard
+        fields = ["profile_picture"]
+        widgets = {
+            "profile_picture": ClearableFileInput(attrs={"rows": 1, "class": "form-control", "id": "pictureUpload", "type": "file"}),
+        }
 
 
 class NewRecipeForm(ModelForm):
