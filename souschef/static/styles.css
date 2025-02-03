@@ -114,6 +114,10 @@ body {
     --bs-pagination-hover-color: #5ac8ec;
 }
 
+.pantrylink {
+    color: #558ca7;
+}
+
 .profilepic {
     width: auto;
     height: 50px;
