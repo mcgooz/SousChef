@@ -64,11 +64,19 @@ def user_dashboard(request):
         
         elif request.method == "POST":
             if form.is_valid():
-                profile_picture = form.save(commit=False)
+                profile_picture = form.save()
+                
+
                 if profile_picture.image:
                     image = Image.open(profile_picture.image.path)
                     cropped_image = crop_image(image)
                     cropped_image.save(profile_picture.image.path)
+                
+                return HttpResponseRedirect(reverse("user_dashboard"))
+            
+            else:
+                print(form.errors)
+                return HttpResponseRedirect(reverse("user_dashboard"))
     
 
 ### Recipes View
@@ -132,6 +140,7 @@ def delete_recipe(request, id):
     if recipe.created_by == request.user:
         
         if request.method == "POST":
+            recipe.image.delete()
             recipe.delete()
 
             return HttpResponseRedirect(reverse("user_dashboard"))

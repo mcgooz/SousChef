@@ -122,7 +122,8 @@ body {
 
 .profilepic {
     width: auto;
-    height: 50px;
+    height: 150px;
+    border-radius: 7px;
 }
 
 .picico {
