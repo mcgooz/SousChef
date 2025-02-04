@@ -420,8 +420,14 @@ document.addEventListener("DOMContentLoaded", function() {
                         }).toBlob((blob) => {
                             const url = URL.createObjectURL(blob);
                             preview.src = url;
+
+                            const newFile = new File([blob], file.name, { type: "image/jpeg" });
+                            const dataTransfer = new DataTransfer();
+                            dataTransfer.items.add(newFile);
+                            imageUpload.files = dataTransfer.files;
+                            
                             modalInstance.hide();
-                        });
+                        }, "image/jpeg");
                     }
                 });
 
@@ -459,10 +465,12 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     });
     
+    
     // Favourite Icon
     function toggleIcon() {
         var iconImage = document.getElementById('favRecipeIcon');
     }
+
     
     // Show Password
     function togglePassword() {

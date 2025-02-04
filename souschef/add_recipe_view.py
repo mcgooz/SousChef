@@ -5,7 +5,7 @@ from .forms import NewRecipeForm, StepFormSet, IngredientPerRecipeFormSet
 from .models import Recipe, IngredientPerRecipe
 from PIL import Image
 
-from .utils import crop_image
+from .utils import crop_image ## Not needed
 
 
 def add_recipe_get_request(request):
@@ -38,8 +38,7 @@ def add_recipe_post_request(request):
             recipe.save()
             if recipe.image:
                 image = Image.open(recipe.image.path)
-                cropped_image = crop_image(image)
-                cropped_image.save(recipe.image.path)
+                image.save(recipe.image.path)
 
         steps = step_formset.save(commit=False)
         for step in steps:

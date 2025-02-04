@@ -33,7 +33,7 @@ class Unit(models.Model):
 class Ingredient(models.Model):
     name = models.CharField(max_length=64, blank=False)
     ingredient_id = models.IntegerField(unique=True)
-    # category = models.ForeignKey(FoodType, on_delete=models.CASCADE)
+    ingredient_details = models.JSONField(null=True, blank=True)
 
     def __str__(self):
         return f"{self.name}"

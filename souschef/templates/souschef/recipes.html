@@ -4,34 +4,40 @@
 {% block body %}
     <div class="container">
         <div class="row justify-content-start">
-        {% for recipe in recipes %}
-            <div class="col-md-3 m-1">
-                <div class="card" style="width: 20rem;">
-                    {% if recipe.image %}
-                        <a class="mt-2 mx-auto" href="{% url 'recipe' recipe.id %}">
-                        <img src="{{ recipe.image.url }}" class="card-img-top img-fluid recipe-image-full" alt="recipe image">
-                        </a>
-                    {% else %}
-                        <a class="mt-2 mx-auto" href="{% url 'recipe' recipe.id %}">
-                        <img src="{% static 'images/default_pics/default_recipe.png' %}" class="card-img-top img-fluid recipe-image-full" alt="recipe image">
-                        </a>
-                    {% endif %}
+            {% if recipes %}
+                {% for recipe in recipes %}
+                    <div class="col-md-3 m-1">
+                        <div class="card" style="width: 20rem;">
+                            {% if recipe.image %}
+                                <a class="mt-2 mx-auto" href="{% url 'recipe' recipe.id %}">
+                                <img src="{{ recipe.image.url }}" class="card-img-top img-fluid recipe-image-full" alt="recipe image">
+                                </a>
+                            {% else %}
+                                <a class="mt-2 mx-auto" href="{% url 'recipe' recipe.id %}">
+                                <img src="{% static 'images/default_pics/default_recipe.png' %}" class="card-img-top img-fluid recipe-image-full" alt="recipe image">
+                                </a>
+                            {% endif %}
 
-                    <div class="card-header">
-                        <h5 class="card-title">{{ recipe.title }}</h5>
-                    </div>
+                            <div class="card-header">
+                                <h5 class="card-title">{{ recipe.title }}</h5>
+                            </div>
 
-                    <div class="card-body">
-                        <p class="card-text">{{ recipe.description }}</p>
-                        <p class="card-text">by {{ recipe.created_by }}</p>
+                            <div class="card-body">
+                                <p class="card-text">{{ recipe.description }}</p>
+                                <p class="card-text">by {{ recipe.created_by }}</p>
+                            </div>
+                            <div class="card-footer">
+                                <a href="{% url 'recipe' recipe.id %}"class="card-link">View Recipe</a>
+                                <a href="#" class="card-link">Add to favourites</a>
+                            </div>
+                        </div>
                     </div>
-                    <div class="card-footer">
-                        <a href="{% url 'recipe' recipe.id %}"class="card-link">View Recipe</a>
-                        <a href="#" class="card-link">Add to favourites</a>
-                    </div>
+                {% endfor %}
+            {% else %}
+                <div class="my-3 text-center">
+                    <h5>No recipes yet!</h5>
                 </div>
-            </div>
-        {% endfor %}
+            {% endif %}
         </div>
 
             {% comment %} <ul>

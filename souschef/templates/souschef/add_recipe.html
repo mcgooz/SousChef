@@ -88,37 +88,7 @@
         <!-- Row 3 -->
         <div class="row justify-content-between my-3">
 
-            <!-- Column 1 || Steps -->
-            <div class="col">
-                <div class="card">
-                    <div class="card-header">
-                        <h5>Steps</h5>
-                    </div>
-                    <div class="card-body">
-                        <table class="table" id="steps-table">
-                            <tbody>
-                            {{ step_formset.management_form }}
-                            {% for stepform in step_formset %}
-                                <tr id="steprow">
-                                    <td>
-                                        <div class="input-group flex-nowrap">
-                                            <span class="input-group-text" id="addon-wrapping">1</span>
-                                            {{ stepform.id }}
-                                            {{ stepform.step_number }}
-                                            {{ stepform.step_text }}
-                                            <button class="btn btn-outline-secondary add-step-0" type="button" id="add-step-button">Add a Step</button>
-                                            <button class="btn-close remove-step-0 m-2" type="button" aria-label="Close" id="remove-step-button" disabled></button>
-                                        </div>
-                                    </td>
-                                </tr>   
-                            {% endfor %}
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Column 2 || Ingredients -->
+            <!-- Column 1 || Ingredients -->
             <div class="col">
                 <div class="card">
                     <div class="card-header">
@@ -154,13 +124,48 @@
                                         <td>{{ form.amount }}</td>
                                         <!-- Unit -->
                                         <td>{{ form.unit }}</td>
-                                        <td><button type="button" id="add-ingredient-button" class="btn btn-outline-secondary add-button">Add</button></td>
+                                        <td>
+                                            <button type="button" id="add-ingredient-button" class="btn btn-outline-secondary add-button">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-plus" viewBox="0 0 16 16">
+                                                    <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4"></path>
+                                                </svg>
+                                            </button>
+                                        </td>
                                         <td><button type="button" id="remove-ingredient-button" class="btn-close delete-row remove-button my-2" disabled></button></td>
                                     {% endfor %}
-                                </tr>
-                                    
+                                </tr>     
                             </tbody>
                         </table>    
+                    </div>
+                </div>
+            </div>
+
+            <!-- Column 2 || Steps -->
+            <div class="col">
+                <div class="card">
+                    <div class="card-header">
+                        <h5>Steps</h5>
+                    </div>
+                    <div class="card-body">
+                        <table class="table" id="steps-table">
+                            <tbody>
+                            {{ step_formset.management_form }}
+                            {% for stepform in step_formset %}
+                                <tr id="steprow">
+                                    <td>
+                                        <div class="input-group flex-nowrap">
+                                            <span class="input-group-text" id="addon-wrapping">1</span>
+                                            {{ stepform.id }}
+                                            {{ stepform.step_number }}
+                                            {{ stepform.step_text }}
+                                            <button class="btn btn-outline-secondary add-step-0" type="button" id="add-step-button">Add a Step</button>
+                                            <button class="btn-close remove-step-0 m-2" type="button" aria-label="Close" id="remove-step-button" disabled></button>
+                                        </div>
+                                    </td>
+                                </tr>   
+                            {% endfor %}
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>

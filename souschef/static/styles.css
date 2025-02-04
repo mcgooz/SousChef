@@ -120,6 +120,10 @@ body {
     color: #558ca7;
 }
 
+input::placeholder {
+    font-size: 0.9em;
+}
+
 .profilepic {
     width: auto;
     height: 150px;

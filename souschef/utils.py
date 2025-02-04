@@ -55,14 +55,15 @@ def detailed_search(id):
     details = cache.get(f"item_details_{id}")
     if details:
         print("DETAILS RETRIEVED FROM CACHE")
-        return details
     
     else:
         response = requests.get(f"https://api.spoonacular.com/food/ingredients/{id}/information?apiKey={API_KEY}&amount=1").json()
         details = response.get("aisle")
         cache.set(f"item_details_{id}", details)
         print("DETAILS CACHED")
-        return details
+    
+    print(details)
+    return details
     
 
 ### Save or retrieve ingredient from DB

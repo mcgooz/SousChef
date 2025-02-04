@@ -66,7 +66,6 @@ def user_dashboard(request):
             if form.is_valid():
                 profile_picture = form.save()
                 
-
                 if profile_picture.image:
                     image = Image.open(profile_picture.image.path)
                     cropped_image = crop_image(image)
@@ -113,6 +112,7 @@ def pantry(request):
     
     elif request.method == "POST":
         return pantry_post_request(request)
+    
     
 ### Pantry Delete
 def pantry_delete(request):
