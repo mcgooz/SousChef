@@ -5,7 +5,7 @@ from django.http import HttpResponseRedirect, JsonResponse
 from django.contrib.auth import authenticate, login, logout
 from django.urls import reverse
 
-from .models import User, UserDashboard, Pantry, Recipe
+from .models import User, UserDashboard, Pantry, Recipe, Ingredient
 from .forms import NewRecipeForm, IngredientForm, PantryIngredientForm, IngredientPerRecipeFormSet, UserDashboardForm
 
 import datetime, json, random
@@ -71,7 +71,11 @@ def user_dashboard(request):
                     cropped_image = crop_image(image)
                     cropped_image.save(profile_picture.image.path)
                 
-                return HttpResponseRedirect(reverse("user_dashboard"))
+                return render(request, "SousChef/user_dashboard.html", {
+                "profile": profile,
+                "recipes": recipes,
+                "form": form
+            })
             
             else:
                 print(form.errors)
@@ -157,6 +161,11 @@ def ingredient_details(request):
 
         ingredient_details = detailed_search(item_id)
         ingredient = fetch_or_create_ingredient(item_name, item_id)
+
+        # Save extra info to DB
+        ingredient.ingredient_details = ingredient_details
+        ingredient.save()
+        
         ingredient_dict = {
             "name": ingredient.name,
             "id": ingredient.id,
@@ -166,10 +175,11 @@ def ingredient_details(request):
             "ingredient_details": ingredient_details
         }
         print(f"INGREDIENT DETAILS-FETCH_OR_CREATE {ingredient}")
+
         return JsonResponse({ "details": details})
 
 
-### Detailed Ingredient View
+### Single Ingredient View
 def ingredient(request, id):
     ingredient = Ingredient.objects.get(id=id)
     print(ingredient)

@@ -26,7 +26,6 @@ def pantry_get_request(request):
     contents = PantryIngredient.objects.filter(pantry__in=pantry).order_by('name__name')
     
     if contents:
-        # item_by_category = get_item_by_category(categories, contents)
         table_data = get_table_data(contents)
         return render(request, "SousChef/pantry.html", {
             "pantry": pantry,

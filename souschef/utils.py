@@ -37,7 +37,6 @@ def item_search(s):
     results = cache.get(f"item_search_{s}")
     if results:
         print("SEARCH RETRIEVED FROM CACHE")
-        return results 
     
     # # Otherwise, search via API
     else:
@@ -48,7 +47,8 @@ def item_search(s):
         print(f"API REQUEST")
         cache.set(f"item_search_{s}", results)
         print("SEARCH CACHED")
-        return results
+    
+    return results
     
 ### Ingredient details API search
 def detailed_search(id):
@@ -58,11 +58,14 @@ def detailed_search(id):
     
     else:
         response = requests.get(f"https://api.spoonacular.com/food/ingredients/{id}/information?apiKey={API_KEY}&amount=1").json()
-        details = response.get("aisle")
+        details = {
+            "image": response.get("image"),
+            "nutrition": response.get("nutrition"),
+            "caloricBreakdown": response.get("caloricBreakdown")
+        }
         cache.set(f"item_details_{id}", details)
         print("DETAILS CACHED")
     
-    print(details)
     return details
     
 
@@ -88,6 +91,7 @@ def fetch_or_create_ingredient(ingredient_input, item_id):
 
 ### Table data
 def get_table_data(contents):
+    print(contents)
     
     table_data = []
     for item in contents:
@@ -95,7 +99,7 @@ def get_table_data(contents):
             item.name.name.title(),  # Ingredient name
             item.quantity,   # Ingredient quantity
             item.unit,   # Unit name (assuming there's a unit field)
-            item.id
+            item.name.id
         ]
         table_data.append(row)
     

@@ -34,7 +34,7 @@ class PantryAdmin(admin.ModelAdmin):
 
 @admin.register(Ingredient)
 class IngredientAdmin(admin.ModelAdmin):
-    list_display = ('name', 'ingredient_id')
+    list_display = ('name', 'ingredient_id', 'id')
 
 
 @admin.register(Recipe)
