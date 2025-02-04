@@ -2,7 +2,31 @@
 {% load custom_filters %}
 
 {% block body %}
+    <div class="container bg-custom">
 
-{{ ingredient }}
+        <!-- Row 1 -->
+        <div class="row">
+        
+            <!-- Column 1 -->
+            <div class="col my-2">
+                <h4>{{ ingredient|title }}</h4>
+                <p>Nutritonal Values</p>
+            </div>
+        </div>
 
+        <!-- Row 2 -->
+        <div class="row">
+
+            <!-- Column 1 -->
+            <div class="col my-2">
+                <ul>
+                    {% for nutrient in ingredient.ingredient_details.nutrition.nutrients %}
+                        {% if nutrient.amount != 0 %}
+                            <li>{{ nutrient.name }}: {{ nutrient.amount }} {{ nutrient.unit }}</li>
+                        {% endif %}
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>      
+    </div>
 {% endblock %}

@@ -59,7 +59,6 @@ def detailed_search(id):
     else:
         response = requests.get(f"https://api.spoonacular.com/food/ingredients/{id}/information?apiKey={API_KEY}&amount=1").json()
         details = {
-            "image": response.get("image"),
             "nutrition": response.get("nutrition"),
             "caloricBreakdown": response.get("caloricBreakdown")
         }
@@ -79,16 +78,6 @@ def fetch_or_create_ingredient(ingredient_input, item_id):
     return ingredient
 
 
-### Sort by Categories
-# def get_ingredient(categories, contents):
-#     item_by_category = {}
-#     for category in categories:
-#         item = contents.filter(name__category=category)
-#         item_by_category[category] = item
-
-#     return item_by_category
-
-
 ### Table data
 def get_table_data(contents):
     print(contents)
@@ -99,7 +88,8 @@ def get_table_data(contents):
             item.name.name.title(),  # Ingredient name
             item.quantity,   # Ingredient quantity
             item.unit,   # Unit name (assuming there's a unit field)
-            item.name.id
+            item.name.id,
+            item.id
         ]
         table_data.append(row)
     

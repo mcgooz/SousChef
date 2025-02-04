@@ -121,9 +121,9 @@ def pantry(request):
 ### Pantry Delete
 def pantry_delete(request):
     if request.method == "POST":
-        item_id = request.POST.get("item_id")
-        print(item_id)
-        item = PantryIngredient.objects.get(id=item_id)
+        pantry_item_id = request.POST.get("pantry_item_id")
+        print(pantry_item_id)
+        item = PantryIngredient.objects.get(id=pantry_item_id)
         item.delete()
 
         return HttpResponseRedirect(reverse("pantry"))
@@ -182,7 +182,6 @@ def ingredient_details(request):
 ### Single Ingredient View
 def ingredient(request, id):
     ingredient = Ingredient.objects.get(id=id)
-    print(ingredient)
 
     return render(request, "souschef/ingredient.html", {
         "ingredient": ingredient

@@ -1,5 +1,5 @@
 .colour-scheme{
-    color: #b1d5e7, #558ca7, #82b4cc, #ddeff8;
+    color: #b1d5e7, #558ca7, #82b4cc, #ddeff8, whitesmoke;
  } 
 
 
@@ -22,6 +22,10 @@ a:hover {
 
 .alert {
     width: 50%;
+}
+
+.bg-custom {
+    background-color: rgba(85, 140, 167, 0.5);
 }
 
 body {
