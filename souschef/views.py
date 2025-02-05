@@ -56,31 +56,22 @@ def user_dashboard(request):
 
         if request.method == "GET":
 
-            return render(request, "SousChef/user_dashboard.html", {
+            return render(request, "souschef/user_dashboard.html", {
                 "profile": profile,
                 "recipes": recipes,
                 "form": form
             })
         
         elif request.method == "POST":
-            if form.is_valid():
-                profile_picture = form.save()
-                
-                if profile_picture.image:
-                    image = Image.open(profile_picture.image.path)
-                    cropped_image = crop_image(image)
-                    cropped_image.save(profile_picture.image.path)
-                
-                return render(request, "SousChef/user_dashboard.html", {
-                "profile": profile,
-                "recipes": recipes,
-                "form": form
-            })
-            
-            else:
-                print(form.errors)
-                return HttpResponseRedirect(reverse("user_dashboard"))
-    
+            image = request.FILES.get("croppedImage")
+            profile.profile_picture.save(image.name, image)
+            return JsonResponse({"message": "Profile updated successfully!"})
+
+        else:
+            print("NOPE")
+
+    else:
+        return redirect('login')
 
 ### Recipes View
 def recipes(request):

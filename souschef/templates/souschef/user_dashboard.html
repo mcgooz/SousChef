@@ -19,7 +19,7 @@
                     <!-- Profile Pic -->
                     <div class="mb-2">
                     {% if profile.profile_picture %}
-                        <img class="profilepic" src="{{ profile.profile_picture }}" id="imagePreview"></img>
+                        <img class="profilepic" src="{{ profile.profile_picture.url }}" id="imagePreview"></img>
                     {% else %}
                         <img class="profilepic" src="{% static 'images/default_pics/default_profile.png' %}" id="imagePreview"></img>
                     {% endif %}
@@ -29,8 +29,8 @@
 
 
                     <!-- Picture Upload -->
-                    <form action="{% url 'user_dashboard' %}" method="post" enctype="multipart/form-data">
-                        {% csrf_token %}
+                    <form action="{% url 'user_dashboard' %}" method="post" enctype="multipart/form-data" id="pictureUpload">
+                        <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
                         {{ form.profile_picture }} <!-- ID: "imageUpload" -->
 
                         <!-- Modal -->
@@ -48,7 +48,7 @@
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" id="cancelButton" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                                        <button type="submit" id="saveButton" class="btn btn-primary">Save changes</button>
+                                        <button type="button" id="saveButton" class="btn btn-primary picture-upload">Save changes</button>
                                     </div>
                                 </div>
                             </div>

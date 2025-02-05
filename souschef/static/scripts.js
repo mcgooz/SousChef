@@ -376,7 +376,7 @@ document.addEventListener("DOMContentLoaded", function() {
         });
     }
 
-    // Image Display
+    // Image Display and Upload
     if (document.getElementById('imageUpload')) {
         const imageUpload = document.getElementById('imageUpload');
         const saveButton = document.getElementById('saveButton');
@@ -410,9 +410,11 @@ document.addEventListener("DOMContentLoaded", function() {
                     });
                 });
                 
-                saveButton.addEventListener('click', function() {
+                saveButton.addEventListener('click', function(event) {
+                    event.preventDefault();
                     const preview  = document.getElementById('imagePreview');
                     if (cropper) {
+                        
                         console.log("Save Clicked")
                         cropper.getCroppedCanvas({
                             width: 300,
@@ -425,10 +427,17 @@ document.addEventListener("DOMContentLoaded", function() {
                             const dataTransfer = new DataTransfer();
                             dataTransfer.items.add(newFile);
                             imageUpload.files = dataTransfer.files;
-                            
+
+                            const pictureUpload = document.getElementById('pictureUpload');
+                            if (pictureUpload) {
+                                const formData = new FormData();
+                                formData.append('croppedImage', newFile);
+                                pictureUploader(formData);
+                            }
                             modalInstance.hide();
-                        }, "image/jpeg");
+                        }, "image/jpeg"); 
                     }
+                    
                 });
 
                 cancelButton.addEventListener('click', function() {
@@ -451,6 +460,26 @@ document.addEventListener("DOMContentLoaded", function() {
             }
         });
     }
+
+        // Profile Pic AJAX
+        function pictureUploader(formData) {
+            const csrfToken = document.querySelector('input[name="csrfmiddlewaretoken"]').value;
+            fetch('/user_dashboard/', {
+                method: 'POST',
+                headers: {
+                    'X-CSRFToken': csrfToken
+                },
+                
+                body: formData,
+            })
+            .then(response => {
+                if (response.ok) {
+                    console.log('Upload success');
+                } else {
+                    console.log('Upload error');
+                }
+            })
+        }
 
         // Confirm Delete
         const confirmDeleteButtons = document.querySelectorAll('.confirm-delete')
