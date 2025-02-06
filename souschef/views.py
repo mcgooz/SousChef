@@ -37,13 +37,11 @@ def home_search(request):
         word = request.GET.get('word')
         recipes = Recipe.objects.filter(
             Q(title__icontains=word) | Q(ingredients__name__icontains=word)
-            ).values('title', 'id', 'ingredients__name')
+            ).values('title', 'id').distinct()
         recipe_result = list(recipes)
-        # print(recipe_result)
 
         return JsonResponse({"recipe_result": recipe_result})
-    
-    ## Add result logic
+
     
 
 ### User dashboard
@@ -63,12 +61,10 @@ def user_dashboard(request):
             })
         
         elif request.method == "POST":
+            profile.profile_picture.delete()
             image = request.FILES.get("croppedImage")
             profile.profile_picture.save(image.name, image)
-            return JsonResponse({"message": "Profile updated successfully!"})
-
-        else:
-            print("NOPE")
+            return JsonResponse({"message": "Picture updated successfully!"})
 
     else:
         return redirect('login')

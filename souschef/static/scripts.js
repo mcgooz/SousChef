@@ -15,7 +15,7 @@ document.addEventListener("DOMContentLoaded", function() {
                     .then(response => response.json())
                     .then(data => {
                         const recipeResult = data.recipe_result;
-                        const recipeItems = recipeResult.map(item => ({id: item.id, title: item.title, ingredient: item.ingredients__name }));
+                        const recipeItems = recipeResult.map(item => ({id: item.id, title: item.title }));
                         console.log('recipeItems', recipeItems);
 
                         const homeSuggestions = document.getElementById('homeSuggestions');
@@ -34,7 +34,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
                         } else {
                             recipeItems.forEach(item => {
-                                const listItem = createListItem(`${item.title} (${item.ingredient})`, item.id);
+                                const listItem = createListItem(`${item.title}`, item.id);
 
                                 listItem.addEventListener('click', function() {
                                     const itemId = listItem.dataset.id;

@@ -17,12 +17,15 @@
             <div class="col d-flex justify-content-end">
                 <div class="d-flex flex-column align-items-center">
                     <!-- Profile Pic -->
-                    <div class="mb-2">
+                    <div class="mb-2" style="position: relative">
                     {% if profile.profile_picture %}
-                        <img class="profilepic" src="{{ profile.profile_picture.url }}" id="imagePreview"></img>
+                        <img class="profilepic border border-4" src="{{ profile.profile_picture.url }}" id="imagePreview"></img>
                     {% else %}
-                        <img class="profilepic" src="{% static 'images/default_pics/default_profile.png' %}" id="imagePreview"></img>
+                        <img class="profilepic border border-4" src="{% static 'images/default_pics/default_profile.png' %}" id="imagePreview"></img>
                     {% endif %}
+                    <label for="imageUpload" class="btn btn-outline" style="position: absolute; bottom: 0; right: 0;">
+                        <img class="action-icon" src="{% static 'images/updateprofile.png' %}">
+                    </label>
                     </div>
                     <!-- Username -->
                     <div class="fs-4">{{ profile.user_name }}</div>
@@ -38,7 +41,7 @@
                             <div class="modal-dialog">
                                 <div class="modal-content">
                                     <div class="modal-header">
-                                        <h1 class="modal-title fs-5" id="picModal">Upload a Profile Picutre</h1>
+                                        <h1 class="modal-title fs-5" id="picModal">Upload a Profile Picture</h1>
                                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                     </div>
                                     <div class="modal-body">
@@ -53,9 +56,6 @@
                                 </div>
                             </div>
                         </div>
-                        <label for="imageUpload" class="btn btn-outline">
-                            <img src="{% static 'images/updateprofile.png' %}">
-                        </label>
                     </form>  
                 </div>
             </div>

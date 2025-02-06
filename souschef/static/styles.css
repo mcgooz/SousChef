@@ -20,6 +20,10 @@ a:hover {
     color: #82b4cc;
 }
 
+.action-icon:hover {
+    filter: blur(0.03rem); 
+}
+
 .alert {
     width: 50%;
 }
@@ -37,6 +41,10 @@ body {
     color: whitesmoke;
     font-family: 'sofiapro-light', 'Helvetica', 'Arial', sans-serif;
     font-size: 1.1em;
+}
+
+.border {
+    border-color: #ddeff8 !important;
 }
 
 .btn-custom {
