@@ -13,6 +13,7 @@ import datetime, json, random
 from .pantry_view import *
 from .add_recipe_view import *
 
+
 ### Homepage
 def index(request):
     today = datetime.datetime.today().date()

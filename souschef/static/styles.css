@@ -21,7 +21,8 @@ a {
 }
 
 a:hover {
-    color: #82b4cc;
+    color: #558ca7;
+    filter:blur(0.025rem);
 }
 
 .action-icon:hover {
@@ -32,19 +33,20 @@ a:hover {
     width: 50%;
 }
 
-.bg-custom {
-    background-color: rgba(85, 140, 167, 0.5);
-}
-
 body {
     background-image: url("/static/images/background.jpg");
     background-position: center;
     background-repeat: vertical;
     background-attachment: fixed;
     background-size: 2000px;
-    color: #ddeff8;
+    color: whitesmoke;
     font-family: 'sofiapro-light', 'Helvetica', 'Arial', sans-serif;
     font-size: 1.1em;
+}
+
+.bg-custom {
+    background-color: rgba(85, 140, 167, 0.2);
+    border-radius: 7px;
 }
 
 .border {
@@ -104,11 +106,6 @@ body {
 
 .col {
     max-width: 50%;
-}
-
-.date {
-    font-size: small;
-    color: #f1f1f1;
 }
 
 .custom-alert {
