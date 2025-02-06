@@ -76,7 +76,7 @@
                     <div class="me-2 nav-colours">
                         {% if user.is_authenticated %}
                             <div class="navbar-text d-flex align-items-center">
-                                Logged in as<a class="nav-link ms-1" href="{% url 'user_dashboard' %}">{{ user.username }}</a>
+                                Logged in as<a class="nav-link custom-ms" href="{% url 'user_dashboard' %}">{{ user.username }}</a>
                             </div>
                         {% else %}
                             <span class="navbar-text">Not logged in</span>
