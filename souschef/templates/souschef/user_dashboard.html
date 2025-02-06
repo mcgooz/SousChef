@@ -67,7 +67,7 @@
                 <h5 class="mb-3">My Recipes</h5>
                 {% for recipe in recipes %}
                     <div class="col-md-4 my-2">
-                        <div class="card text-center" style="width: 16rem;">
+                        <div class="card recipe-card text-center" style="width: 16rem;">
                             {% if recipe.image %}
                                 <a class="my-1 mx-auto" href="{% url 'recipe' recipe.id %}">
                                 <img src="{{ recipe.image.url }}" class="card-img-top img-fluid recipe-image" alt="recipe image">

@@ -33,7 +33,9 @@ def add_recipe_post_request(request):
         recipe.title = recipe.title.title()
 
         if Recipe.objects.filter(title=recipe.title).exists():
-            return JsonResponse({"rename": "This recipe already exists. Please choose another name"})
+            return JsonResponse({
+                "rename": "This recipe already exists. Please choose another name"
+            })
         else:
             recipe.save()
             if recipe.image:
@@ -56,10 +58,14 @@ def add_recipe_post_request(request):
         else:
             print(ingredient_formset.errors)
 
-        return redirect('recipe', id=recipe.id)
+        return JsonResponse({
+                "success": True,
+                "recipe_id": recipe.id
+            })
 
-    else:
-        print(recipe_form.errors)
-        print(step_formset.errors)
+    return JsonResponse({
+        "errors": recipe_form.errors,
+        "step_errors": step_formset.errors
+    }, status=400)
 
     

@@ -2,27 +2,24 @@
 {% load static %}
 
 {% block body %}
-    <div class="container">
-        <div class="row justify-content-start">
+    <div class="container-fluid">
+        <div class="row justify-content-evenly g-2">
             {% if recipes %}
                 {% for recipe in recipes %}
-                    <div class="col-md-3 m-1">
-                        <div class="card" style="width: 20rem;">
+                    <div class="col-4 m-1">
+                        <div class="card recipe-card" style="width: 20rem;">
                             {% if recipe.image %}
-                                <a class="mt-2 mx-auto" href="{% url 'recipe' recipe.id %}">
+                                <a class="my-2 mx-auto" href="{% url 'recipe' recipe.id %}">
                                 <img src="{{ recipe.image.url }}" class="card-img-top img-fluid recipe-image-full" alt="recipe image">
                                 </a>
                             {% else %}
-                                <a class="mt-2 mx-auto" href="{% url 'recipe' recipe.id %}">
+                                <a class="my-2 mx-auto" href="{% url 'recipe' recipe.id %}">
                                 <img src="{% static 'images/default_pics/default_recipe.png' %}" class="card-img-top img-fluid recipe-image-full" alt="recipe image">
                                 </a>
                             {% endif %}
 
-                            <div class="card-header">
-                                <h5 class="card-title">{{ recipe.title }}</h5>
-                            </div>
-
                             <div class="card-body">
+                                <h5 class="card-title">{{ recipe.title }}</h5>
                                 <p class="card-text">{{ recipe.description }}</p>
                                 <p class="card-text">by {{ recipe.created_by }}</p>
                             </div>

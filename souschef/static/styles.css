@@ -235,6 +235,15 @@ input::placeholder {
     color: #c9c9c9;
 }
 
+.recipe-card {
+    background-color: whitesmoke;
+    color: #558ca7;
+}
+
 .modal-content {
     color: #558CA7;
   }
+
+  .colour-scheme{
+    color: #b1d5e7, #558ca7, #82b4cc, #ddeff8, whitesmoke;
+ } 

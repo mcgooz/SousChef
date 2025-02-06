@@ -481,6 +481,34 @@ document.addEventListener("DOMContentLoaded", function() {
             })
         }
 
+        // Rename Recipe
+        document.getElementById('addRecipe').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const csrfToken = document.querySelector('input[name="csrfmiddlewaretoken"]').value;
+            const formData = new FormData(document.getElementById('addRecipe'));
+            fetch('/add_recipe/', {
+                method: 'POST',
+                headers: {
+                    'X-CSRFToken': csrfToken
+                },
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.rename) {
+                    console.log('Rename:', data.rename);
+                    document.getElementById("renameModalBody").innerText = data.rename;
+                    const renameModal = new bootstrap.Modal(document.getElementById("renameModal"));
+                    renameModal.show();
+                } else if (data.success) {
+                    console.log('Success. Recipe ID:', data.recipe_id);
+                    window.location.href = `/recipe/${data.recipe_id}`;
+                } else {
+                    console.log('Unexpected response:', data);
+                }
+            })
+        });
+
         // Confirm Delete
         const confirmDeleteButtons = document.querySelectorAll('.confirm-delete')
         if (confirmDeleteButtons) {
