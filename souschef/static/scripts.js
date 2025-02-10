@@ -377,88 +377,94 @@ document.addEventListener("DOMContentLoaded", function() {
     }
 
     // Image Display and Upload
-    if (document.getElementById('imageUpload')) {
-        const imageUpload = document.getElementById('imageUpload');
-        const saveButton = document.getElementById('saveButton');
-        const cancelButton = document.getElementById('cancelButton');
-        const closeButton = document.querySelector('.btn-close');
+    imageUploader('pictureUpload', 'modal1', 'imagePreview1', 'saveButton1', 'cancelButton1', 'closeButton1');
+    imageUploader('imageUpload', 'modal', 'imagePreview', 'saveButton', 'cancelButton', 'closeButton');
+
+    function imageUploader(imageUploadId, modalId, imagePreviewId, saveButtonId, cancelButtonId, closeButtonId) {
+        const imageUpload = document.getElementById(imageUploadId);
+        const modalElement = document.getElementById(modalId);
+        const preview  = document.getElementById(imagePreviewId);
+        const saveButton = document.getElementById(saveButtonId);
+        const cancelButton = document.getElementById(cancelButtonId);
+        const closeButton = document.getElementById(closeButtonId);
         let cropper;
-    
-        imageUpload.addEventListener('change', function (event) {
-            const [file] = event.target.files;
-    
-            if (file) {
-                const image = document.getElementById('image');
-                image.src = URL.createObjectURL(file);
 
-    
-                const modalElement = document.getElementById('modal');
-                const modalInstance = bootstrap.Modal.getOrCreateInstance(modalElement);
-                modalInstance.show();
-    
-                modalElement.addEventListener('shown.bs.modal', function () {
-                    image.style.display = ''; 
-                    if (cropper) {
-                        cropper.destroy();
-                    }
-    
-                    cropper = new Cropper(image, {
-                        viewMode: 2,
-                        aspectRatio: 1,
-                        autoCropArea: 1,
-                        responsive: true,
+        if (imageUpload) {
+        
+            imageUpload.addEventListener('change', function (event) {
+                const [file] = event.target.files;
+        
+                if (file) {
+                    const image = document.getElementById('image');
+                    image.src = URL.createObjectURL(file);
+
+                    const modalInstance = bootstrap.Modal.getOrCreateInstance(modalElement);
+                    modalInstance.show();
+        
+                    modalElement.addEventListener('shown.bs.modal', function () {
+                        image.style.display = ''; 
+                        if (cropper) {
+                            cropper.destroy();
+                        }
+        
+                        cropper = new Cropper(image, {
+                            viewMode: 2,
+                            aspectRatio: 1,
+                            autoCropArea: 1,
+                            responsive: true,
+                        });
                     });
-                });
-                
-                saveButton.addEventListener('click', function(event) {
-                    event.preventDefault();
-                    const preview  = document.getElementById('imagePreview');
-                    if (cropper) {
-                        
-                        console.log("Save Clicked")
-                        cropper.getCroppedCanvas({
-                            width: 300,
-                            height: 300,
-                        }).toBlob((blob) => {
-                            const url = URL.createObjectURL(blob);
-                            preview.src = url;
-
-                            const newFile = new File([blob], file.name, { type: "image/jpeg" });
-                            const dataTransfer = new DataTransfer();
-                            dataTransfer.items.add(newFile);
-                            imageUpload.files = dataTransfer.files;
-
-                            const pictureUpload = document.getElementById('pictureUpload');
-                            if (pictureUpload) {
-                                const formData = new FormData();
-                                formData.append('croppedImage', newFile);
-                                pictureUploader(formData);
-                            }
-                            modalInstance.hide();
-                        }, "image/jpeg"); 
-                    }
                     
-                });
+                    saveButton.addEventListener('click', function(event) {
+                        event.preventDefault();
+                        
+                        if (cropper) {
+                            
+                            console.log("Save Clicked")
+                            cropper.getCroppedCanvas({
+                                width: 300,
+                                height: 300,
+                            }).toBlob((blob) => {
+                                const url = URL.createObjectURL(blob);
+                                preview.src = url;
 
-                cancelButton.addEventListener('click', function() {
-                    imageUpload.value = '';
-                    image.src = '';
-                });
+                                const newFile = new File([blob], file.name, { type: "image/jpeg" });
+                                const dataTransfer = new DataTransfer();
+                                dataTransfer.items.add(newFile);
+                                imageUpload.files = dataTransfer.files;
 
-                closeButton.addEventListener('click', function() {
-                    imageUpload.value = '';
-                    image.src = '';
-                });
-                
-                modalElement.addEventListener('hidden.bs.modal', function () {
-                    if (cropper) {
-                        cropper.destroy();
-                        cropper = null;
-                    }
-                    image.src = '';
-                });
-            }
-        });
+                                const pictureUpload = document.getElementById('pictureUpload');
+                                if (pictureUpload) {
+                                    const formData = new FormData();
+                                    formData.append('croppedImage', newFile);
+                                    pictureUploader(formData);
+                                }
+                                modalInstance.hide();
+                            }, "image/jpeg"); 
+                        }
+                        
+                    });
+
+                    cancelButton.addEventListener('click', function() {
+                        imageUpload.value = '';
+                        image.src = '';
+                    });
+
+                    closeButton.addEventListener('click', function() {
+                        imageUpload.value = '';
+                        image.src = '';
+                    });
+                    
+                    modalElement.addEventListener('hidden.bs.modal', function () {
+                        if (cropper) {
+                            cropper.destroy();
+                            cropper = null;
+                        }
+                        image.src = '';
+                    });
+                }
+            });
+        }
     }
 
         // Profile Pic AJAX
@@ -480,6 +486,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 }
             })
         }
+
 
         // Rename Recipe
         const addRecipe = document.getElementById('addRecipe');

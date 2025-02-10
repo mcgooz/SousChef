@@ -52,6 +52,7 @@ def user_dashboard(request):
         profile = UserDashboard.objects.get(user_name=current_user)
         recipes = Recipe.objects.filter(created_by=current_user)
         form = UserDashboardForm()
+        recipe_form = NewRecipeForm()
 
         if request.method == "GET":
 
@@ -138,6 +139,15 @@ def delete_recipe(request, id):
             recipe.delete()
 
             return HttpResponseRedirect(reverse("user_dashboard"))
+        
+### Update Recipe Image
+def update_recipe_image(request, id):
+    recipe = Recipe.objects.get(id=id)
+    recipe_form = NewRecipeForm(request.POST, request.FILES)
+
+    if recipe_form.is_valid():
+        recipe.image = recipe_form.cleaned_data['image']
+        recipe.save()
              
             
 ### Ingredient Lookup
