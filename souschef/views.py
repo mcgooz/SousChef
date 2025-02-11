@@ -145,12 +145,12 @@ def add_recipe(request):
 ### Delete Recipe
 def delete_recipe(request, id):
     recipe = Recipe.objects.get(id=id)
-    print(recipe)
     if recipe.created_by == request.user:
         
         if request.method == "POST":
             recipe.image.delete()
             recipe.delete()
+            print(f"{recipe} deleted")
 
             return HttpResponseRedirect(reverse("user_dashboard"))
              

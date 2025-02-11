@@ -10,7 +10,7 @@
                         <div class="card recipe-card" style="width: 18rem;">
                             {% if recipe.image %}
                                 <a class="my-3 mx-auto" href="{% url 'recipe' recipe.id %}">
-                                <img src="{{ recipe.image.url }}" class="card-img-top img-fluid recipe-image-mid" alt="recipe image">
+                                <img src="{{ recipe.image.url }}" class="card-img-top img-fluid recipe-image-mid border border-4" alt="recipe image">
                                 </a>
                             {% else %}
                                 <a class="my-3 mx-auto" href="{% url 'recipe' recipe.id %}">

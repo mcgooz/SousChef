@@ -30,7 +30,7 @@ a:hover {
 }
 
 .action-icon:hover {
-    filter: invert(50%) blur(0.03rem);
+    filter: invert(50%) blur(0.025rem);
 }
 
 

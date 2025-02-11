@@ -2,7 +2,7 @@
 {% load static %}
 
 {% block body %}
-    <div class="container bg-body-secondary" style="--bs-bg-opacity: .5;">
+    <div class="container bg-body-secondary mb-2 pb-2" style="--bs-bg-opacity: .5;">
 
         <!-- Row 1 -->
         <div class="row justify-content-start">
@@ -50,20 +50,6 @@
             <!-- Column 1 || Steps -->
             <div class="col my-2">
                 <div>
-                    <h5>Steps</h5>
-                    <ul class="list-group list-group-flush">
-                        {% for step in recipe.step_set.all %}
-                            <li class="list-group-item text-darker">
-                                {{ step.step_number }}. {{ step.step_text }}
-                            </li>
-                        {% endfor %}
-                    </ul>
-                </div>
-            </div>
-
-            <!-- Column 2 || Ingredients -->
-            <div class="col my-2">
-                <div>
                     <h5>Ingredients</h5>
                     <ul class="list-group list-group-flush">
                         {% for ingredient in recipe.ingredientperrecipe_set.all %}
@@ -73,6 +59,20 @@
                         {% endfor %}
                     </ul>
                 </div>  
+            </div>
+
+            <!-- Column 2 || Ingredients -->
+            <div class="col my-2">
+                <div>
+                    <h5>Steps</h5>
+                    <ul class="list-group list-group-flush">
+                        {% for step in recipe.step_set.all %}
+                            <li class="list-group-item text-darker">
+                                {{ step.step_number }}. {{ step.step_text }}
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
             </div>
         </div>       
     </div>
