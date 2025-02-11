@@ -25,9 +25,14 @@ a:hover {
     filter:blur(0.025rem);
 }
 
-.action-icon:hover {
-    filter: blur(0.03rem); 
+.action-icon {
+    filter: invert(25%);
 }
+
+.action-icon:hover {
+    filter: invert(50%) blur(0.03rem);
+}
+
 
 .alert {
     width: 50%;
@@ -258,4 +263,8 @@ input::placeholder {
 
   .colour-scheme{
     color: #b1d5e7, #558ca7, #82b4cc, #ddeff8, whitesmoke;
- } 
+ }
+
+ #imageUploadForm {
+    display: none;
+}

@@ -5,7 +5,6 @@ from dotenv import load_dotenv
 import os
 import requests
 
-
 from decimal import Decimal
 
 from .models import Ingredient, Unit, IngredientPerRecipe
@@ -38,7 +37,7 @@ def item_search(s):
     if results:
         print("SEARCH RETRIEVED FROM CACHE")
     
-    # # Otherwise, search via API
+    # Otherwise, search via API
     else:
         response = requests.get(f"https://api.spoonacular.com/food/ingredients/search?apiKey={API_KEY}&query={s}&number=10").json()
 

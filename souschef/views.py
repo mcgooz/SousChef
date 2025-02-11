@@ -59,7 +59,8 @@ def user_dashboard(request):
             return render(request, "souschef/user_dashboard.html", {
                 "profile": profile,
                 "recipes": recipes,
-                "form": form
+                "form": form,
+                "recipe_form": recipe_form
             })
         
         elif request.method == "POST":
@@ -70,6 +71,19 @@ def user_dashboard(request):
 
     else:
         return redirect('login')
+    
+### Update Recipe Image
+def update_recipe_image(request):
+    recipe_id = request.POST.get("recipeID")
+    image = request.FILES.get("croppedImage")
+    recipe = Recipe.objects.get(id=recipe_id)
+    recipe.image.delete()
+
+    recipe.image.save(image.name, image)
+    print(f"Image for recipe {recipe} updated")
+
+    return JsonResponse({"message": "Image updated successfully!"})
+    
 
 ### Recipes View
 def recipes(request):
@@ -139,15 +153,6 @@ def delete_recipe(request, id):
             recipe.delete()
 
             return HttpResponseRedirect(reverse("user_dashboard"))
-        
-### Update Recipe Image
-def update_recipe_image(request, id):
-    recipe = Recipe.objects.get(id=id)
-    recipe_form = NewRecipeForm(request.POST, request.FILES)
-
-    if recipe_form.is_valid():
-        recipe.image = recipe_form.cleaned_data['image']
-        recipe.save()
              
             
 ### Ingredient Lookup

@@ -377,12 +377,21 @@ document.addEventListener("DOMContentLoaded", function() {
     }
 
     // Image Display and Upload
-    imageUploader('pictureUpload', 'modal1', 'imagePreview1', 'saveButton1', 'cancelButton1', 'closeButton1');
-    imageUploader('imageUpload', 'modal', 'imagePreview', 'saveButton', 'cancelButton', 'closeButton');
+    
+    imageUploader('imageUpload', 'modal', 'image', 'imagePreview', 'saveButton', 'cancelButton', 'closeButton'); // Add recipe cropper - bypass AJAX
+    imageUploader('pictureUpload', 'picModal', 'picImage', 'picImagePreview', 'picSaveButton', 'picCancelButton', 'picCloseButton'); // Update profile pic
 
-    function imageUploader(imageUploadId, modalId, imagePreviewId, saveButtonId, cancelButtonId, closeButtonId) {
+    document.querySelectorAll('.recipe-image-upload').forEach(input => {
+        const recipeID = input.getAttribute('data-recipe-id');
+        console.log("for each:", recipeID)
+        imageUploader(`imageUpload${recipeID}`, `modal${recipeID}`, `image${recipeID}`, `imagePreview${recipeID}`, `saveButton${recipeID}`, `cancelButton${recipeID}`, `closeButton${recipeID}`); // Update recipe image from recipe ID
+    });
+    
+
+    function imageUploader(imageUploadId, modalId, imageId, imagePreviewId, saveButtonId, cancelButtonId, closeButtonId) {
         const imageUpload = document.getElementById(imageUploadId);
         const modalElement = document.getElementById(modalId);
+        const image = document.getElementById(imageId);
         const preview  = document.getElementById(imagePreviewId);
         const saveButton = document.getElementById(saveButtonId);
         const cancelButton = document.getElementById(cancelButtonId);
@@ -395,7 +404,6 @@ document.addEventListener("DOMContentLoaded", function() {
                 const [file] = event.target.files;
         
                 if (file) {
-                    const image = document.getElementById('image');
                     image.src = URL.createObjectURL(file);
 
                     const modalInstance = bootstrap.Modal.getOrCreateInstance(modalElement);
@@ -433,12 +441,22 @@ document.addEventListener("DOMContentLoaded", function() {
                                 dataTransfer.items.add(newFile);
                                 imageUpload.files = dataTransfer.files;
 
-                                const pictureUpload = document.getElementById('pictureUpload');
-                                if (pictureUpload) {
-                                    const formData = new FormData();
+                                const formData = new FormData();
+                                
+                                let fetchURL = "";
+                                const recipeID = imageUpload.getAttribute('data-recipe-id');
+
+                                if (imageUploadId === "pictureUpload") {
                                     formData.append('croppedImage', newFile);
-                                    pictureUploader(formData);
+                                    fetchURL = '/user_dashboard/';
+
+                                } else if (imageUploadId === `imageUpload${recipeID}`) {
+                                    formData.append('croppedImage', newFile);
+                                    formData.append('recipeID', recipeID);
+                                    fetchURL = '/update_recipe_image/';
                                 }
+
+                                uploadImage(formData, fetchURL);
                                 modalInstance.hide();
                             }, "image/jpeg"); 
                         }
@@ -467,10 +485,10 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     }
 
-        // Profile Pic AJAX
-        function pictureUploader(formData) {
+        // Image Upload AJAX
+        function uploadImage(formData, fetchURL) {
             const csrfToken = document.querySelector('input[name="csrfmiddlewaretoken"]').value;
-            fetch('/user_dashboard/', {
+            fetch(fetchURL, {
                 method: 'POST',
                 headers: {
                     'X-CSRFToken': csrfToken
