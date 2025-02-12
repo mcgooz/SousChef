@@ -431,15 +431,16 @@ document.addEventListener("DOMContentLoaded", function() {
                                 if (imageUploadId === "pictureUpload") {
                                     formData.append('croppedImage', newFile);
                                     fetchURL = '/user_dashboard/';
+                                    uploadImage(formData, fetchURL);
 
                                 } else if (imageUploadId === `imageUpload${recipeID}`) {
                                     formData.append('croppedImage', newFile);
                                     formData.append('recipeID', recipeID);
                                     fetchURL = '/update_recipe_image/';
-                                }
-
-                                uploadImage(formData, fetchURL);
+                                    uploadImage(formData, fetchURL);
+                                } else {
                                 modalInstance.hide();
+                                }
                             }, "image/jpeg"); 
                         }
                         
@@ -533,7 +534,7 @@ document.addEventListener("DOMContentLoaded", function() {
     });
     
     
-    // Favourite recipe
+    // Favourite recipe function
 
     function favRecipe(recipeId, event) {
         const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
