@@ -2,29 +2,25 @@
 {% load static %}
 
 {% block body %}
-    <div class="container bg-custom text-center">
-        <div class="row justify-content-between g-2">
+    <div class="container-flex bg-custom text-center mt-5">
+        <div class="row justify-content-center g-2">
             {% if recipes %}
                 {% for recipe in recipes %}
                     <div class="col m-2 p-2">
-                        <div class="card recipe-card" style="width: 18rem;">
+                        <div class="card recipe-card mx-auto" style="width: 18rem;">
                             {% if recipe.image %}
-                                <a class="my-3 mx-auto" href="{% url 'recipe' recipe.id %}">
+                                <a class="mt-3 mx-auto" href="{% url 'recipe' recipe.id %}">
                                 <img src="{{ recipe.image.url }}" class="card-img-top img-fluid recipe-image-mid border border-4" alt="recipe image">
                                 </a>
                             {% else %}
-                                <a class="my-3 mx-auto" href="{% url 'recipe' recipe.id %}">
+                                <a class="mt-3 mx-auto" href="{% url 'recipe' recipe.id %}">
                                 <img src="{% static 'images/default_pics/default_recipe.png' %}" class="card-img-top img-fluid recipe-image-mid" alt="recipe image">
                                 </a>
                             {% endif %}
 
                             <div class="card-body">
-                                <h5 class="card-title">{{ recipe.title }}</h5>
+                                <h5 class="card-title"><a href="{% url 'recipe' recipe.id %}"class="card-link">{{ recipe.title }}</h5></a>
                                 <p class="card-text">by {{ recipe.created_by }}</p>
-                            </div>
-                            <div class="card-footer">
-                                <a href="{% url 'recipe' recipe.id %}"class="card-link">View Recipe</a>
-                                <a href="#" class="card-link">Add to favourites</a>
                             </div>
                         </div>
                     </div>
