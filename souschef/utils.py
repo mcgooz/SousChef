@@ -70,23 +70,21 @@ def detailed_search(id):
 ### Save or retrieve ingredient from DB
 def fetch_or_create_ingredient(ingredient_input, item_id):
     ingredient, created = Ingredient.objects.get_or_create(
-    name=ingredient_input,
-    ingredient_id=item_id
+        name=ingredient_input,
+        ingredient_id=item_id
     )
     print(f"FETCH_OR_CREATE: {ingredient}, {ingredient.ingredient_id}")
     return ingredient
 
 
 ### Table data
-def get_table_data(contents):
-    print(contents)
-    
+def get_table_data(contents):   
     table_data = []
     for item in contents:
         row = [
-            item.name.name.title(),  # Ingredient name
-            item.quantity,   # Ingredient quantity
-            item.unit,   # Unit name (assuming there's a unit field)
+            item.name.name.title(),
+            item.quantity,
+            item.unit,
             item.name.id,
             item.id
         ]
@@ -179,7 +177,7 @@ def add_recipe_ingredient(r, i, a, u):
 
     ingredient_to_add.save()
 
-
+### Not Used
 def crop_image(image):
     width, height = image.size
  

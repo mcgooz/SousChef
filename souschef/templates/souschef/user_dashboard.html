@@ -12,7 +12,18 @@
 {% block body %}
 <div class="container-fluid px-4">
         <div class="row mt-2 mx-3">
-            <div class="col"></div>
+            <div class="col">
+                <h5>Favourites</h5>
+                {% if favourites %}
+                    {% for favourite in favourites %}
+                    <ul>
+                        <li><a href="{% url 'recipe' favourite.favourite_recipe.id %}">{{ favourite.favourite_recipe.title }}</a></li>
+                    </ul>
+                    {% endfor %}
+                {% else %}
+                    No favourites yet
+                {% endif %}
+            </div>
             <!-- User -->
             <div class="col d-flex justify-content-end">
                 <div class="d-flex flex-column align-items-center">
@@ -24,8 +35,11 @@
                         {% else %}
                             <img class="profilepic border border-4" src="{% static 'images/default_pics/default_profile.png' %}" id="picImagePreview"></img>
                         {% endif %}
-                        <label for="pictureUpload" class="btn btn-outline" style="position: absolute; bottom: 0; right: 0;">
-                            <img class="action-icon" src="{% static 'images/updateprofile.png' %}">
+                        <label for="pictureUpload" class="btn btn-outline" style="position: absolute; bottom: 0; right: -5;">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-images btn-custom-icon" viewBox="0 0 16 16">
+                                <path d="M4.502 9a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3"/>
+                                <path d="M14.002 13a2 2 0 0 1-2 2h-10a2 2 0 0 1-2-2V5A2 2 0 0 1 2 3a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v8a2 2 0 0 1-1.998 2M14 2H4a1 1 0 0 0-1 1h9.002a2 2 0 0 1 2 2v7A1 1 0 0 0 15 11V3a1 1 0 0 0-1-1M2.002 4a1 1 0 0 0-1 1v8l2.646-2.354a.5.5 0 0 1 .63-.062l2.66 1.773 3.71-3.71a.5.5 0 0 1 .577-.094l1.777 1.947V5a1 1 0 0 0-1-1z"/>
+                            </svg>
                         </label>
                     </div>
 
@@ -82,8 +96,11 @@
                                     </a>
                                 {% endif %}
 
-                                <label for="imageUpload{{ recipe.id }}" class="btn btn-outline" style="position: absolute; bottom: -5; right: 33;">
-                                    <img class="action-icon" src="{% static 'images/updateprofile.png' %}">
+                                <label for="imageUpload{{ recipe.id }}" class="btn btn-outline" style="position: absolute; bottom: 0; right: 33;">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-images btn-custom-icon" viewBox="0 0 16 16">
+                                        <path d="M4.502 9a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3"/>
+                                        <path d="M14.002 13a2 2 0 0 1-2 2h-10a2 2 0 0 1-2-2V5A2 2 0 0 1 2 3a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v8a2 2 0 0 1-1.998 2M14 2H4a1 1 0 0 0-1 1h9.002a2 2 0 0 1 2 2v7A1 1 0 0 0 15 11V3a1 1 0 0 0-1-1M2.002 4a1 1 0 0 0-1 1v8l2.646-2.354a.5.5 0 0 1 .63-.062l2.66 1.773 3.71-3.71a.5.5 0 0 1 .577-.094l1.777 1.947V5a1 1 0 0 0-1-1z"/>
+                                    </svg>
                                 </label>
                             </div>
 

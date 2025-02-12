@@ -1,8 +1,7 @@
 from django.contrib import admin
-from .models import User, UserDashboard, Unit, Ingredient, Pantry, PantryIngredient, Recipe, Step, IngredientPerRecipe
+from .models import User, UserDashboard, Unit, Ingredient, Pantry, PantryIngredient, Recipe, Step, IngredientPerRecipe, Favourite
 
 admin.site.register(User)
-admin.site.register(UserDashboard)
 admin.site.register(Unit)
 
 
@@ -24,6 +23,12 @@ class StepInline(admin.TabularInline):
     fields = ['step_number', 'step_text']
 
 
+class FavouriteInline(admin.TabularInline):
+    model = Favourite
+    extra = 0
+    fields = ['favourite_recipe']
+
+
 @admin.register(Pantry)
 class PantryAdmin(admin.ModelAdmin):
     list_display = ('pantry_name',)
@@ -41,3 +46,9 @@ class IngredientAdmin(admin.ModelAdmin):
 class RecipeAdmin(admin.ModelAdmin):
     list_display = ('title', 'id')
     inlines = [IngredientPerRecipeInline, StepInline]
+
+
+@admin.register(UserDashboard)
+class UserDashboardAdmin(admin.ModelAdmin):
+    list_display = ('user_name', 'id')
+    inlines = [FavouriteInline]

@@ -1,11 +1,12 @@
 from django.shortcuts import render
 from django.db import IntegrityError
 from django.db.models import Q
+from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect, JsonResponse
 from django.contrib.auth import authenticate, login, logout
 from django.urls import reverse
 
-from .models import User, UserDashboard, Pantry, Recipe, Ingredient
+from .models import User, UserDashboard, Pantry, Recipe, Ingredient, Favourite
 from .forms import NewRecipeForm, IngredientForm, PantryIngredientForm, IngredientPerRecipeFormSet, UserDashboardForm
 
 import datetime, json, random
@@ -42,10 +43,10 @@ def home_search(request):
         recipe_result = list(recipes)
 
         return JsonResponse({"recipe_result": recipe_result})
-
-    
+ 
 
 ### User dashboard
+@login_required
 def user_dashboard(request):
     if request.user.is_authenticated:
         current_user = request.user
@@ -53,12 +54,14 @@ def user_dashboard(request):
         recipes = Recipe.objects.filter(created_by=current_user)
         form = UserDashboardForm()
         recipe_form = NewRecipeForm()
+        favourites = Favourite.objects.filter(user=profile)
 
         if request.method == "GET":
 
             return render(request, "souschef/user_dashboard.html", {
                 "profile": profile,
                 "recipes": recipes,
+                "favourites": favourites,
                 "form": form,
                 "recipe_form": recipe_form
             })
@@ -71,8 +74,27 @@ def user_dashboard(request):
 
     else:
         return redirect('login')
-    
+
+
+### Favourites
+@login_required  
+def favourite(request, id):
+    if request.method == "POST":
+        current_user = UserDashboard.objects.get(user_name=request.user)
+        recipe = Recipe.objects.get(id=id)
+        status = Favourite.objects.filter(user=current_user, favourite_recipe=recipe).exists()
+        if status:
+            Favourite.objects.filter(user=current_user, favourite_recipe=recipe).delete()
+            favourite = False
+        else:
+            Favourite.objects.create(user=current_user, favourite_recipe=recipe)
+            favourite = True
+        
+        return JsonResponse({"favourite": favourite})
+
+
 ### Update Recipe Image
+@login_required
 def update_recipe_image(request):
     recipe_id = request.POST.get("recipeID")
     image = request.FILES.get("croppedImage")
@@ -97,31 +119,33 @@ def recipes(request):
 ### Detailed Recipe View
 def recipe(request, id):
     recipe = Recipe.objects.get(id=id)
-
-    if request.method == "POST":
-        data = json.loads(request.body)
-        id = data['id']
-        recipe = Recipe.objects.get(id=id)
-        print(f"Recipe Search: {recipe}")
-
-        return redirect('recipe', id=id)
+    if request.user.is_authenticated:
+        current_user = UserDashboard.objects.get(user_name=request.user)
+        favourite = Favourite.objects.filter(user=current_user, favourite_recipe=recipe).exists()
 
 
     return render(request, "souschef/recipe.html", {
-        "recipe": recipe
+        "recipe": recipe,
+        "favourite": favourite
     })
     
 
 ### Pantry View
+@login_required
 def pantry(request):
-    if request.method == "GET":
-        return pantry_get_request(request)
-    
-    elif request.method == "POST":
-        return pantry_post_request(request)
+    if request.user.is_authenticated:
+        if request.method == "GET":
+            return pantry_get_request(request)
+        
+        elif request.method == "POST":
+            return pantry_post_request(request)
+        
+    else:
+        return redirect('login')
     
     
 ### Pantry Delete
+@login_required
 def pantry_delete(request):
     if request.method == "POST":
         pantry_item_id = request.POST.get("pantry_item_id")
@@ -133,6 +157,7 @@ def pantry_delete(request):
 
 
 ### Add a Recipe View
+@login_required
 def add_recipe(request):
     if request.user.is_authenticated:
         if request.method == "GET":
@@ -140,9 +165,13 @@ def add_recipe(request):
 
         elif request.method == "POST":
             return add_recipe_post_request(request)
+        
+    else:
+        return redirect('login')
 
 
 ### Delete Recipe
+@login_required
 def delete_recipe(request, id):
     recipe = Recipe.objects.get(id=id)
     if recipe.created_by == request.user:
@@ -156,6 +185,7 @@ def delete_recipe(request, id):
              
             
 ### Ingredient Lookup
+@login_required
 def ingredient_details(request):
     if request.method == "POST":
         item = json.loads(request.body)
@@ -258,9 +288,10 @@ def register(request):
     else:
         return render(request, "SousChef/register.html")
 
+
 #### FUTURE UPDATES ####
 
-## Edit Recipe View
+# ### Edit Recipe View
 # def edit_recipe(request, id):
 #     recipe = Recipe.objects.get(id=id)
 #     if recipe.created_by == request.user:

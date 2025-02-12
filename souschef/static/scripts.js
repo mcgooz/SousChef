@@ -12,55 +12,37 @@ document.addEventListener("DOMContentLoaded", function() {
 
             } else {
                 fetch(`home_search/?word=${query}`)
-                    .then(response => response.json())
-                    .then(data => {
-                        const recipeResult = data.recipe_result;
-                        const recipeItems = recipeResult.map(item => ({id: item.id, title: item.title }));
-                        console.log('recipeItems', recipeItems);
+                .then(response => response.json())
+                .then(data => {
+                    const recipeResult = data.recipe_result;
+                    const recipeItems = recipeResult.map(item => ({id: item.id, title: item.title }));
+                    console.log('recipeItems', recipeItems);
 
-                        const homeSuggestions = document.getElementById('homeSuggestions');
-                        
-                        function createListItem(text, id) {
-                            const listItem = document.createElement('li');
-                            listItem.className = 'list-group-item';
-                            listItem.textContent = text;
-                            listItem.dataset.id = id;
-                            homeSuggestions.appendChild(listItem);
-                            return listItem;
-                        }
-                        
-                        if (recipeItems.length === 0) {
-                            createListItem('No results found');
+                    const homeSuggestions = document.getElementById('homeSuggestions');
+                    
+                    function createListItem(text, id) {
+                        const listItem = document.createElement('li');
+                        listItem.className = 'list-group-item';
+                        listItem.textContent = text;
+                        listItem.dataset.id = id;
+                        homeSuggestions.appendChild(listItem);
+                        return listItem;
+                    }
+                    
+                    if (recipeItems.length === 0) {
+                        createListItem('No results found');
 
-                        } else {
-                            recipeItems.forEach(item => {
-                                const listItem = createListItem(`${item.title}`, item.id);
+                    } else {
+                        recipeItems.forEach(item => {
+                            const listItem = createListItem(`${item.title}`, item.id);
 
-                                listItem.addEventListener('click', function() {
-                                    const itemId = listItem.dataset.id;
-                                    const csrfToken = document.querySelector('input[name="csrfmiddlewaretoken"]').value;
-
-                                    fetch(`/recipe/${itemId}`, {
-                                        method: 'POST',
-                                        headers: {
-                                            'Content-Type': 'application/json',
-                                            'X-CSRFToken': csrfToken
-                                        },
-                                        
-                                        body: JSON.stringify({ 
-                                            id: itemId
-                                        })
-            
-                                    })
-                                    .then(response => {
-                                        if (response.ok) {
-                                            window.location.href = `/recipe/${itemId}`;
-                                        }
-                                    });     
-                                })
+                            listItem.addEventListener('click', function() {
+                                const itemId = listItem.dataset.id;
+                                window.location.href = `/recipe/${itemId}`;
                             });
-                        }
-                    });
+                        });
+                    }
+                });
             }
         });
     }
@@ -551,9 +533,43 @@ document.addEventListener("DOMContentLoaded", function() {
     });
     
     
-    // Favourite Icon
-    function toggleIcon() {
-        var iconImage = document.getElementById('favRecipeIcon');
+    // Favourite recipe
+
+    function favRecipe(recipeId, event) {
+        const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+        const likeButtonElement = event.currentTarget;
+        const heartIcon = `
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-heart btn-custom-icon" viewBox="0 0 16 16">
+                <path d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143q.09.083.176.171a3 3 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15"/>
+            </svg>
+        `;
+
+        const heartIconFilled = `
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-heart-fill btn-custom-icon" viewBox="0 0 16 16">
+                <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314"/>
+            </svg>
+        `;
+
+        console.log("Clicked")
+
+        fetch(`/favourite/${recipeId}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': csrfToken
+            },
+            body: JSON.stringify({ id: recipeId })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.favourite) {
+                likeButtonElement.innerHTML = heartIconFilled
+                console.log("Favourite")
+            } else {
+                likeButtonElement.innerHTML = heartIcon
+                console.log("Not favourite")
+            }
+        })
     }
 
     

@@ -10,7 +10,6 @@ class UserDashboard(models.Model):
     user_name = models.OneToOneField(User, on_delete=models.CASCADE, related_name="user_name")
     created = models.DateTimeField(auto_now_add=True)
     profile_picture = models.ImageField(upload_to="profile_pics", null=True, blank=True)
-    favourites = models.ManyToManyField('Recipe', blank=True, related_name='favourite_of')
 
     def __str__(self):
         return f"{self.user_name}"
@@ -48,7 +47,7 @@ class Recipe(models.Model):
     created_on = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return f"{self.title}, ID:{self.id}"
+        return f"{self.title} (id:{self.id})"
     
 
 class IngredientPerRecipe(models.Model):
@@ -77,6 +76,14 @@ class Step(models.Model):
 
     def __str__(self):
         return f"{self.step_number}"
+    
+
+class Favourite(models.Model):
+    user = models.ForeignKey(UserDashboard, on_delete=models.CASCADE, related_name="user")
+    favourite_recipe = models.ForeignKey(Recipe, on_delete=models.CASCADE, null=True, blank=True, related_name="favourite_recipe")
+
+    def __str__(self):
+        return f"{self.user} favourited {self.favourite_recipe}"
     
 
 # class FoodType(models.Model):
