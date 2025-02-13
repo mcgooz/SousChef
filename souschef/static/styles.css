@@ -142,13 +142,17 @@ body {
     --bs-pagination-hover-color: #5ac8ec;
 }
 
-.pantry-table {
-    color: #558ca7;
+input::placeholder {
+    font-size: 1em;
 }
 
-input::placeholder {
+.form-select {
     font-size: 0.9em;
-    color: whitesmoke;
+    color: #666d74;
+}
+
+.form-control {
+    color: #666d74;
 }
 
 .profilepic {

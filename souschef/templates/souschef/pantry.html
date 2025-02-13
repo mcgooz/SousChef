@@ -2,52 +2,60 @@
 {% load custom_filters %}
 
 {% block body %}
-    <div class="m-3">
-        <h5>Add an Ingredient</h5>
+    <div class="container bg-custom mt-2 p-4">
 
-        <form id="pantryIngredientForm" method="POST" action="{% url 'pantry' %}">
-            {% csrf_token %}
-            <div class="input-group mb-3">
+        <!-- Username -->
+        <div class="row mb-2">
+            {% for p in pantry %}
+                <h4>{{ p.user.user_name }}'s Pantry</h4>
+            {% endfor %}
+        </div>
 
-                <!-- Ingredient Name -->
-                <input id="searchBox" autocomplete="off" class="form-control search-box" name="name" placeholder="Search for an ingredient" type="text" required>
-                <ul id="suggestions" class="list-group position-absolute suggestions" style="width: auto"></ul>
-                <input type="hidden" id="ingredientId" name="ingredient_id">               
+        <!-- Add Ingredients -->
+        <div class="row">
+            <h5>Add an Ingredient</h5>
 
-                <!-- Quantity -->
-                <input type="number" step="0.01" class="form-control" name="quantity" placeholder="Quantity" aria-label="Quantity" required>
+            <form id="pantryIngredientForm" method="POST" action="{% url 'pantry' %}">
+                {% csrf_token %}
+                <div class="input-group shadow mb-3">
 
-                <!-- Unit Dropdown -->
-                <select class="form-select" name="unit" required>
-                    <option value="" selected disabled>Select a unit</option>
-                    {% for unit in form.unit.field.choices %}
-                        {% if unit.0 %}
-                            <option value="{{ unit.0 }}">{{ unit.1 }}</option>
-                        {% endif %}
-                    {% endfor %}
-                </select>
-                <button class="btn btn-outline-secondary" type="submit" >Add to pantry</button>
-            </div>
-        </form>
-    </div>
+                    <!-- Ingredient Name -->
+                    <input id="searchBox" autocomplete="off" class="form-control search-box" name="name" placeholder="Search for an ingredient" type="text" required>
+                    <ul id="suggestions" class="list-group position-absolute suggestions" style="width: auto"></ul>
+                    <input type="hidden" id="ingredientId" name="ingredient_id">               
+
+                    <!-- Quantity -->
+                    <input type="number" step="0.01" class="form-control" name="quantity" placeholder="Quantity" aria-label="Quantity" required>
+
+                    <!-- Unit Dropdown -->
+                    <select class="form-control form-select" name="unit" required>
+                        <option value="" selected disabled>Select a unit</option>
+                        {% for unit in form.unit.field.choices %}
+                            {% if unit.0 %}
+                                <option value="{{ unit.0 }}">{{ unit.1 }}</option>
+                            {% endif %}
+                        {% endfor %}
+                    </select>
+                    <button class="btn btn-custom" type="submit" >Add to pantry</button>
+                </div>
+            </form>
+        </div>
 
     <!-- Error Messages -->
     <span class="custom-alert" id="alert-message"></span>
     
 
     <!-- Pantry Table Section-->
-    <div class="m-3">
-        {% for p in pantry %}
-            <h5>{{ p.user.user_name }}'s Pantry</h5>
-        {% endfor %}
-        
+    <div class="row">
+ 
         <!-- Pantry Table -->
         <div class="table-responsive">
-            <table class="table table-striped table-hover table-bordered" style="table-layout: fixed;">
+            <table class="table">
                 <thead>
                     <tr>
-                        <th>Ingredient</th>
-                        <th>Quantity</th>
+                        <th class="fw-normal">Ingredient</th>
+                        <th class="fw-normal">Quantity</th>
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -56,23 +64,28 @@
                         <form type="hidden" method="POST" action="{% url 'pantry_delete' %}">
                             {% csrf_token %}
                             <tr>
-                                <td><a class="pantry-table" href="{% url 'ingredient' row.3 %}">{{ row.0 }}</a></td>  <!-- Ingredient name -->
-                                <td>{{ row.1|floatformat }} {{ row.2 }}  <!-- Quantity -->
-                                    <button type="submit" class="btn btn-close" style="position: absolute; right: 25px;"></button>
-                                        <input type="hidden" name="item_id" value="{{ row.3}}">
-                                        <input type="hidden" name="pantry_item_id" value="{{ row.4}}">
+                                <!-- Ingredient name -->
+                                <td><a href="{% url 'ingredient' row.3 %}">{{ row.0 }}</a></td>
+
+                                <!-- Quantity -->
+                                <td>{{ row.1|floatformat }} {{ row.2 }}</td>
+
+                                <!-- Remove -->
+                                <td data-bs-theme="dark">
+                                    <button type="submit" class="btn btn-close"></button>
+                                    <input type="hidden" name="item_id" value="{{ row.3}}">
+                                    <input type="hidden" name="pantry_item_id" value="{{ row.4}}">
                                 </td>
                             </tr>
                         </form>
                         {% endfor %}
                     {% else %}
                         <tr>
-                            <td class="text-center" colspan="2">You might want to go shopping!</td>
+                            <td class="text-center" colspan="3">You might want to go shopping!</td>
                         </tr>
                     {% endif %}
                 </tbody>
             </table>
         </div>
     </div>
-
 {% endblock %}

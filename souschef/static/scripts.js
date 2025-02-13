@@ -336,7 +336,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 });
 
                 const newStepButton = newStepRow.querySelector('.add-step-0');
-                newStepButton.className = `btn btn-outline-secondary add-step-${stepCounter}`;
+                newStepButton.className = `btn btn-outline-light add-step-${stepCounter}`;
             
                 const stepFormset = document.querySelector('#steps-table tbody');
                 stepFormset.appendChild(newStepRow);
