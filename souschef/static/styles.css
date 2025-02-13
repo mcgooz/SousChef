@@ -44,6 +44,7 @@ body {
 .bg-custom {
     background-color: rgba(85, 140, 167, 0.2);
     border-radius: 7px;
+    min-height: 600px;
 }
 
 .border {
@@ -71,11 +72,11 @@ body {
 }
 
 .btn-custom-icon {
-    fill: #b1d5e7;
+    fill: #ddeff8;
 }
 
 .btn-custom-icon:hover {
-    fill: #ddeff8;
+    fill: #82b4cc;
     filter:blur(0.025rem);
 }
 
@@ -269,4 +270,21 @@ input::placeholder {
 
  #imageUploadForm {
     display: none;
+}
+
+.shadow {
+    filter: drop-shadow(5px 2px 2px #558ca780);
+}
+
+#homeSearchForm {
+    position: relative;
+}
+
+#homeSuggestions {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    background: #fff;
 }

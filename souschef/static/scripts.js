@@ -468,7 +468,7 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     }
 
-        // Image Upload AJAX
+        // Image Upload AJAX function
         function uploadImage(formData, fetchURL) {
             const csrfToken = document.querySelector('input[name="csrfmiddlewaretoken"]').value;
             fetch(fetchURL, {
@@ -586,6 +586,7 @@ document.addEventListener("DOMContentLoaded", function() {
             confirmPasswordField.type = "password";
         }
     }
+
 
     // FUTURE UPDATES //
 
