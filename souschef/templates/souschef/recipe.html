@@ -13,15 +13,15 @@
                 <!-- Image -->
                 <div>
                     {% if recipe.image %}
-                        <img src="{{ recipe.image.url }}" class="img-fluid mx-auto m-2 recipe-image-full border border-4" alt="recipe image">
+                        <img src="{{ recipe.image.url }}" class="img-fluid mx-auto m-2 recipe-image-full shadow" alt="recipe image">
                     {% else %}
-                        <img src="{% static 'images/default_pics/default_recipe.png' %}" class="img-fluid mx-auto m-2 recipe-image-full border border-4" alt="recipe image">
+                        <img src="{% static 'images/default_pics/default_recipe.png' %}" class="img-fluid mx-auto m-2 recipe-image-full shadow" alt="recipe image">
                     {% endif %}
                 </div>
             </div> 
             
             <!-- Column 2 -->
-            <div class="col my-2" style="--bs-bg-opacity: .5;">
+            <div class="col my-2">
                 
                 <!-- Recipe Name -->
                 <div class="d-flex align-items-center mb-4">
@@ -58,11 +58,11 @@
         <!-- Row 2 -->
         <div class="row">
 
-            <!-- Column 1 || Steps -->
+            <!-- Column 1 || Ingredients -->
             <div class="col my-2">
                 <div>
                     <h5>Ingredients</h5>
-                    <ul class="list-group list-group-flush">
+                    <ul class="list-group list-group-flush shadow">
                         {% for ingredient in recipe.ingredientperrecipe_set.all %}
                             <li class="list-group-item text-darker">
                                 <a class="text-darker" href="{% url 'ingredient' ingredient.ingredient.id %}">{{ ingredient.ingredient.name }}</a>: {{ ingredient.amount|floatformat }} {{ ingredient.unit }}
@@ -72,11 +72,11 @@
                 </div>  
             </div>
 
-            <!-- Column 2 || Ingredients -->
+            <!-- Column 2 || Steps -->
             <div class="col my-2">
                 <div>
                     <h5>Steps</h5>
-                    <ul class="list-group list-group-flush">
+                    <ul class="list-group list-group-flush shadow">
                         {% for step in recipe.step_set.all %}
                             <li class="list-group-item text-darker">
                                 {{ step.step_number }}. {{ step.step_text }}

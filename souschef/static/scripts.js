@@ -468,14 +468,17 @@ document.addEventListener("DOMContentLoaded", function() {
                                     formData.append('croppedImage', newFile);
                                     fetchURL = '/user_dashboard/';
                                     uploadImage(formData, fetchURL);
+                                    modalInstance.hide();
 
                                 } else if (imageUploadId === `imageUpload${recipeID}`) {
                                     formData.append('croppedImage', newFile);
                                     formData.append('recipeID', recipeID);
                                     fetchURL = '/update_recipe_image/';
                                     uploadImage(formData, fetchURL);
+                                    modalInstance.hide();
+                                    
                                 } else {
-                                modalInstance.hide();
+                                    modalInstance.hide();
                                 }
                             }, "image/jpeg"); 
                         }

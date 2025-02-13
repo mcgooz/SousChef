@@ -31,9 +31,9 @@
                     <!-- Profile Pic -->
                     <div class="mb-2" style="position: relative">
                         {% if profile.profile_picture %}
-                            <img class="profilepic border border-4" src="{{ profile.profile_picture.url }}" id="picImagePreview"></img>
+                            <img class="profilepic shadow" src="{{ profile.profile_picture.url }}" id="picImagePreview"></img>
                         {% else %}
-                            <img class="profilepic border border-4" src="{% static 'images/default_pics/default_profile.png' %}" id="picImagePreview"></img>
+                            <img class="profilepic shadow" src="{% static 'images/default_pics/default_profile.png' %}" id="picImagePreview"></img>
                         {% endif %}
                         <label for="pictureUpload" class="btn btn-outline" style="position: absolute; bottom: 0; right: -5;">
                             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-images btn-custom-icon" viewBox="0 0 16 16">
@@ -83,7 +83,7 @@
                 <h5 class="mb-3">My Recipes</h5>
                 {% for recipe in recipes %}
                     <div class="col-md-4 my-2">
-                        <div class="card recipe-card text-center" style="width: 16rem;">
+                        <div class="card recipe-card shadow text-center" style="width: 16rem;">
                             <div class="m-2" style="position: relative">
 
                                 {% if recipe.image %}
