@@ -123,11 +123,16 @@ def recipe(request, id):
         current_user = UserDashboard.objects.get(user_name=request.user)
         favourite = Favourite.objects.filter(user=current_user, favourite_recipe=recipe).exists()
 
+        return render(request, "souschef/recipe.html", {
+            "recipe": recipe,
+            "favourite": favourite
+        })
+    
+    else:
+        return render(request, "souschef/recipe.html", {
+            "recipe": recipe,
+        })
 
-    return render(request, "souschef/recipe.html", {
-        "recipe": recipe,
-        "favourite": favourite
-    })
     
 
 ### Pantry View

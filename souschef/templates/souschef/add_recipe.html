@@ -8,7 +8,7 @@
 {% endblock %}
 
 {% block body %}
-    <div class="container-fluid px-4">
+    <div class="container-fluid mt-4 py-3">
         <!-- Form -->
         <form action="{% url 'add_recipe' %}" method="post" enctype="multipart/form-data" id="addRecipe">
             {% csrf_token %}
@@ -50,25 +50,28 @@
 
             <!-- Column 1 || Name & Description -->
             <div class="col">
-                <div class="card">
+                <div class="card shadow">
                     <div class="card-header">
-                        <h5>Describe your Recipe</h5>
+                        <span>Describe your Recipe</span>
                     </div>
                     <div class="card-body">
-                        <h6 class="mb-2 text-body-secondary fw-normal">Name</h6>
-                        <div>{{ recipe_form.title }}</div>
-
-                        <h6 class="my-2 text-body-secondary fw-normal">Description</h6>
-                        <div class="custom-pad-b">{{ recipe_form.description }}</div>
+                        <div class="my-1">
+                            <h6>Name</h6>
+                            <div>{{ recipe_form.title }}</div>
+                        </div>
+                        <div class="my-1">
+                            <h6>Description</h6>
+                            <div class="custom-pad-b">{{ recipe_form.description }}</div>
+                        </div>
                     </div>
                 </div>
             </div>
 
             <!-- Column 2 || Image -->
             <div class="col">
-                <div class="card">
+                <div class="card shadow">
                     <div class="card-header">
-                        <h5>Image</h5>
+                        <span>Image</span>
                     </div>
 
                     <!-- Modal -->
@@ -105,19 +108,19 @@
 
             <!-- Column 1 || Ingredients -->
             <div class="col">
-                <div class="card">
+                <div class="card shadow">
                     <div class="card-header">
-                        <h5>Add Ingredients</h5>
+                        <span>Add Ingredients</span>
                     </div>
-                    <div class="card-body">
 
-                        <!-- Ingredient Formset -->
+                    <!-- Ingredient Formset -->
+                    <div class="card-body">
                         <table class="table" id="ingredient-formset">
                             <thead>
                                 <tr>
-                                    <th class="text-body-secondary fs-6 fw-normal">Ingredient</th>
-                                    <th class="text-body-secondary fs-6 fw-normal">Amount</th>
-                                    <th class="text-body-secondary fs-6 fw-normal">Unit</th>
+                                    <th class="fs-6 fw-normal">Ingredient</th>
+                                    <th class="fs-6 fw-normal">Amount</th>
+                                    <th class="fs-6 fw-normal">Unit</th>
                                 </tr>
                             </thead>
 
@@ -157,9 +160,9 @@
 
             <!-- Column 2 || Steps -->
             <div class="col">
-                <div class="card">
+                <div class="card shadow">
                     <div class="card-header">
-                        <h5>Steps</h5>
+                        <span>Steps</span>
                     </div>
                     <div class="card-body">
                         <table class="table" id="steps-table">

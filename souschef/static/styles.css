@@ -148,6 +148,7 @@ body {
 
 input::placeholder {
     font-size: 0.9em;
+    color: whitesmoke;
 }
 
 .profilepic {
@@ -248,8 +249,27 @@ input::placeholder {
 }
 
 .card {
-    background-color: #ddeff8;
+    background-image: url("/static/images/background.jpg");
+    border: solid 6px whitesmoke;
+    border-top-left-radius: 25px 10px;
+    border-top-right-radius: 10px 25px;
+    border-bottom-right-radius: 25px 10px;
+    border-bottom-left-radius: 10px 25px;
+    color: whitesmoke !important;
 }
+
+.card-header {
+    font-size: 1.1rem;
+}
+
+.card-title {
+    font-size: 1.1rem;
+}
+
+.card-text {
+    font-size: 1rem;
+}
+
 
 .recipe-card {
     background-image: url("/static/images/background.jpg");
@@ -262,10 +282,6 @@ input::placeholder {
 .modal-content {
     color: #558ca7;
   }
-
-.colour-scheme {
-    color: #b1d5e7, #244353, #558ca7, #82b4cc, #ddeff8, whitesmoke;
- }
 
  #imageUploadForm {
     display: none;
@@ -285,5 +301,39 @@ input::placeholder {
     left: 0;
     right: 0;
     z-index: 1000;
-    background: #fff;
+    background: whitesmoke;
 }
+
+.table {
+    --bs-table-bg: rgba(177, 213, 231, 0.3);
+    --bs-table-color: whitesmoke;
+}
+
+
+.colour-scheme {
+    color: #b1d5e7, #244353, #558ca7, #82b4cc, #ddeff8, whitesmoke;
+}
+
+/* https://www.youtube.com/watch?v=3yfswsnD2sw - Create a horizontal media scroller with CSS - Kevin Powell */
+
+.scroller {
+    display: grid;
+    grid-auto-flow: column;
+    padding: 10px;
+    border-radius: 7px;
+
+    overflow-x: hidden;
+    overscroll-behavior-inline: contain;
+    scroll-behavior: smooth;
+}
+
+.snap {
+    scroll-snap-type: inline mandatory;
+    scroll-padding-inline: 2rem;
+}
+
+.snap > * {
+    scroll-snap-align: middle;
+}
+
+

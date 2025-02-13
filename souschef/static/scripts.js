@@ -179,6 +179,42 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     }
 
+    // Scroller
+    const scroller = document.getElementById('scroller')
+    if (scroller) {
+
+        // Mouse wheel or touchpad
+        scroller.addEventListener('wheel', (event) => {
+            event.preventDefault();
+            scroller.scrollBy({
+            left: event.deltaY +event.deltaX < 0 ? -25 : 25,
+            });
+        });
+
+        // Touchscreen
+        let isTouching = false;
+        let startX = 0;
+        let scrollLeft = 0;
+    
+        scroller.addEventListener('touchstart', (event) => {
+            isTouching = true;
+            startX = event.touches[0].pageX - scroller.offsetLeft;
+            scrollLeft = scroller.scrollLeft;
+        });
+    
+        scroller.addEventListener('touchmove', (event) => {
+            if (!isTouching) return;
+            event.preventDefault();
+            const x = event.touches[0].pageX - scroller.offsetLeft;
+            const walk = (x - startX) * -1;
+            scroller.scrollLeft = scrollLeft + walk;
+        });
+    
+        scroller.addEventListener('touchend', () => {
+            isTouching = false;
+        });
+    }
+
     // Update recipe ingredeints
     const recipeIngredientInput = document.querySelector('#ingredient-formset');
     if (recipeIngredientInput) {
