@@ -2,15 +2,15 @@
 {% load static %}
 
 {% block body %}
-    <div class="container-flex bg-custom text-center mt-5">
+    <div class="container text-center mt-5">
         <div class="row justify-content-center g-2">
             {% if recipes %}
                 {% for recipe in recipes %}
                     <div class="col m-2 p-2">
-                        <div class="card recipe-card mx-auto" style="width: 18rem;">
+                        <div class="card recipe-card shadow mx-auto" style="width: 18rem;">
                             {% if recipe.image %}
                                 <a class="mt-3 mx-auto" href="{% url 'recipe' recipe.id %}">
-                                <img src="{{ recipe.image.url }}" class="card-img-top img-fluid recipe-image-mid border border-4" alt="recipe image">
+                                <img src="{{ recipe.image.url }}" class="card-img-top img-fluid recipe-image-mid" alt="recipe image">
                                 </a>
                             {% else %}
                                 <a class="mt-3 mx-auto" href="{% url 'recipe' recipe.id %}">
@@ -19,7 +19,7 @@
                             {% endif %}
 
                             <div class="card-body">
-                                <h5 class="card-title"><a href="{% url 'recipe' recipe.id %}"class="card-link">{{ recipe.title }}</h5></a>
+                                <h5 class="card-title fs-5"><a href="{% url 'recipe' recipe.id %}">{{ recipe.title }}</h5></a>
                                 <p class="card-text">by {{ recipe.created_by }}</p>
                             </div>
                         </div>
@@ -30,15 +30,6 @@
                     <h5>No recipes yet!</h5>
                 </div>
             {% endif %}
-        </div>
-
-            {% comment %} <ul>
-                {% for ingredient in recipe.ingredientperrecipe_set.all %}
-                    <li>{{ ingredient.ingredient.name }}: {{ ingredient.amount|floatformat }}{{ ingredient.unit }}</li>
-                {% endfor %}
-            </ul>
-            <h5>{{ recipe.steps }}</h5> {% endcomment %}
-
-        
-        </div>
+        </div>    
+    </div>
 {% endblock %}

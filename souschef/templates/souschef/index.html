@@ -5,7 +5,7 @@
 {% endblock %}
 
 {% block body %}
-<div class="container bg-custom mt-2 p-5">
+<div class="container bg-custom shadow mt-2 p-5">
     <div class="row justify-content-center mb-4">
         <div class="col text-center">
             <h2>Welcome to your kitchen!</h2>
@@ -17,7 +17,7 @@
         <div class="col">
             <form id="homeSearchForm" method="POST" action="recipe">
                 {% csrf_token %}
-                <input type="text" class="form-control shadow" id="homeSearch" placeholder="Search for a recipe...">
+                <input type="text" class="form-control" id="homeSearch" placeholder="Search for a recipe...">
                 <ul id="homeSuggestions" class="list-group homeSuggestions" style="width: auto;"></ul>
                 <span id="searchResult"></span>
             </form>

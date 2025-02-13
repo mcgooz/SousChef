@@ -38,7 +38,7 @@ body {
     background-size: 2000px;
     color: whitesmoke;
     font-family: 'sofiapro-light', 'Helvetica', 'Arial', sans-serif;
-    font-size: 1.1em;
+    font-size: 1.1rem;
 }
 
 .bg-custom {
@@ -48,7 +48,7 @@ body {
 }
 
 .border {
-    border-color: #ddeff8 !important;
+    border-color: #b1d5e7 !important;
 }
 
 .btn-custom {
@@ -224,6 +224,10 @@ input::placeholder {
     border-radius: 7px;
 }
 
+.recipe-image-mid:hover {
+    box-shadow: 0 0 5px 3px #ddeff8;
+}
+
 .recipe-image-full {
     height: 333px;
     width: auto;
@@ -244,28 +248,23 @@ input::placeholder {
 }
 
 .card {
-    background-color: #DDEFF8;
-}
-
-.card-link {
-    color: #82b4cc;
-}
-
-.card-link:hover {
-    color: #c9c9c9;
+    background-color: #ddeff8;
 }
 
 .recipe-card {
-    background-color: whitesmoke;
-    color: #558ca7;
+    background-image: url("/static/images/background.jpg");
+    background-position: center;
+    background-attachment: fixed;
+    border: none;
+    color: whitesmoke;
 }
 
 .modal-content {
     color: #558ca7;
   }
 
-  .colour-scheme{
-    color: #b1d5e7, #558ca7, #82b4cc, #ddeff8, whitesmoke;
+.colour-scheme {
+    color: #b1d5e7, #244353, #558ca7, #82b4cc, #ddeff8, whitesmoke;
  }
 
  #imageUploadForm {
