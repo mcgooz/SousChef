@@ -53,7 +53,7 @@ class Recipe(models.Model):
 class IngredientPerRecipe(models.Model):
     recipe = models.ForeignKey(Recipe, on_delete=models.CASCADE)
     ingredient = models.ForeignKey(Ingredient, on_delete=models.CASCADE)
-    amount = models.DecimalField(max_digits=7, decimal_places=2)
+    amount = models.DecimalField(max_digits=10, decimal_places=2, validators=[MinValueValidator(0)])
     unit = models.ForeignKey(Unit, on_delete=models.CASCADE)
 
     def __str__(self):
@@ -63,7 +63,7 @@ class IngredientPerRecipe(models.Model):
 class PantryIngredient(models.Model):
     pantry = models.ForeignKey(Pantry, on_delete=models.CASCADE)
     name = models.ForeignKey(Ingredient, on_delete=models.CASCADE)
-    quantity = models.DecimalField(max_digits=10, decimal_places=2)
+    quantity = models.DecimalField(max_digits=10, decimal_places=2, validators=[MinValueValidator(0)])
     unit = models.ForeignKey(Unit, on_delete=models.CASCADE)
 
     def __str__(self):

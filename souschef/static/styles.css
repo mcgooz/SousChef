@@ -1,9 +1,9 @@
 .colour-scheme{
-    color: #b1d5e7, #244353, #558ca7, #82b4cc, #ddeff8, whitesmoke;
+    color: #b1d5e7, #26414f, #558ca7, #82b4cc, #ddeff8, whitesmoke;
  }
 
  .text-darker {
-    color: #244353;
+    color: #26414f;
  }
 
 
@@ -47,18 +47,14 @@ body {
     min-height: 600px;
 }
 
-.border {
-    border-color: #b1d5e7 !important;
-}
-
 .btn-custom {
-    border-style: none;
     color: whitesmoke;
 }
 
-
-.btn-custom.enabled:hover {
-    box-shadow: 0px 0px 5px whitesmoke;
+.btn-custom:hover {
+    background-color: #82b4cc;
+    color: #ddeff8;
+    box-shadow: 0px 0px 5px whitesmoke;   
 }
 
 .btn-custom-sm {
@@ -76,7 +72,7 @@ body {
 }
 
 .btn-custom-icon:hover {
-    fill: #82b4cc;
+    fill: #558ca7;
     filter:blur(0.025rem);
     cursor: pointer;
 }
@@ -185,11 +181,10 @@ input::placeholder {
 }
 
 #suggestions {
-    width: 100%;
+    width: 75%;
     left: 0;
     top: 100%;
     overflow-y: auto;
-    border: none;
     position: absolute;
     z-index: 1000;
 }
@@ -312,11 +307,9 @@ input::placeholder {
 .table {
     --bs-table-bg: rgba(177, 213, 231, 0.3);
     --bs-table-color: whitesmoke;
-}
-
-
-.colour-scheme {
-    color: #b1d5e7, #244353, #558ca7, #82b4cc, #ddeff8, whitesmoke;
+    --bs-table-hover-color: #ddeff8;
+    --bs-table-hover-bg: rgba(38, 65, 79, 0.075);
+    
 }
 
 /* https://www.youtube.com/watch?v=3yfswsnD2sw - Create a horizontal media scroller with CSS - Kevin Powell */
