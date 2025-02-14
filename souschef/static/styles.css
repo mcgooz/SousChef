@@ -96,7 +96,6 @@ body {
 
 .nav-link:hover {
     color: #558ca7 !important;
-    filter:blur(0.025rem);
 }
 
 /* Navbar Toggle */
