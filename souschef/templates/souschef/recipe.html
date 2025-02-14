@@ -1,6 +1,10 @@
 {% extends "SousChef/layout.html" %}
 {% load static %}
 
+{% block title %}
+    {{ recipe.title}} recipe
+{% endblock %}
+
 {% block body %}
     <div class="container bg-custom mb-2 pb-2">
 

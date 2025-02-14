@@ -1,28 +1,38 @@
 {% extends "SousChef/layout.html" %}
 
+{% block title %}
+    Log in
+{% endblock %}
+
 {% block body %}
-<div class="container">
-    <h2>Login</h2>
+<div class="container-lg bg-custom mt-2 p-4">
+    <h4>Log in</h4>
 
 
     {% if message %}
-        <div class="alert custom-alert alert-light alert-dismissible fade show" role="alert">
+        <div class="alert custom-alert alert-dismissible fade show" role="alert">
             {{ message }} <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
     {% endif %}
 
-    <div class="row mt-2">
-        <div class="col">
+    <div class="row">
+        <div class="col-5">
             <form action="{% url 'login' %}" method="post">
                 {% csrf_token %}
-                <div class="form-group my-1">
+                <div class="form-group shadow">
                     <input autofocus class="form-control" type="text" name="username" placeholder="Username">
                 </div>
-                <div class="form-group my-1">
+
+                <div class="form-group shadow my-2">
                     <input class="form-control" type="password" id="password" name="password" placeholder="Password">
-                    <input type="checkbox" onclick="togglePassword()"> Show Password
                 </div>
-                <input class="btn btn-light my-2" type="submit" value="Login">
+                
+                <div class="form-check form-switch form-check-reverse my-2">
+                    <input class="form-check-input" type="checkbox" role="switch" id="pwSwitch" onclick="togglePassword()">
+                    <label class="form-check-label" for="pwSwitch">Show Password</label>
+                </div>
+                
+                <input class="btn btn-custom shadow my-2" type="submit" value="Login">
             </form>
         </div>
     </div>    

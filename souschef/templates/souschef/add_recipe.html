@@ -7,6 +7,10 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.6.2/cropper.min.js"></script>
 {% endblock %}
 
+{% block title %}
+    Add a recipe
+{% endblock %}
+
 {% block body %}
     <div class="container-lg bg-custom mt-2 p-4">
 
@@ -28,23 +32,6 @@
             </div>
         </div>
 
-        <!-- Rename Modal -->
-        <div class="modal fade" id="renameModal" tabindex="-1" aria-labelledby="renameModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="renameModalLabel">Rename Recipe</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body" id="renameModalBody">
-                        <!-- Rename Message via JS -->
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">OK</button>
-                    </div>
-                </div>
-            </div>
-        </div>
 
         <!-- Row 2 -->
         <div class="row justify-content-between">
@@ -75,26 +62,7 @@
                         <span>Image</span>
                     </div>
 
-                    <!-- Modal -->
-                    <div class="modal fade" id="modal" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
-                        <div class="modal-dialog">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h1 class="modal-title fs-5" id="modalLabel">Crop Image</h1>
-                                    <button type="button" id="closeButton" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                </div>
-                                <div class="modal-body">
-                                    <div class="img-container">
-                                        <img id="image" src="" alt="Image to Crop">
-                                    </div>
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" id="cancelButton" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                                    <button type="button" id="saveButton" class="btn btn-primary">Save changes</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    
                     <img src="{% static 'images/default_pics/default_recipe.png' %}" class="card-img-top recipe-image mx-auto mt-2" alt="recipe image" id="imagePreview">
                     <div class="card-body">
                         <label for="imageUpload" class="mb-2 fw-normal">Upload an image</label>
@@ -132,17 +100,19 @@
                                 <tr id="ingredientRow">
                                     {% for form in ingredient_formset %}
                                         {{ form.id }}
-                                        <td style="position: relative;">
+                                        <td>
                                             <!-- Ingredient Search -->
-                                            {{ form.ingredient }}
-                                            <input id="searchBox" autocomplete="off" class="form-control search-box" name="name" placeholder="Search for an ingredient" type="text" required>
-                                            <ul id="suggestions" class="list-group position-absolute suggestions" style="width: 100%;"></ul>
-                                            <input type="hidden" id="ingredientId" name="ingredient_id">
+                                            <div class="search-container">
+                                                {{ form.ingredient }}
+                                                <input id="searchBox" autocomplete="off" class="form-control search-box" name="name" placeholder="Search for an ingredient" type="text" required>
+                                                <ul id="suggestions" class="list-group suggestions"></ul>
+                                                <input type="hidden" id="ingredientId" name="ingredient_id">
+                                            </div>
                                         </td>
                                         <!-- Quantity -->
-                                        <td>{{ form.amount }}</td>
+                                        <td class="cell-sm">{{ form.amount }}</td>
                                         <!-- Unit -->
-                                        <td>{{ form.unit }}</td>
+                                        <td class="cell-sm">{{ form.unit }}</td>
                                         <td>
                                             <button type="button" id="add-ingredient-button" class="btn btn-outline-light add-button">
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-plus" viewBox="0 0 16 16">
@@ -190,6 +160,45 @@
             </div>
         </div> 
         </form>        
+    </div>
+
+    <!-- Image Modal -->
+    <div class="modal fade" id="modal" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="modalLabel">Crop Image</h1>
+                    <button type="button" id="closeButton" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="img-container">
+                        <img id="image" src="" alt="Image to Crop">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" id="cancelButton" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" id="saveButton" class="btn btn-primary">Save changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Rename Modal -->
+    <div class="modal fade" id="renameModal" tabindex="-1" aria-labelledby="renameModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="renameModalLabel">Rename Recipe</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" id="renameModalBody">
+                    <!-- Rename Message via JS -->
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">OK</button>
+                </div>
+            </div>
+        </div>
     </div>
 {% endblock body %}
 

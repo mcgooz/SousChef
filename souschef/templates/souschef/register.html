@@ -1,11 +1,16 @@
 {% extends "SousChef/layout.html" %}
 
-{% block body %}
 
-    <h2>Register</h2>
+{% block title %}
+    Register
+{% endblock %}
+
+{% block body %}
+<div class="container-lg bg-custom mt-2 p-4">
+    <h4>Register</h4>
 
     {% if message %}
-    <div class="alert custom-alert alert-light alert-dismissible fade show" role="alert">
+    <div class="alert custom-alert alert-dismissible fade show" role="alert">
         {{ message }} <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
     {% endif %}

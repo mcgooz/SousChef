@@ -604,8 +604,6 @@ document.addEventListener("DOMContentLoaded", function() {
             </svg>
         `;
 
-        console.log("Clicked")
-
         fetch(`/favourite/${recipeId}`, {
             method: 'POST',
             headers: {
@@ -625,6 +623,8 @@ document.addEventListener("DOMContentLoaded", function() {
             }
         })
     }
+
+
 
     
     // Show Password

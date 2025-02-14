@@ -2,10 +2,7 @@
     color: #b1d5e7, #26414f, #558ca7, #82b4cc, #ddeff8, whitesmoke;
  }
 
- .text-darker {
-    color: #26414f;
- }
-
+/* Fonts and text */ 
 
 @font-face {
     font-family: 'sofiapro-light';
@@ -15,6 +12,15 @@
     font-style: normal;
 }
 
+.form-check-input:checked {
+    background-color: #558ca7;
+    border-color: #558ca7;
+}
+
+.text-darker {
+    color: #26414f;
+}
+
 a {
     text-decoration: none;
     color: whitesmoke;
@@ -22,7 +28,6 @@ a {
 
 a:hover {
     color: #558ca7;
-    filter:blur(0.025rem);
 }
 
 
@@ -52,7 +57,7 @@ body {
 }
 
 .btn-custom:hover {
-    background-color: #82b4cc;
+    background-color: rgba(130, 180, 204, 0.3);
     color: #ddeff8;
     box-shadow: 0px 0px 5px whitesmoke;   
 }
@@ -109,7 +114,7 @@ body {
     filter: invert(1) brightness(2);
 }
 
-.col {
+.col-sm {
     max-width: 50%;
 }
 
@@ -175,31 +180,23 @@ input::placeholder {
     display: none;
 }
 
-#searchBox.autocomplete-active:focus {
-    outline: none;
-    box-shadow: none;
+/* Search and Dropdown */
+
+.form-control:focus {
+    box-shadow: 3px 3px 10px #ddeff8;
 }
 
-#suggestions {
-    width: 75%;
-    left: 0;
-    top: 100%;
-    overflow-y: auto;
-    position: absolute;
-    z-index: 1000;
-}
-
-#suggestions .list-group-item:hover {
-    cursor: pointer;
-    background-color: lightblue;
+#homeSearchForm {
+    position: relative;
 }
 
 #homeSuggestions {
-    width: 100%;
-    left: 0;
+    position: absolute;
     top: 100%;
-    overflow-y: auto;
-    border: none;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    background: whitesmoke;
 }
 
 #homeSuggestions .list-group-item:hover {
@@ -207,10 +204,27 @@ input::placeholder {
     background-color: lightblue;
 }
 
-.list-group {
-    z-index: 1000;
+.search-container {
+    position: relative;
+}
+
+#suggestions {
+    position: absolute;
     top: 100%;
-    left: 0;
+    overflow-y: auto;
+    z-index: 1000;
+    border-radius: 7px;
+    width: auto;
+}
+
+#suggestions .list-group-item:hover {
+    cursor: pointer;
+    background-color: #82b4cc;
+}
+
+#searchBox {
+    position: relative;
+    z-index: 2;
 }
 
 .recipe-image {
@@ -291,25 +305,16 @@ input::placeholder {
     filter: drop-shadow(5px 2px 2px #558ca780);
 }
 
-#homeSearchForm {
-    position: relative;
-}
-
-#homeSuggestions {
-    position: absolute;
-    top: 100%;
-    left: 0;
-    right: 0;
-    z-index: 1000;
-    background: whitesmoke;
-}
-
 .table {
     --bs-table-bg: rgba(177, 213, 231, 0.3);
     --bs-table-color: whitesmoke;
     --bs-table-hover-color: #ddeff8;
     --bs-table-hover-bg: rgba(38, 65, 79, 0.075);
     
+}
+
+.cell-sm {
+    width: 6em;
 }
 
 /* https://www.youtube.com/watch?v=3yfswsnD2sw - Create a horizontal media scroller with CSS - Kevin Powell */

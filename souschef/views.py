@@ -133,7 +133,6 @@ def recipe(request, id):
             "recipe": recipe,
         })
 
-    
 
 ### Pantry View
 @login_required
@@ -230,17 +229,16 @@ def ingredient(request, id):
 def login_view(request):
     if request.method == "POST":
 
-        # Attempt to sign user in
         username = request.POST["username"].title()
         password = request.POST["password"]
         user = authenticate(request, username=username, password=password)
 
-        # Check if authentication successful
         if user is not None:
             login(request, user)
             return HttpResponseRedirect(reverse("index"))
+        
         else:
-            return render(request, "SousChef/login.html", {
+            return JsonResponse ({
                 "message": "Invalid username and/or password."
             })
     else:
@@ -295,77 +293,78 @@ def register(request):
 
 
 #### FUTURE UPDATES ####
+def future():
+    pass
+    # ### Edit Recipe View
+    # def edit_recipe(request, id):
+    #     recipe = Recipe.objects.get(id=id)
+    #     if recipe.created_by == request.user:
 
-# ### Edit Recipe View
-# def edit_recipe(request, id):
-#     recipe = Recipe.objects.get(id=id)
-#     if recipe.created_by == request.user:
+    #         if request.method == "GET":
+    #             StepFormSet.extra = 0
+    #             IngredientPerRecipeFormSet.extra = 0
+        
+    #             recipe_form = NewRecipeForm(instance=recipe)
+    #             step_formset = StepFormSet(instance=recipe)
+    #             ingredient_formset = IngredientPerRecipeFormSet(instance=recipe)
 
-#         if request.method == "GET":
-#             StepFormSet.extra = 0
-#             IngredientPerRecipeFormSet.extra = 0
-    
-#             recipe_form = NewRecipeForm(instance=recipe)
-#             step_formset = StepFormSet(instance=recipe)
-#             ingredient_formset = IngredientPerRecipeFormSet(instance=recipe)
+    #             return render(request, "souschef/edit_recipe.html", {
+    #                 "recipe": recipe,
+    #                 "recipe_form": recipe_form,
+    #                 "step_formset": step_formset,
+    #                 "ingredient_formset": ingredient_formset,
+    #             })
+        
+    #     if request.method == "POST":
 
-#             return render(request, "souschef/edit_recipe.html", {
-#                 "recipe": recipe,
-#                 "recipe_form": recipe_form,
-#                 "step_formset": step_formset,
-#                 "ingredient_formset": ingredient_formset,
-#             })
-    
-#     if request.method == "POST":
+    #         recipe_form = NewRecipeForm(request.POST, request.FILES, instance=recipe)
+    #         step_formset = StepFormSet(request.POST, instance=recipe)
+    #         ingredient_formset = IngredientPerRecipeFormSet(request.POST, instance=recipe)
 
-#         recipe_form = NewRecipeForm(request.POST, request.FILES, instance=recipe)
-#         step_formset = StepFormSet(request.POST, instance=recipe)
-#         ingredient_formset = IngredientPerRecipeFormSet(request.POST, instance=recipe)
+    #         if request.POST.get("action") == "save":
+    #             print(request.POST)
 
-#         if request.POST.get("action") == "save":
-#             print(request.POST)
-
-#             if recipe_form.is_valid():
-                
-#                 recipe = recipe_form.save(commit=False)
-#                 recipe.created_by = request.user
-#                 recipe.title = recipe.title.title()
-
-#                 if 'image-clear' in request.POST:
-#                     recipe.image.delete()
-                
-#                 recipe.save()
-
-#                 if recipe.image:
-#                     image = Image.open(recipe.image.path)
-#                     cropped_image = crop_image(image)
-#                     cropped_image.save(recipe.image.path)
-
-#                 if step_formset.is_valid():
-#                     steps = step_formset.save(commit=False)
-
-#                     for old_step in step_formset.deleted_forms:
-#                         old_step.instance.delete()
-
-#                     for step in steps:
-#                         step.recipe = recipe
-#                         step.save()
-
-#                     step_formset.save()
-
-#                 if ingredient_formset.is_valid():
-#                     ingredients = ingredient_formset.save(commit=False)
-                        
-#                     for ing in ingredient_formset.deleted_objects:
-#                         print(f"Deleted Ingredient: {ing}")
-#                         ing.instance.delete()
-                        
-#                     for ingredient_instance in ingredients:
-#                         ingredient_instance.recipe = recipe
-#                         ingredient_instance.save()
+    #             if recipe_form.is_valid():
                     
-#                     ingredient_formset.save()
+    #                 recipe = recipe_form.save(commit=False)
+    #                 recipe.created_by = request.user
+    #                 recipe.title = recipe.title.title()
 
-#             return render(request, "souschef/recipe.html", { 
-#                 "recipe": recipe,
-#             })
+    #                 if 'image-clear' in request.POST:
+    #                     recipe.image.delete()
+                    
+    #                 recipe.save()
+
+    #                 if recipe.image:
+    #                     image = Image.open(recipe.image.path)
+    #                     cropped_image = crop_image(image)
+    #                     cropped_image.save(recipe.image.path)
+
+    #                 if step_formset.is_valid():
+    #                     steps = step_formset.save(commit=False)
+
+    #                     for old_step in step_formset.deleted_forms:
+    #                         old_step.instance.delete()
+
+    #                     for step in steps:
+    #                         step.recipe = recipe
+    #                         step.save()
+
+    #                     step_formset.save()
+
+    #                 if ingredient_formset.is_valid():
+    #                     ingredients = ingredient_formset.save(commit=False)
+                            
+    #                     for ing in ingredient_formset.deleted_objects:
+    #                         print(f"Deleted Ingredient: {ing}")
+    #                         ing.instance.delete()
+                            
+    #                     for ingredient_instance in ingredients:
+    #                         ingredient_instance.recipe = recipe
+    #                         ingredient_instance.save()
+                        
+    #                     ingredient_formset.save()
+
+    #             return render(request, "souschef/recipe.html", { 
+    #                 "recipe": recipe,
+    #             })

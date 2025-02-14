@@ -14,11 +14,11 @@
     </div>
     
     <div class="row justify-content-center mt-4">
-        <div class="col">
+        <div class="col col-sm">
             <form id="homeSearchForm" method="POST" action="recipe">
                 {% csrf_token %}
                 <input type="text" class="form-control shadow" id="homeSearch" placeholder="Search for a recipe...">
-                <ul id="homeSuggestions" class="list-group" style="width: auto;"></ul>
+                <ul id="homeSuggestions" class="list-group"></ul>
                 <span id="searchResult"></span>
             </form>
         </div>
