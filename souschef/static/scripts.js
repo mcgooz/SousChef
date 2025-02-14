@@ -183,6 +183,20 @@ document.addEventListener("DOMContentLoaded", function() {
     const scroller = document.getElementById('scroller')
     if (scroller) {
 
+        // Buttons
+        const scrollLeftButton = document.getElementById('scrollLeft');
+        const scrollRightButton = document.getElementById('scrollRight');
+        const scrollAmount = 200;
+
+        scrollLeftButton.addEventListener("click", () => {
+            scroller.scrollBy({ left: -scrollAmount, behavior: "smooth"});
+        });
+
+        scrollRightButton.addEventListener("click", () => {
+            scroller.scrollBy({ left: scrollAmount, behavior: "smooth"});
+        });
+
+
         // Mouse wheel or touchpad
         scroller.addEventListener('wheel', (event) => {
             event.preventDefault();

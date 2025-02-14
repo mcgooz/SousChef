@@ -78,6 +78,7 @@ body {
 .btn-custom-icon:hover {
     fill: #82b4cc;
     filter:blur(0.025rem);
+    cursor: pointer;
 }
 
 .nav-colours {
