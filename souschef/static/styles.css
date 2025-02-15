@@ -316,7 +316,8 @@ input::placeholder {
     width: 6em;
 }
 
-/* https://www.youtube.com/watch?v=3yfswsnD2sw - Create a horizontal media scroller with CSS - Kevin Powell */
+/* Basic functionality taken from "Create a horizontal media scroller with CSS" - Kevin Powell
+    https://www.youtube.com/watch?v=3yfswsnD2sw -  */
 
 .scroller {
     display: grid;
