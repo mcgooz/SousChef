@@ -6,7 +6,7 @@
 {% endblock %}
 
 {% block body %}
-    <div class="container bg-custom mb-2 pb-2">
+    <div class="container-lg bg-custom mt-2 p-4">
 
         <!-- Row 1 -->
         <div class="row justify-content-start">
@@ -80,7 +80,7 @@
             <div class="col my-2">
                 <div>
                     <h5>Steps</h5>
-                    <ul class="list-group list-group-flush shadow">
+                    <ul class="list-group shadow">
                         {% for step in recipe.step_set.all %}
                             <li class="list-group-item text-darker">
                                 {{ step.step_number }}. {{ step.step_text }}

@@ -3,7 +3,9 @@ from django.shortcuts import render, redirect
 from django.urls import reverse
 from .forms import NewRecipeForm, StepFormSet, IngredientPerRecipeFormSet
 from .models import Recipe, IngredientPerRecipe
+
 from PIL import Image
+from titlecase import titlecase
 
 from .utils import crop_image ## Not needed
 
@@ -30,7 +32,7 @@ def add_recipe_post_request(request):
     if recipe_form.is_valid() and step_formset.is_valid():
         recipe = recipe_form.save(commit=False)
         recipe.created_by = request.user
-        recipe.title = recipe.title.title()
+        recipe.title = titlecase(recipe.title)
 
         if Recipe.objects.filter(title=recipe.title).exists():
             return JsonResponse({

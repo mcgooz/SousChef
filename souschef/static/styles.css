@@ -47,7 +47,7 @@ body {
 }
 
 .bg-custom {
-    background-color: rgba(85, 140, 167, 0.2);
+    background-color: rgba(85, 140, 167, 0.3);
     border-radius: 7px;
     min-height: 600px;
 }
@@ -313,7 +313,7 @@ input::placeholder {
 }
 
 .cell-sm {
-    width: 6em;
+    width: 7em;
 }
 
 /* Basic functionality taken from "Create a horizontal media scroller with CSS" - Kevin Powell
