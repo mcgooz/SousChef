@@ -93,7 +93,7 @@ body {
 }
 
 .nav-colours {
-    background-color: rgba(177, 213, 231, 0.4);
+    background-color: rgba(177, 213, 231, 0.45);
 }
 
 .navbar-text {
@@ -236,6 +236,12 @@ input::placeholder {
     z-index: 2;
 }
 
+.recipe-image-plain {
+    height: 150px;
+    width: auto;
+    border-radius: 7px;
+}
+
 .recipe-image {
     height: 150px;
     width: auto;
@@ -328,6 +334,11 @@ input::placeholder {
 .cell-sm {
     width: 7em;
 }
+
+ul {
+    list-style: none;
+    padding-left: 0.1rem;
+  }
 
 .ul-custom li {
     list-style: none;
