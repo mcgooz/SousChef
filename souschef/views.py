@@ -48,32 +48,28 @@ def home_search(request):
 ### User dashboard
 @login_required
 def user_dashboard(request):
-    if request.user.is_authenticated:
-        current_user = request.user
-        profile = UserDashboard.objects.get(user_name=current_user)
-        recipes = Recipe.objects.filter(created_by=current_user)
-        form = UserDashboardForm()
-        recipe_form = NewRecipeForm()
-        favourites = Favourite.objects.filter(user=profile)
+    current_user = request.user
+    profile = UserDashboard.objects.get(user_name=current_user)
+    recipes = Recipe.objects.filter(created_by=current_user)
+    form = UserDashboardForm()
+    recipe_form = NewRecipeForm()
+    favourites = Favourite.objects.filter(user=profile)
 
-        if request.method == "GET":
+    if request.method == "GET":
 
-            return render(request, "souschef/user_dashboard.html", {
-                "profile": profile,
-                "recipes": recipes,
-                "favourites": favourites,
-                "form": form,
-                "recipe_form": recipe_form
-            })
-        
-        elif request.method == "POST":
-            profile.profile_picture.delete()
-            image = request.FILES.get("croppedImage")
-            profile.profile_picture.save(image.name, image)
-            return JsonResponse({"message": "Picture updated successfully!"})
-
-    else:
-        return redirect('login')
+        return render(request, "souschef/user_dashboard.html", {
+            "profile": profile,
+            "recipes": recipes,
+            "favourites": favourites,
+            "form": form,
+            "recipe_form": recipe_form
+        })
+    
+    elif request.method == "POST":
+        profile.profile_picture.delete()
+        image = request.FILES.get("croppedImage")
+        profile.profile_picture.save(image.name, image)
+        return JsonResponse({"message": "Picture updated successfully!"})
 
 
 ### Favourites
@@ -137,15 +133,12 @@ def recipe(request, id):
 ### Pantry View
 @login_required
 def pantry(request):
-    if request.user.is_authenticated:
-        if request.method == "GET":
-            return pantry_get_request(request)
+    if request.method == "GET":
+        return pantry_get_request(request)
+    
+    elif request.method == "POST":
+        return pantry_post_request(request)
         
-        elif request.method == "POST":
-            return pantry_post_request(request)
-        
-    else:
-        return redirect('login')
     
     
 ### Pantry Delete
@@ -163,15 +156,11 @@ def pantry_delete(request):
 ### Add a Recipe View
 @login_required
 def add_recipe(request):
-    if request.user.is_authenticated:
-        if request.method == "GET":
-            return add_recipe_get_request(request)
+    if request.method == "GET":
+        return add_recipe_get_request(request)
 
-        elif request.method == "POST":
-            return add_recipe_post_request(request)
-        
-    else:
-        return redirect('login')
+    elif request.method == "POST":
+        return add_recipe_post_request(request)
 
 
 ### Delete Recipe
@@ -266,7 +255,6 @@ def register(request):
                 "message": "Please enter an email address!"
             })
 
-        # Ensure password matches confirmation
         password = request.POST["password"]
         confirmation = request.POST["confirmation"]
         if password != confirmation:
@@ -274,7 +262,7 @@ def register(request):
                 "message": "Passwords must match."
             })
 
-        # Attempt to create new user and profile and pantry
+        # Attempt to create new user with corresponding profile and pantry
         try:
             user = User.objects.create_user(username, email, password)
             user.save()

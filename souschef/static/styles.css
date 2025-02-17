@@ -47,7 +47,7 @@ body {
 }
 
 .bg-custom {
-    background-color: rgba(85, 140, 167, 0.3);
+    background-color: rgba(85, 140, 167, 0.4);
     border-radius: 7px;
     min-height: 600px;
 }
@@ -308,12 +308,21 @@ input::placeholder {
     --bs-table-bg: rgba(177, 213, 231, 0.3);
     --bs-table-color: whitesmoke;
     --bs-table-hover-color: #ddeff8;
-    --bs-table-hover-bg: rgba(38, 65, 79, 0.075);
-    
+    --bs-table-hover-bg: rgba(38, 65, 79, 0.075);   
 }
 
 .cell-sm {
     width: 7em;
+}
+
+.ul-custom li {
+    list-style: none;
+  }
+  
+.ul-custom {
+    display: grid;
+    grid-template-rows: repeat(10, 2rem);
+    grid-auto-flow: column;
 }
 
 /* Basic functionality taken from "Create a horizontal media scroller with CSS" - Kevin Powell

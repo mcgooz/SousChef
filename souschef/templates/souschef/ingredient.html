@@ -2,24 +2,31 @@
 {% load custom_filters %}
 
 {% block body %}
-    <div class="container bg-custom">
+    <div class="container-lg bg-custom shadow mt-2 p-4">
 
         <!-- Row 1 -->
         <div class="row">
-        
             <!-- Column 1 -->
-            <div class="col my-2">
+            <div class="col">
                 <h4>{{ ingredient|title }}</h4>
                 <p>Nutritional Values</p>
+            </div>
+        
+
+            <!-- Column 2 -->
+            <div class="col d-flex justify-content-end align-items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" id="backButton" width="25" height="25" fill="currentColor" class="bi bi-arrow-left btn-custom-icon mx-2" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd" d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8"/>
+                </svg>
+                <span>Back to recipe</span>
             </div>
         </div>
 
         <!-- Row 2 -->
         <div class="row">
-
             <!-- Column 1 -->
             <div class="col my-2">
-                <ul>
+                <ul class="ul-custom">
                     {% for nutrient in ingredient.ingredient_details.nutrition.nutrients %}
                         {% if nutrient.amount != 0 %}
                             <li>{{ nutrient.name }}: {{ nutrient.amount }} {{ nutrient.unit }}</li>
