@@ -625,10 +625,13 @@ document.addEventListener("DOMContentLoaded", function() {
     }
 
     // Go back
-
-    document.getElementById("backButton").addEventListener("click", function() { 
-        history.back(); 
-    });
+    backButton = document.getElementById("backButton")
+    if (backButton) {
+    
+        backButton.addEventListener("click", function() { 
+            history.back(); 
+        });
+    }
 
     
     // Show Password

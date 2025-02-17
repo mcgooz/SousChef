@@ -10,11 +10,11 @@
 {% endblock %}
 
 {% block body %}
-    <div class="container-lg bg-custom p-4">
+    <div class="container-lg bg-custom mt-2 p-4">
         <div class="row mt-2 mx-3">
-            <div class="col">
 
-                <!-- Favourites -->
+            <!-- Favourites -->
+            <div class="col">
                 <h5>Favourites</h5>
                 
                 {% if favourites %}
@@ -27,6 +27,7 @@
                     No favourites yet
                 {% endif %}
             </div>
+
             <!-- User -->
             <div class="col d-flex justify-content-end">
                 <div class="d-flex flex-column align-items-center">
@@ -47,7 +48,7 @@
                     </div>
 
                     <!-- Username -->
-                    <div class="fs-4">{{ profile.user_name }}</div>
+                    <div class="fs-5">{{ profile.user_name }}</div>
 
 
                     <!-- Picture Upload -->
@@ -81,26 +82,26 @@
         </div>
 
         <!-- My Recipes -->
-        <div class="row mt-2 mx-3">
+        <div class="row">
         
-            <h4 class="mb-3">My Recipes</h4>
+            <h5 class="mx-3">My Recipes</h5>
             
             {% for recipe in recipes %}
-                <div class="col-md-4 my-2">
-                    <div class="card recipe-card shadow text-center" style="width: 16rem;">
+                <div class="col-lg-3 col-md-4 my-2">
+                    <div class="card shadow text-center" style="width: 14rem;">
                         <div class="m-2" style="position: relative">
 
                             {% if recipe.image %}
                                 <a class="mx-auto" href="{% url 'recipe' recipe.id %}">
-                                <img src="{{ recipe.image.url }}" id="imagePreview{{ recipe.id }}" class="card-img-top img-fluid recipe-image border border-4" alt="recipe image">
+                                <img src="{{ recipe.image.url }}" id="imagePreview{{ recipe.id }}" class="card-img-top img-fluid recipe-image" alt="recipe image">
                                 </a>
                             {% else %}
                                 <a class="mx-auto" href="{% url 'recipe' recipe.id %}">
-                                <img src="{% static 'images/default_pics/default_recipe.png' %}" id="imagePreview{{ recipe.id }}" class="card-img-top img-fluid recipe-image border border-4" alt="recipe image">
+                                <img src="{% static 'images/default_pics/default_recipe.png' %}" id="imagePreview{{ recipe.id }}" class="card-img-top img-fluid recipe-image" alt="recipe image">
                                 </a>
                             {% endif %}
 
-                            <label for="imageUpload{{ recipe.id }}" class="btn btn-outline" style="position: absolute; bottom: 0; right: 33;">
+                            <label for="imageUpload{{ recipe.id }}" class="btn btn-outline" style="position: absolute; bottom: 0; right: 25;">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-images btn-custom-icon" viewBox="0 0 16 16">
                                     <path d="M4.502 9a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3"/>
                                     <path d="M14.002 13a2 2 0 0 1-2 2h-10a2 2 0 0 1-2-2V5A2 2 0 0 1 2 3a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v8a2 2 0 0 1-1.998 2M14 2H4a1 1 0 0 0-1 1h9.002a2 2 0 0 1 2 2v7A1 1 0 0 0 15 11V3a1 1 0 0 0-1-1M2.002 4a1 1 0 0 0-1 1v8l2.646-2.354a.5.5 0 0 1 .63-.062l2.66 1.773 3.71-3.71a.5.5 0 0 1 .577-.094l1.777 1.947V5a1 1 0 0 0-1-1z"/>
@@ -110,12 +111,12 @@
                                 
                         <div class="card-body pt-0 mt-0">
                             <!-- Title -->
-                            <h6 class="card-title">{{ recipe.title }}</h6>
+                            <h6 class="card-title text-truncate">{{ recipe.title }}</h6>
                             <div class="mt-1">
                                 <!-- View Recipe -->
-                                <a href="{% url 'recipe' recipe.id %}" class="btn btn-outline-primary btn-sm mx-1">View Recipe</a>
+                                <a href="{% url 'recipe' recipe.id %}" class="btn btn-custom shadow btn-sm mx-1">View</a>
                                 <!-- Delete Recipe -->
-                                <button type="button" class="btn btn-outline-danger btn-sm mx-1" data-bs-toggle="modal" data-bs-target="#confirmDeleteModal-{{ recipe.id }}">Delete Recipe</button>
+                                <button type="button" class="btn btn-custom-red shadow btn-sm mx-1" data-bs-toggle="modal" data-bs-target="#confirmDeleteModal-{{ recipe.id }}">Delete</button>
                             </div>
                         </div>
                     </div>
