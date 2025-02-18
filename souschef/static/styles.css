@@ -38,7 +38,7 @@ a:hover {
 body {
     background-image: url("/static/images/background.jpg");
     background-position: center;
-    background-repeat: vertical;
+    background-repeat: repeat;
     background-attachment: fixed;
     background-size: 2000px;
     color: whitesmoke;
@@ -53,23 +53,22 @@ body {
 }
 
 .btn-custom {
-    color: #ddeff8;
+    color: whitesmoke;
 }
 
 .btn-custom:hover {
     background-color: rgba(130, 180, 204, 0.3);
-    color: whitesmoke;
+    color: #ddeff8;
     box-shadow: 0px 0px 5px whitesmoke;   
 }
 
 .btn-custom-red {
-    color: rgb(255, 125, 125);
+    color: rgb(166, 67, 67);
 }
 
 .btn-custom-red:hover {
     background-color: rgba(130, 180, 204, 0.3);
-    color: red;
-    box-shadow: 0px 0px 5px whitesmoke;   
+    color: rgb(209, 0, 0);
 }
 
 .btn-custom-sm {

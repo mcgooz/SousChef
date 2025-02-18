@@ -17,9 +17,6 @@ from .add_recipe_view import *
 
 ### Homepage
 def index(request):
-    today = datetime.datetime.today().date()
-    date = datetime.datetime.strftime(today, '%a %d %b %Y')
-
     recipes = Recipe.objects.all()
     if recipes:
         random_recipe = random.choice(recipes)
@@ -27,7 +24,6 @@ def index(request):
         random_recipe = None
     
     return render(request, "SousChef/index.html", {
-        "date": date,
         "random_recipe": random_recipe
     })
 
