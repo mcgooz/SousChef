@@ -33,6 +33,7 @@ def run_query(query):
 def item_search(s):
     # Check if item is already in cache and return result (to avoid too many API calls)
 
+    safe = s.replace(" ", "_")
     results = cache.get(f"item_search_{s}")
     if results:
         print("SEARCH RETRIEVED FROM CACHE")
@@ -48,7 +49,8 @@ def item_search(s):
         print("SEARCH CACHED")
     
     return results
-    
+
+
 ### Ingredient details API search
 def detailed_search(id):
     details = cache.get(f"item_details_{id}")
