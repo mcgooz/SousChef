@@ -142,16 +142,6 @@ body {
     margin-left: 0.3rem;
 }
 
-.pagination {
-    --bs-pagination-color: whitesmoke;
-    --bs-pagination-bg: #5ac8ec;
-    --bs-pagination-active-bg: #5ac8ec;
-    --bs-pagination-active-color: #c9c9c9;
-    --bs-pagination-border-color: #5ac8ec;
-    --bs-pagination-active-border-color: #5ac8ec;
-    --bs-pagination-hover-color: #5ac8ec;
-}
-
 input::placeholder {
     font-size: 1em;
 }
@@ -280,6 +270,8 @@ input::placeholder {
     max-width: 50%;
 }
 
+
+/* Idea found at https://stackoverflow.com/questions/43694588/can-i-use-css-to-distort-borders-so-they-look-like-sketched */
 .card {
     background-image: url("/static/images/background.jpg");
     border: solid 4px whitesmoke;
