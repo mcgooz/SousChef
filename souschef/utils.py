@@ -1,13 +1,12 @@
 from django.core.cache import cache
 from django.http import JsonResponse
+from .models import Ingredient, Unit, IngredientPerRecipe
 
 from dotenv import load_dotenv
-import os
-import requests
-
 from decimal import Decimal
 
-from .models import Ingredient, Unit, IngredientPerRecipe
+import os
+import requests
 
 load_dotenv()
 
@@ -32,8 +31,7 @@ def run_query(query):
 ### API Search
 def item_search(s):
     # Check if item is already in cache and return result (to avoid too many API calls)
-
-    safe = s.replace(" ", "_")
+    safe = s.replace(" ", "_") # Cache doesn't like spaces so they're replaced with an underscore
     results = cache.get(f"item_search_{safe}")
     if results:
         print("SEARCH RETRIEVED FROM CACHE")
@@ -140,31 +138,26 @@ def update_ingredient(i, q, u):
     # Convert current quantity to milli-units
     convert_current_quantity, convert_current_unit = convert_to_milli(Decimal(i.quantity), i.unit)
     
-    
     # Convert new quantity to milli-units
     convert_new_quantity, convert_new_unit = convert_to_milli(q, u)
     
-
     # Calculate total quantity in milli-units
     total_quantity = Decimal(convert_current_quantity) + Decimal(convert_new_quantity)
  
-
     # Check for milli-unit measure over 1000 and convert unit (g to kg, ml to l)
     new_unit = change_unit(total_quantity, convert_new_unit)     
     i.unit = new_unit
 
-    
     # Check and set correct decimal
     quantity_check = check_quantity(total_quantity)
     i.quantity = quantity_check
 
-
-    print(f"CURRENT IN MILLI: {convert_current_quantity}")
-    print(f"NEW IN MILLI: {convert_new_quantity}")
-    print(f"TOTAL: {total_quantity}")
-    print(f"CONVERT CURRENT UNIT: {convert_current_unit}")
-    print(f"CONVERT NEW UNIT: {convert_new_unit}")
-    print(f"QUANTITY CHECK: {i.quantity}")
+    # print(f"CURRENT IN MILLI: {convert_current_quantity}")
+    # print(f"NEW IN MILLI: {convert_new_quantity}")
+    # print(f"TOTAL: {total_quantity}")
+    # print(f"CONVERT CURRENT UNIT: {convert_current_unit}")
+    # print(f"CONVERT NEW UNIT: {convert_new_unit}")
+    # print(f"QUANTITY CHECK: {i.quantity}")
 
     return i
 
@@ -179,14 +172,3 @@ def add_recipe_ingredient(r, i, a, u):
 
     ingredient_to_add.save()
 
-### Not Used
-def crop_image(image):
-    width, height = image.size
- 
-    new_dimension = min(width, height)
-    left = (width - new_dimension) / 2
-    top = (height - new_dimension) / 2
-    right = (width + new_dimension) / 2
-    bottom = (height + new_dimension) / 2
-    
-    return image.crop((left, top, right, bottom))

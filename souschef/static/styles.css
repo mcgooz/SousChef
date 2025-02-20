@@ -1,4 +1,6 @@
-.colour-scheme{
+/* For reference */
+
+.colour-scheme {
     color: #b1d5e7, #26414f, #558ca7, #82b4cc, #ddeff8, whitesmoke;
  }
 
@@ -49,7 +51,7 @@ body {
 .bg-custom {
     background-color: rgba(85, 140, 167, 0.4);
     border-radius: 7px;
-    min-height: 600px;
+    min-height: 300px;
 }
 
 .btn-custom {
@@ -271,7 +273,7 @@ input::placeholder {
 }
 
 
-/* Idea found at https://stackoverflow.com/questions/43694588/can-i-use-css-to-distort-borders-so-they-look-like-sketched */
+/* Technique found at https://stackoverflow.com/questions/43694588/can-i-use-css-to-distort-borders-so-they-look-like-sketched */
 .card {
     background-image: url("/static/images/background.jpg");
     border: solid 4px whitesmoke;

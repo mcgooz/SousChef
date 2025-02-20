@@ -521,134 +521,131 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     }
 
-        // Image Upload AJAX function
-        function uploadImage(formData, fetchURL) {
-            const csrfToken = document.querySelector('input[name="csrfmiddlewaretoken"]').value;
-            fetch(fetchURL, {
-                method: 'POST',
-                headers: {
-                    'X-CSRFToken': csrfToken
-                },
-                
-                body: formData,
-            })
-            .then(response => {
-                if (response.ok) {
-                    console.log('Upload success');
-                } else {
-                    console.log('Upload error');
-                }
-            })
-        }
-
-
-        // Rename Recipe
-        const addRecipe = document.getElementById('addRecipe');
-        if (addRecipe) {
-            addRecipe.addEventListener('submit', function(event) {
-                event.preventDefault();
-                const csrfToken = document.querySelector('input[name="csrfmiddlewaretoken"]').value;
-                const formData = new FormData(document.getElementById('addRecipe'));
-                fetch('/add_recipe/', {
-                    method: 'POST',
-                    headers: {
-                        'X-CSRFToken': csrfToken
-                    },
-                    body: formData
-                })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.rename) {
-                        console.log('Rename:', data.rename);
-                        document.getElementById("renameModalBody").innerText = data.rename;
-                        const renameModal = new bootstrap.Modal(document.getElementById("renameModal"));
-                        renameModal.show();
-                    } else if (data.success) {
-                        console.log('Success. Recipe ID:', data.recipe_id);
-                        window.location.href = `/recipe/${data.recipe_id}`;
-                    } else {
-                        console.log('Unexpected response:', data);
-                    }
-                })
-            });
-        }
-
-        // Confirm Delete
-        const confirmDeleteButtons = document.querySelectorAll('.confirm-delete')
-        if (confirmDeleteButtons) {
-            confirmDeleteButtons.forEach(button => {
-                button.addEventListener('click', function() {
-                    const formId = this.getAttribute('data-form-id');
-                    console.log(formId)
-                    document.getElementById(formId).submit();
-                });
-            });
-        }
-    });
-    
-    
-    // Favourite recipe function
-
-    function favRecipe(recipeId, event) {
-        const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
-        const likeButtonElement = event.currentTarget;
-        const heartIcon = `
-            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-heart btn-custom-icon" viewBox="0 0 16 16">
-                <path d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143q.09.083.176.171a3 3 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15"/>
-            </svg>
-        `;
-
-        const heartIconFilled = `
-            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-heart-fill btn-custom-icon" viewBox="0 0 16 16">
-                <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314"/>
-            </svg>
-        `;
-
-        fetch(`/favourite/${recipeId}`, {
+    // Image Upload AJAX function
+    function uploadImage(formData, fetchURL) {
+        const csrfToken = document.querySelector('input[name="csrfmiddlewaretoken"]').value;
+        fetch(fetchURL, {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json',
                 'X-CSRFToken': csrfToken
             },
-            body: JSON.stringify({ id: recipeId })
+            
+            body: formData,
         })
-        .then(response => response.json())
-        .then(data => {
-            if (data.favourite) {
-                likeButtonElement.innerHTML = heartIconFilled
-                console.log("Favourite")
+        .then(response => {
+            if (response.ok) {
+                console.log('Upload success');
             } else {
-                likeButtonElement.innerHTML = heartIcon
-                console.log("Not favourite")
+                console.log('Upload error');
             }
         })
     }
 
-    // Go back
-    backButton = document.getElementById("backButton")
-    if (backButton) {
-    
-        backButton.addEventListener("click", function() { 
-            history.back(); 
+
+    // Rename Recipe
+    const addRecipe = document.getElementById('addRecipe');
+    if (addRecipe) {
+        addRecipe.addEventListener('submit', function(event) {
+            event.preventDefault();
+            const csrfToken = document.querySelector('input[name="csrfmiddlewaretoken"]').value;
+            const formData = new FormData(document.getElementById('addRecipe'));
+            fetch('/add_recipe/', {
+                method: 'POST',
+                headers: {
+                    'X-CSRFToken': csrfToken
+                },
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.rename) {
+                    console.log('Rename:', data.rename);
+                    document.getElementById("renameModalBody").innerText = data.rename;
+                    const renameModal = new bootstrap.Modal(document.getElementById("renameModal"));
+                    renameModal.show();
+                } else if (data.success) {
+                    console.log('Success. Recipe ID:', data.recipe_id);
+                    window.location.href = `/recipe/${data.recipe_id}`;
+                } else {
+                    console.log('Unexpected response:', data);
+                }
+            })
         });
     }
 
+    // Confirm Delete
+    const confirmDeleteButtons = document.querySelectorAll('.confirm-delete')
+    if (confirmDeleteButtons) {
+        confirmDeleteButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                const formId = this.getAttribute('data-form-id');
+                console.log(formId)
+                document.getElementById(formId).submit();
+            });
+        });
+    }
+});
     
-    // Show Password
-    function togglePassword() {
-        var passwordField = document.getElementById("password");
-        var confirmPasswordField = document.getElementById("confirmation");
-        if (passwordField.type === "password") {
-            passwordField.type = "text";
-            confirmPasswordField.type = "text";
+    
+// Favourite recipe function
+function favRecipe(recipeId, event) {
+    const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+    const likeButtonElement = event.currentTarget;
+    const heartIcon = `
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-heart btn-custom-icon" viewBox="0 0 16 16">
+            <path d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143q.09.083.176.171a3 3 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15"/>
+        </svg>
+    `;
+
+    const heartIconFilled = `
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-heart-fill btn-custom-icon" viewBox="0 0 16 16">
+            <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314"/>
+        </svg>
+    `;
+
+    fetch(`/favourite/${recipeId}`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': csrfToken
+        },
+        body: JSON.stringify({ id: recipeId })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.favourite) {
+            likeButtonElement.innerHTML = heartIconFilled
+            console.log("Favourite")
         } else {
-            passwordField.type = "password";
-            confirmPasswordField.type = "password";
+            likeButtonElement.innerHTML = heartIcon
+            console.log("Not favourite")
+        }
+    })
+}
+
+// Go back
+const backButton = document.getElementById("backButton")
+if (backButton) {
+
+    backButton.addEventListener("click", function() { 
+        history.back(); 
+    });
+}
+
+
+// Show Password
+function togglePassword() {
+    const password = document.getElementById("password");
+    const confirmPassword = document.getElementById("confirmation");
+    if (password.type === "password") {
+        password.type = "text";
+        if (confirmPassword) {
+            confirmPassword.type = "text";
+        }
+    } else {
+        password.type = "password";
+        if (confirmPassword) {
+            confirmPassword.type = "password";
         }
     }
-
-
-
-
-
-    
+}

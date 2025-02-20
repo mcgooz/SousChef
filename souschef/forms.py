@@ -40,7 +40,6 @@ class PantryIngredientForm(ModelForm):
         to_field_name="name",
     )
     ingredient_id = IntegerField()
-    # category = ModelChoiceField(queryset=FoodType.objects.all(), to_field_name="category")
 
     class Meta:
         model = PantryIngredient
@@ -79,16 +78,3 @@ IngredientPerRecipeFormSet = inlineformset_factory(
     },
 )
 
-
-# class IngredientPerRecipeForm(ModelForm):
-#     class Meta:
-#         model = IngredientPerRecipe
-#         fields = ['ingredient', 'amount', 'unit']
-    
-#     def clean_ingredient(self):
-#         ingredient_name = self.cleaned_data.get('ingredient')
-#         try:
-#             ingredient = Ingredient.objects.get(name=ingredient_name)
-#         except Ingredient.DoesNotExist:
-#             raise ValidationError("Selected ingredient does not exist.")
-#         return ingredient

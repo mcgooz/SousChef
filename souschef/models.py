@@ -6,6 +6,7 @@ from django.db import models
 class User(AbstractUser):
     pass
 
+
 class UserDashboard(models.Model):
     user_name = models.OneToOneField(User, on_delete=models.CASCADE, related_name="user_name")
     created = models.DateTimeField(auto_now_add=True)
@@ -69,6 +70,7 @@ class PantryIngredient(models.Model):
     def __str__(self):
         return f"{self.name} - {self.quantity} {self.unit}"
 
+
 class Step(models.Model):
     recipe = models.ForeignKey(Recipe, on_delete=models.CASCADE)
     step_number = models.IntegerField(default=1, validators=[MinValueValidator(1)])
@@ -84,10 +86,3 @@ class Favourite(models.Model):
 
     def __str__(self):
         return f"{self.user} favourited {self.favourite_recipe}"
-    
-
-# class FoodType(models.Model):
-#     category = models.CharField(max_length=64)
-
-#     def __str__(self):
-#         return self.category

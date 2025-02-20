@@ -7,8 +7,6 @@ from .models import Recipe, IngredientPerRecipe
 from PIL import Image
 from titlecase import titlecase
 
-from .utils import crop_image ## Not needed
-
 
 def add_recipe_get_request(request):
     StepFormSet.extra = 1

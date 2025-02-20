@@ -1,15 +1,15 @@
-from django.shortcuts import render
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
 from django.db import IntegrityError
 from django.db.models import Q
-from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect, JsonResponse
-from django.contrib.auth import authenticate, login, logout
+from django.shortcuts import render
 from django.urls import reverse
 
 from .models import User, UserDashboard, Pantry, Recipe, Ingredient, Favourite
-from .forms import NewRecipeForm, IngredientForm, PantryIngredientForm, IngredientPerRecipeFormSet, UserDashboardForm
+from .forms import NewRecipeForm, UserDashboardForm
 
-import datetime, json, random
+import json, random
 
 from .pantry_view import *
 from .add_recipe_view import *
@@ -107,7 +107,7 @@ def recipes(request):
         })
 
 
-### Detailed Recipe View
+### Full Recipe View
 def recipe(request, id):
     recipe = Recipe.objects.get(id=id)
     if request.user.is_authenticated:
@@ -134,9 +134,8 @@ def pantry(request):
     elif request.method == "POST":
         return pantry_post_request(request)
         
-    
-    
-### Pantry Delete
+   
+### Delete Pantry Item
 @login_required
 def pantry_delete(request):
     if request.method == "POST":
@@ -257,7 +256,7 @@ def register(request):
                 "message": "Passwords must match."
             })
 
-        # Attempt to create new user with corresponding profile and pantry
+        # Attempt to create new user with profile and pantry
         try:
             user = User.objects.create_user(username, email, password)
             user.save()
@@ -265,10 +264,12 @@ def register(request):
             profile.save()
             pantry = Pantry.objects.create(user=user)
             pantry.save()
+
         except IntegrityError:
             return render(request, "SousChef/register.html", {
                 "message": "Username already taken."
             })
+        
         login(request, user)
         return HttpResponseRedirect(reverse("index"))
     else:
