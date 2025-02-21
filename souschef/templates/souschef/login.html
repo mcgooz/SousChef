@@ -7,14 +7,6 @@
 {% block body %}
 <div class="container bg-custom mt-2 p-4">
     <h4>Log in</h4>
-
-
-    {% if message %}
-        <div class="alert custom-alert alert-dismissible fade show" role="alert">
-            {{ message }} <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
-    {% endif %}
-
     <div class="row">
         <div class="col-5">
             <form action="{% url 'login' %}" method="post">
@@ -32,8 +24,15 @@
                     <label class="form-check-label" for="pwSwitch">Show Password</label>
                 </div>
                 
-                <input class="btn btn-custom shadow" type="submit" value="Login">
+                <input id="loginButton" class="btn btn-custom shadow" type="submit" value="Login">
             </form>
+        </div>
+        <div class="col">
+            {% if message %}
+                <div data-bs-theme="dark" class="alert card alert-dismissible fade show shadow mx-auto" role="alert">
+                    {{ message }} <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            {% endif %}
         </div>
     </div>    
 

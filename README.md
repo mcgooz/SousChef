@@ -74,8 +74,9 @@ urls.py
 ##### Other
 Some other features used that contribute towards the project's complexity are:
  - context processors, to pass the date to all templates
- - `JSONField` model to store ingredient details
  - custom template filters
+ - `JSONField` model to store ingredient details
+ - `Q()` object used for retrieving recipes based on searching for both name and constituent ingredients
 
 #### JavaScript
 My weakest point going into this project was JavaScript. Nevertheless, my intention was to implement a smooth user-experience and try to approximate a professional design, for which JS would be hugely important. As the project grew, so did my understanding of the language (as well as scripts.js) and I think that shows as the functionality gets more complex and, perhaps, less convoluted.
@@ -294,8 +295,9 @@ Then, visit this URL to open the app:
 
 When outlining a plan for the project, I had wanted to include some other functionality but eventually decided that, as the project was already becoming quite large, I would leave this for future updates. 
 These other features include:
-- Edit Recipes - I spent a significant amount of time trying to get the the `StepFormSet`to stay in sync with the cloned rows when editing a recipe. Ultimately, I decided to leave it out so that I could focus on finishing what I already had.
+- Edit Recipes - I spent a significant amount of time trying to get the the `StepFormSet`to stay in sync with the cloned rows when editing a recipe. Ultimately, I decided to leave it out but, for now, you can replace the image or delete the recipe.
 - Linked pantries - when visiting a recipe page, the app will tell you which ingredients you already have in the pantry and which are missing. Additionally, a feature that allows you to mark the recipe as "made", would remove that quantity of specified ingredients from your pantry.
 - Dark mode/high contrast mode - On some screens, with night light enabled, the colours can be slightly hard on the eyes. As I'm quite fond of the aesthetic in general, I'd like to explore a dark mode / high contrast option rather than redesigning.
+- Bootstrap Toasts - I'd like to use toast notifications for certain completed operations, such as updating a picture successfully
 
 Thank you for your time! I'm grateful for all the efforts made to provide such a useful and enjoyable course! :)

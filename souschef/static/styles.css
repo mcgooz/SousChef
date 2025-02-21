@@ -83,7 +83,7 @@ body {
     color: whitesmoke;
 }
 
-/* Technique found at https://stackoverflow.com/questions/43694588/can-i-use-css-to-distort-borders-so-they-look-like-sketched */
+/* Technique for border found at https://stackoverflow.com/questions/43694588/can-i-use-css-to-distort-borders-so-they-look-like-sketched */
 .card {
     background-image: url("/static/images/background.jpg");
     border: solid 4px whitesmoke;
@@ -112,14 +112,6 @@ body {
 
 .col-sm {
     max-width: 50%;
-}
-
-.custom-alert {
-    width: 300px;
-    height: auto;
-    color: #f1f1f1;
-    background-color: #09b2ea;
-    border-style: none;
 }
 
 .custom-pad-b {

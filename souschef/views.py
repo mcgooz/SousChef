@@ -11,8 +11,8 @@ from .forms import NewRecipeForm, UserDashboardForm
 
 import json, random
 
-from .pantry_view import *
 from .add_recipe_view import *
+from .pantry_view import *
 
 
 ### Homepage
@@ -93,14 +93,14 @@ def update_recipe_image(request):
     recipe.image.delete()
 
     recipe.image.save(image.name, image)
-    print(f"Image for recipe {recipe} updated")
+    # print(f"Image for recipe {recipe} updated")
 
     return JsonResponse({"message": "Image updated successfully!"})
     
 
 ### Recipes View
 def recipes(request):
-    recipes = Recipe.objects.all()
+    recipes = Recipe.objects.all() # Returns empty queryset if no recipes
 
     return render(request, "SousChef/recipes.html", {
             "recipes": recipes,
@@ -140,7 +140,7 @@ def pantry(request):
 def pantry_delete(request):
     if request.method == "POST":
         pantry_item_id = request.POST.get("pantry_item_id")
-        print(pantry_item_id)
+        # print(pantry_item_id)
         item = PantryIngredient.objects.get(id=pantry_item_id)
         item.delete()
 
@@ -194,7 +194,7 @@ def ingredient_details(request):
             "ingredient": ingredient_dict,
             "ingredient_details": ingredient_details
         }
-        print(f"INGREDIENT DETAILS-FETCH_OR_CREATE {ingredient}")
+        # print(f"INGREDIENT DETAILS-FETCH_OR_CREATE {ingredient}")
 
         return JsonResponse({ "details": details})
 
@@ -221,11 +221,11 @@ def login_view(request):
             return HttpResponseRedirect(reverse("index"))
         
         else:
-            return JsonResponse ({
+            return render(request, "souschef/login.html", {
                 "message": "Invalid username and/or password."
             })
     else:
-        return render(request, "SousChef/login.html")
+        return render(request, "souschef/login.html")
     
 
 ### Logout View   
@@ -250,6 +250,11 @@ def register(request):
             })
 
         password = request.POST["password"]
+        if not password:
+            return render(request, "SousChef/register.html", {
+                "message": "Please enter a password!"
+            })
+
         confirmation = request.POST["confirmation"]
         if password != confirmation:
             return render(request, "SousChef/register.html", {
