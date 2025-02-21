@@ -10,7 +10,7 @@ In addition, it also comprises a "Pantry" section, allowing users to keep track 
 ### Distinctiveness and Complexity
 Athough it shares some common elements, such as user profiles and favourites, this project is conceptually distinct from the other projects in the course.
 Its primary function is to save, view and share recipes, as well as provide some basic nutritional information of ingredients. 
-Its design and scope go beyond what was required for each individual project and the goal was to encapsulate the techniques and principles taught across the whole course and, hopefully, a bit further.
+Its design and scope go beyond what was required for each individual project and the goal was to encapsulate the techniques and principles taught across the whole course and, hopefully, go a bit further.
 
 #### API
 This project utilises a third-party API, Spoonacular, to search for and retrieve ingredients, giving users access to a large, well-maintained database and also ensuring a degree of consistency across the app, since users can't simply create ingredients themselves. Were that the case, these ingredients wouldn't have the related nutritional information and there would also be a risk of typos and the potential to fill the database with duplicates and so on (*see additional info for more on this).
@@ -33,6 +33,11 @@ def item_search(s):
     results = cache.get(f"item_search_{safe}")
     if results:
         print("SEARCH RETRIEVED FROM CACHE")
+
+    else: 
+        # search via API
+
+    return results
 ```
 
 ##### Models and Forms
@@ -84,9 +89,6 @@ My weakest point going into this project was JavaScript. Nevertheless, my intent
 ##### Cropper.js
 In order to allow users to crop images (and to ensure a uniform rendering of images), I made use of the 3rd-party library, Cropper.js.
 
-##### Horizontal Scroller
-I implemented a scrolling feature for the recipes page, rather than presenting the whole list at once, so that users could scroll or swipe through recipes.
-
 ##### Search suggestions
 When the user searches for an ingredient, the API returns a set of suggested results. I used JS on the front end to display these suggestions, in a style consistent with the rest of the site, and then, on selection, passed that ingredient to the back end to be stored. Additionally, I used `debounceTimer;` to avoid API calls after every keystroke.
 
@@ -110,10 +112,10 @@ and some that are included in with Python:
 - random
 - os
 
-Additionally, I have created several functions to deal with the adding of ingredients to the user's pantry, specifically updating amounts and the corresponing units. These functions, among other helper functions, can be found in the utils.py file.
+Additionally, I have created several helper functions to deal with operations such as API calls, adding ingredients to the user's pantry - specifically, correctly updating amounts and the corresponing units. These helper functions, among others, can be found in the utils.py file.
 
 #### HTML
-The project has a layout.html file which dictates the general style and references the necessary scripts and css for all pages. From there, I have structured the different pages according to their function, ensuring that the design is consistent and works across different screen sizes. I have also made use of comments to allow for easier navigation through the sections on each page.
+The project has a layout.html file which references the necessary scripts and css for all pages. From there, I have structured the different pages according to their function, ensuring that the design is consistent and works across different screen sizes. I have also made use of comments to allow for easier navigation through the sections on the page.
 
 #### CSS
 Lastly, I have taken care to give the website a distinct, slick aesthetic, with fully responsive design. This was acheived using Bootstrap in addition to custom css on top.
@@ -268,13 +270,14 @@ Contains the API key and keeps it separate from the rest of the code. Requires d
 This ensures that only the necessary files are saved, comitted and pushed with Git.
 
 ##### README.md
-A detailed write-up of the project :p
+A detailed write-up of the project
 
 ##### requirements.txt
 Lists all the Python packages that should be installed for the web app to run.
 
 ### How to Run
-Please note that the API used in this project requires an API key that is linked to a Spoonacular account. There is a free option that can be found here: https://spoonacular.com/food-api
+Please note that the API used in this project requires an API key that is linked to a Spoonacular account. There is a free option that can be found here: https://spoonacular.com/food-api  
+
 Your environment should have the necessary libraries installed, as listed in requirements.txt.
 
 Before running the server, you'll need to set up the database: 
@@ -299,7 +302,7 @@ There are still some other features that I had hoped to implement, but I eventua
 These other features include:
 - Additional images for each recipe, potentially linked to steps.
 - Edit Recipes - I spent a significant amount of time trying to get the the `StepFormSet`to stay in sync with the cloned rows when editing a recipe. Ultimately, I decided to leave it out so, for now, you can only replace the image or delete the recipe.
-- Linked pantries - when visiting a recipe page, the app will tell you which ingredients you already have in the pantry and which are missing. Additionally, a feature that allows you to mark the recipe as "made", would remove that quantity of specified ingredients from your pantry.
-- Filter recipes on recipes page.
-- Dark mode/high contrast mode - On some screens, with night light enabled, the colours can be slightly hard on the eyes. As I'm quite fond of the aesthetic in general, I'd like to explore a dark mode / high contrast option rather than redesigning.
+- Linked pantry - when visiting a recipe page, the app will tell you which ingredients you already have in the pantry and which are missing. Additionally, a feature that allows you to mark the recipe as "made", would remove that quantity of specified ingredients from your pantry.
+- Filter recipes by category etc. on the recipes page.
+- Dark mode/high contrast mode - On some screens, with night light enabled, the colours can be slightly hard on the eyes. It could do with some tweaks and I'd like to explore a dark mode / high contrast option.
 - Bootstrap Toasts - I'd like to use toast notifications for certain completed operations, such as updating a picture successfully.
