@@ -1,11 +1,10 @@
-/* For reference */
+/* Colours for reference */
 
 .colour-scheme {
     color: #b1d5e7, #26414f, #558ca7, #82b4cc, #ddeff8, whitesmoke;
- }
+}
 
-/* Fonts and text */ 
-
+/* Font */
 @font-face {
     font-family: 'sofiapro-light';
     src: url('/static/fonts/sofiapro-light-webfont.woff2') format('woff2'),
@@ -14,15 +13,7 @@
     font-style: normal;
 }
 
-.form-check-input:checked {
-    background-color: #558ca7;
-    border-color: #558ca7;
-}
-
-.text-darker {
-    color: #26414f;
-}
-
+/* Alphabetical */
 a {
     text-decoration: none;
     color: whitesmoke;
@@ -32,9 +23,14 @@ a:hover {
     color: #558ca7;
 }
 
-
 .alert {
     width: 50%;
+}
+
+.bg-custom {
+    background-color: rgba(85, 140, 167, 0.4);
+    border-radius: 7px;
+    min-height: 300px;
 }
 
 body {
@@ -48,12 +44,6 @@ body {
     font-size: 1.1rem;
 }
 
-.bg-custom {
-    background-color: rgba(85, 140, 167, 0.4);
-    border-radius: 7px;
-    min-height: 300px;
-}
-
 .btn-custom {
     color: whitesmoke;
 }
@@ -62,6 +52,16 @@ body {
     background-color: rgba(130, 180, 204, 0.3);
     color: #ddeff8;
     box-shadow: 0px 0px 5px whitesmoke;   
+}
+
+.btn-custom-icon {
+    fill: #ddeff8;
+}
+
+.btn-custom-icon:hover {
+    fill: #558ca7;
+    filter:blur(0.025rem);
+    cursor: pointer;
 }
 
 .btn-custom-red {
@@ -83,45 +83,31 @@ body {
     color: whitesmoke;
 }
 
-.btn-custom-icon {
-    fill: #ddeff8;
-}
-
-.btn-custom-icon:hover {
-    fill: #558ca7;
-    filter:blur(0.025rem);
-    cursor: pointer;
-}
-
-.nav-colours {
-    background-color: rgba(177, 213, 231, 0.45);
-}
-
-.navbar-text {
-    color: whitesmoke;
-}
-
-.nav-link {
+/* Technique found at https://stackoverflow.com/questions/43694588/can-i-use-css-to-distort-borders-so-they-look-like-sketched */
+.card {
+    background-image: url("/static/images/background.jpg");
+    border: solid 4px whitesmoke;
+    border-top-left-radius: 25px 10px;
+    border-top-right-radius: 10px 25px;
+    border-bottom-right-radius: 25px 10px;
+    border-bottom-left-radius: 10px 25px;
     color: whitesmoke !important;
 }
 
-.nav-link:hover {
-    color: #558ca7 !important;
+.card-header {
+    font-size: 1.1rem;
 }
 
-/* Navbar Toggle */
-.navbar-toggler {
-    --bs-navbar-toggler-border-color: whitesmoke;
-    --bs-navbar-toggler-border-radius: 5px;
-    --bs-navbar-toggler-focus-width: 1px;
+.card-title {
+    font-size: 1.1rem;
 }
 
-.navbar-toggler {
-    color: #f5f5f5;
+.card-text {
+    font-size: 1rem;
 }
 
-.navbar-toggler-icon {
-    filter: invert(1) brightness(2);
+.cell-sm {
+    width: 7em;
 }
 
 .col-sm {
@@ -144,46 +130,31 @@ body {
     margin-left: 0.3rem;
 }
 
-input::placeholder {
-    font-size: 1em;
+.fav-button {
+    align-items: center;
 }
 
-.form-select {
-    font-size: 0.9em;
-    color: #666d74;
+.fav-recipe-icon {
+    height: 20px;
+    width: auto;
+}
+
+.form-check-input:checked {
+    background-color: #558ca7;
+    border-color: #558ca7;
 }
 
 .form-control {
     color: #666d74;
 }
 
-.profilepic {
-    width: auto;
-    height: 150px;
-    border-radius: 7px;
-}
-
-.picico {
-    vertical-align: bottom;
-}
-
-.profilepicico {
-    width: auto;
-    height: 30px;
-}
-
-.profilepicico:hover {
-    opacity: 0.5;
-}
-
-.profile_form {
-    display: none;
-}
-
-/* Search and Dropdown */
-
 .form-control:focus {
     box-shadow: 3px 3px 10px #ddeff8;
+}
+
+.form-select {
+    font-size: 0.9em;
+    color: #666d74;
 }
 
 #homeSearchForm {
@@ -204,27 +175,81 @@ input::placeholder {
     background-color: lightblue;
 }
 
-.search-container {
-    position: relative;
+#imageUploadForm {
+    display: none;
 }
 
-#suggestions {
-    position: absolute;
-    top: 100%;
-    overflow-y: auto;
-    z-index: 1000;
-    border-radius: 7px;
+.img-container img {
+    max-width: 50%;
+}
+
+input::placeholder {
+    font-size: 1em;
+}
+
+.modal-content {
+    color: #558ca7;
+}
+
+.nav-colours {
+    background-color: rgba(177, 213, 231, 0.45);
+}
+
+.navbar-text {
+    color: whitesmoke;
+}
+
+.nav-link {
+    color: whitesmoke !important;
+}
+
+.nav-link:hover {
+    color: #558ca7 !important;
+}
+
+.navbar-toggler {
+    --bs-navbar-toggler-border-color: whitesmoke;
+    --bs-navbar-toggler-border-radius: 5px;
+    --bs-navbar-toggler-focus-width: 1px;
+}
+
+.navbar-toggler {
+    color: #f5f5f5;
+}
+
+.navbar-toggler-icon {
+    filter: invert(1) brightness(2);
+}
+
+.picico {
+    vertical-align: bottom;
+}
+
+.profile_form {
+    display: none;
+}
+
+.profilepic {
     width: auto;
+    height: 150px;
+    border-radius: 7px;
 }
 
-#suggestions .list-group-item:hover {
-    cursor: pointer;
-    background-color: #82b4cc;
+.profilepicico {
+    width: auto;
+    height: 30px;
 }
 
-#searchBox {
-    position: relative;
-    z-index: 2;
+.profilepicico:hover {
+    opacity: 0.5;
+}
+
+.recipe-card {
+    background-image: url("/static/images/background.jpg");
+    background-position: center;
+    background-attachment: fixed;
+    border: none;
+    color: whitesmoke;
 }
 
 .recipe-image-plain {
@@ -259,91 +284,20 @@ input::placeholder {
     border-radius: 7px;
 }
 
-.fav-button {
-    align-items: center;
+#searchBox {
+    position: relative;
+    z-index: 2;
 }
 
-.fav-recipe-icon {
-    height: 20px;
-    width: auto;
-}
-
-.img-container img {
-    max-width: 50%;
-}
-
-
-/* Technique found at https://stackoverflow.com/questions/43694588/can-i-use-css-to-distort-borders-so-they-look-like-sketched */
-.card {
-    background-image: url("/static/images/background.jpg");
-    border: solid 4px whitesmoke;
-    border-top-left-radius: 25px 10px;
-    border-top-right-radius: 10px 25px;
-    border-bottom-right-radius: 25px 10px;
-    border-bottom-left-radius: 10px 25px;
-    color: whitesmoke !important;
-}
-
-.card-header {
-    font-size: 1.1rem;
-}
-
-.card-title {
-    font-size: 1.1rem;
-}
-
-.card-text {
-    font-size: 1rem;
-}
-
-
-.recipe-card {
-    background-image: url("/static/images/background.jpg");
-    background-position: center;
-    background-attachment: fixed;
-    border: none;
-    color: whitesmoke;
-}
-
-.modal-content {
-    color: #558ca7;
-  }
-
- #imageUploadForm {
-    display: none;
+.search-container {
+    position: relative;
 }
 
 .shadow {
     filter: drop-shadow(5px 2px 2px #558ca780);
 }
 
-.table {
-    --bs-table-bg: rgba(177, 213, 231, 0.3);
-    --bs-table-color: whitesmoke;
-    --bs-table-hover-color: #ddeff8;
-    --bs-table-hover-bg: rgba(38, 65, 79, 0.075);   
-}
-
-.cell-sm {
-    width: 7em;
-}
-
-ul {
-    list-style: none;
-    padding-left: 0.1rem;
-  }
-
-.ul-custom li {
-    list-style: none;
-  }
-  
-.ul-custom {
-    display: grid;
-    grid-template-rows: repeat(10, 2rem);
-    grid-auto-flow: column;
-}
-
-/* Basic functionality taken from "Create a horizontal media scroller with CSS" - Kevin Powell
+/* Scroller functionality taken from "Create a horizontal media scroller with CSS" - Kevin Powell
     https://www.youtube.com/watch?v=3yfswsnD2sw -  */
 
 .scroller {
@@ -366,4 +320,42 @@ ul {
     scroll-snap-align: middle;
 }
 
+#suggestions {
+    position: absolute;
+    top: 100%;
+    overflow-y: auto;
+    z-index: 1000;
+    border-radius: 7px;
+    width: auto;
+}
 
+#suggestions .list-group-item:hover {
+    cursor: pointer;
+    background-color: #82b4cc;
+}
+
+.table {
+    --bs-table-bg: rgba(177, 213, 231, 0.3);
+    --bs-table-color: whitesmoke;
+    --bs-table-hover-color: #ddeff8;
+    --bs-table-hover-bg: rgba(38, 65, 79, 0.075);   
+}
+
+.text-darker {
+    color: #26414f;
+}
+
+ul {
+    list-style: none;
+    padding-left: 0.1rem;
+}
+
+.ul-custom li {
+    list-style: none;
+}
+  
+.ul-custom {
+    display: grid;
+    grid-template-rows: repeat(10, 2rem);
+    grid-auto-flow: column;
+}

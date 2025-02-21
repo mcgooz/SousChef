@@ -16,7 +16,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 .then(data => {
                     const recipeResult = data.recipe_result;
                     const recipeItems = recipeResult.map(item => ({id: item.id, title: item.title }));
-                    console.log('recipeItems', recipeItems);
+                    // console.log('recipeItems', recipeItems);
 
                     const homeSuggestions = document.getElementById('homeSuggestions');
                     
@@ -79,7 +79,7 @@ document.addEventListener("DOMContentLoaded", function() {
                     clearTimeout(debounceTimer);
                     clearContent(suggestionsContainer);
                     searchBox.classList.remove('autocomplete-active');
-                    console.log('Clearing suggestions');
+                    // console.log('Clearing suggestions');
                 }
             });
         }
@@ -102,10 +102,10 @@ document.addEventListener("DOMContentLoaded", function() {
                 }
                 
                 displaySuggestions(details, suggestionsContainer, searchBox);
-                console.log(details)
+                // console.log(details)
             })
             .catch(error => {
-                console.error('Error fetching suggestions:', error);
+                // console.error('Error fetching suggestions:', error);
             });
         }
 
@@ -152,8 +152,8 @@ document.addEventListener("DOMContentLoaded", function() {
                         .then(response => response.json())
                         .then(data => {
                             const ingredientId = data.details.ingredient.id;
-                            console.log('Item ID', itemId)
-                            console.log('Ingredient ID:', ingredientId);
+                            // console.log('Item ID', itemId)
+                            // console.log('Ingredient ID:', ingredientId);
 
                             if (!itemName) {
                                 alert("Please select an item from the list");
@@ -237,7 +237,7 @@ document.addEventListener("DOMContentLoaded", function() {
         function addRowEventListener(button) {
             button.addEventListener('click', function(event) {
                 event.preventDefault();
-                console.log("clicked");
+                // console.log("clicked");
         
                 const formRow = document.getElementById('ingredientRow');
                 const newRow = formRow.cloneNode(true);
@@ -322,8 +322,8 @@ document.addEventListener("DOMContentLoaded", function() {
         function addStepEventListener(button) {
             button.addEventListener('click', function(event) {
                 event.preventDefault();
-                console.log("add a step clicked");
-                console.log("counter = ", parseInt(stepCounter));
+                // console.log("add a step clicked");
+                // console.log("counter = ", parseInt(stepCounter));
         
                 const stepRow = document.getElementById('steprow');
                 const newStepRow = stepRow.cloneNode(true);
@@ -375,7 +375,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 
                 newDeleteStepButton.addEventListener('click', function(event) {
                     event.preventDefault();
-                    console.log("counter minus = ", stepCounter -2);
+                    // console.log("counter minus = ", stepCounter -2);
 
                     newStepRow.remove();
 
@@ -402,7 +402,7 @@ document.addEventListener("DOMContentLoaded", function() {
     // Clear suggestions
     function clearContent(...elements) {
         elements.forEach(element => {
-            console.log("clearContent called");
+            // console.log("clearContent called");
             element.innerHTML = '';
             element.value = '';
         });
@@ -415,7 +415,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
     document.querySelectorAll('.recipe-image-upload').forEach(input => {
         const recipeID = input.getAttribute('data-recipe-id');
-        console.log("for each:", recipeID)
+        // console.log("for each:", recipeID)
         imageUploader(`imageUpload${recipeID}`, `modal${recipeID}`, `image${recipeID}`, `imagePreview${recipeID}`, `saveButton${recipeID}`, `cancelButton${recipeID}`, `closeButton${recipeID}`); // Update recipe image from recipe ID
     });
     
@@ -460,7 +460,7 @@ document.addEventListener("DOMContentLoaded", function() {
                         
                         if (cropper) {
                             
-                            console.log("Save Clicked")
+                            // console.log("Save Clicked")
                             cropper.getCroppedCanvas({
                                 width: 300,
                                 height: 300,
@@ -534,9 +534,9 @@ document.addEventListener("DOMContentLoaded", function() {
         })
         .then(response => {
             if (response.ok) {
-                console.log('Upload success');
+                // console.log('Upload success');
             } else {
-                console.log('Upload error');
+                // console.log('Upload error');
             }
         })
     }
@@ -559,15 +559,15 @@ document.addEventListener("DOMContentLoaded", function() {
             .then(response => response.json())
             .then(data => {
                 if (data.rename) {
-                    console.log('Rename:', data.rename);
+                    // console.log('Rename:', data.rename);
                     document.getElementById("renameModalBody").innerText = data.rename;
                     const renameModal = new bootstrap.Modal(document.getElementById("renameModal"));
                     renameModal.show();
                 } else if (data.success) {
-                    console.log('Success. Recipe ID:', data.recipe_id);
+                    // console.log('Success. Recipe ID:', data.recipe_id);
                     window.location.href = `/recipe/${data.recipe_id}`;
                 } else {
-                    console.log('Unexpected response:', data);
+                    // console.log('Unexpected response:', data);
                 }
             })
         });
@@ -579,7 +579,7 @@ document.addEventListener("DOMContentLoaded", function() {
         confirmDeleteButtons.forEach(button => {
             button.addEventListener('click', function() {
                 const formId = this.getAttribute('data-form-id');
-                console.log(formId)
+                // console.log(formId)
                 document.getElementById(formId).submit();
             });
         });
@@ -615,10 +615,10 @@ function favRecipe(recipeId, event) {
     .then(data => {
         if (data.favourite) {
             likeButtonElement.innerHTML = heartIconFilled
-            console.log("Favourite")
+            // console.log("Favourite")
         } else {
             likeButtonElement.innerHTML = heartIcon
-            console.log("Not favourite")
+            // console.log("Not favourite")
         }
     })
 }
