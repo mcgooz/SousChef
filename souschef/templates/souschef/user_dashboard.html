@@ -40,7 +40,6 @@
                     <!-- Username -->
                     <div class="fs-5">{{ profile.user_name }}</div>
 
-
                     <!-- Picture Upload -->
                     <form action="{% url 'user_dashboard' %}" method="post" enctype="multipart/form-data" id="pictureUploadForm">
                         <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
