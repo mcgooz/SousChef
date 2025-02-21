@@ -72,11 +72,11 @@ urls.py
 ```
 
 ##### Other
-Some other features used that contribute towards the project's complexity are:
+Some other features used:
  - context processors, to pass the date to all templates
  - custom template filters
  - `JSONField` model to store ingredient details
- - `Q()` object used for retrieving recipes based on searching for both name and constituent ingredients
+ - `Q()` object used for retrieving recipes when searching with both recipe names and constituent ingredients
 
 #### JavaScript
 My weakest point going into this project was JavaScript. Nevertheless, my intention was to implement a smooth user-experience and try to approximate a professional design, for which JS would be hugely important. As the project grew, so did my understanding of the language (as well as scripts.js) and I think that shows as the functionality gets more complex and, perhaps, less convoluted.
@@ -99,7 +99,7 @@ The app makes use of several AJAX requests to avoid reloading the page when pass
 
 #### Python
 I've used several 3rd-party libraries in the project:
-- dotenv to save the API key outside of the main files and import it from the .env file
+- dotenv to import the API key from outside of the main files from the .env file
 - pillow is required for image processing
 - requests to interact with the Spoonacular API
 - titlecase to automatically format titles correctly
@@ -237,7 +237,7 @@ and the formsets to:
 - add different ingredients to a recipe
 
 ##### models.py
-Here we find the ten models used in the app:
+Here we find the models used in the app:
 - `UserDashboard` stores the username, creation date and the profile picture
 - `Pantry` is linked to the user and is referred to by the `PantryIngredient` model
 - `Unit` is a predefined list of units
@@ -274,8 +274,10 @@ A detailed write-up of the project :p
 Lists all the Python packages that should be installed for the web app to run.
 
 ### How to Run
-Your environment should have the necessary libraries installed, as listed in requirements.txt.  
-Then, before running the server, you'll need to set up the database. 
+Please note that the API used in this project requires an API key that is linked to a Spoonacular account. There is a free option that can be found here: https://spoonacular.com/food-api
+Your environment should have the necessary libraries installed, as listed in requirements.txt.
+
+Before running the server, you'll need to set up the database: 
 
 In the terminal run:  
 `python manage.py makemigrations`
@@ -293,11 +295,11 @@ Then, visit this URL to open the app:
 ### Additional info
 *Ingredients API and limitations - Admittedly, there are edge cases in which a user may need to add an ingredient that doesn't exist in the database. More often than not, there is suitable approximation available, which can be mentioned in the description or steps.
 
-When outlining a plan for the project, I had wanted to include some other functionality but eventually decided that, as the project was already becoming quite large, I would leave this for future updates. 
+There are still some other features that I had hoped to implement, but I eventually decided that, as the project was already becoming quite large, I would leave them for future updates. 
 These other features include:
-- Edit Recipes - I spent a significant amount of time trying to get the the `StepFormSet`to stay in sync with the cloned rows when editing a recipe. Ultimately, I decided to leave it out but, for now, you can replace the image or delete the recipe.
+- Additional images for each recipe, potentially linked to steps.
+- Edit Recipes - I spent a significant amount of time trying to get the the `StepFormSet`to stay in sync with the cloned rows when editing a recipe. Ultimately, I decided to leave it out so, for now, you can only replace the image or delete the recipe.
 - Linked pantries - when visiting a recipe page, the app will tell you which ingredients you already have in the pantry and which are missing. Additionally, a feature that allows you to mark the recipe as "made", would remove that quantity of specified ingredients from your pantry.
+- Filter recipes on recipes page.
 - Dark mode/high contrast mode - On some screens, with night light enabled, the colours can be slightly hard on the eyes. As I'm quite fond of the aesthetic in general, I'd like to explore a dark mode / high contrast option rather than redesigning.
-- Bootstrap Toasts - I'd like to use toast notifications for certain completed operations, such as updating a picture successfully
-
-Thank you for your time! I'm grateful for all the efforts made to provide such a useful and enjoyable course! :)
+- Bootstrap Toasts - I'd like to use toast notifications for certain completed operations, such as updating a picture successfully.

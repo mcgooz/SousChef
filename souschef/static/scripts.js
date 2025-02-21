@@ -285,13 +285,10 @@ document.addEventListener("DOMContentLoaded", function() {
                 suggestions.className = 'list-group position-absolute suggestions';
                 suggestions.style.width = '100%';
 
-                
-
                 const newSearchBox = newRow.querySelector('.search-box');
                 const suggestionsContainer = newRow.querySelector('.suggestions');
                 handleInput(newSearchBox, suggestionsContainer);
                 
-        
                 const newButton = newRow.querySelector('.add-button');
                 addRowEventListener(newButton);
 
@@ -309,7 +306,6 @@ document.addEventListener("DOMContentLoaded", function() {
         const initialButton = document.getElementById('add-ingredient-button');
         addRowEventListener(initialButton);
     }
-        
 
     // Recipe Steps
     const recipeSteps = document.querySelector('#steps-table')
@@ -317,7 +313,6 @@ document.addEventListener("DOMContentLoaded", function() {
             
         let initialStepForms = document.getElementById('id_step_set-INITIAL_FORMS').value;
         let stepCounter = parseInt(initialStepForms) + 1;
-
         
         function addStepEventListener(button) {
             button.addEventListener('click', function(event) {
@@ -409,17 +404,20 @@ document.addEventListener("DOMContentLoaded", function() {
     }
 
     // Image Display and Upload
-    
-    imageUploader('imageUpload', 'modal', 'image', 'imagePreview', 'saveButton', 'cancelButton', 'closeButton'); // Add recipe cropper - bypass AJAX
-    imageUploader('pictureUpload', 'picModal', 'picImage', 'picImagePreview', 'picSaveButton', 'picCancelButton', 'picCloseButton'); // Update profile pic
 
+    // Add recipe cropper - bypass AJAX
+    imageUploader('imageUpload', 'modal', 'image', 'imagePreview', 'saveButton', 'cancelButton', 'closeButton');
+
+    // Update profile pic
+    imageUploader('pictureUpload', 'picModal', 'picImage', 'picImagePreview', 'picSaveButton', 'picCancelButton', 'picCloseButton');
+
+    // Update recipe image from recipe ID
     document.querySelectorAll('.recipe-image-upload').forEach(input => {
         const recipeID = input.getAttribute('data-recipe-id');
         // console.log("for each:", recipeID)
-        imageUploader(`imageUpload${recipeID}`, `modal${recipeID}`, `image${recipeID}`, `imagePreview${recipeID}`, `saveButton${recipeID}`, `cancelButton${recipeID}`, `closeButton${recipeID}`); // Update recipe image from recipe ID
+        imageUploader(`imageUpload${recipeID}`, `modal${recipeID}`, `image${recipeID}`, `imagePreview${recipeID}`, `saveButton${recipeID}`, `cancelButton${recipeID}`, `closeButton${recipeID}`);
     });
     
-
     function imageUploader(imageUploadId, modalId, imageId, imagePreviewId, saveButtonId, cancelButtonId, closeButtonId) {
         const imageUpload = document.getElementById(imageUploadId);
         const modalElement = document.getElementById(modalId);
@@ -462,8 +460,8 @@ document.addEventListener("DOMContentLoaded", function() {
                             
                             // console.log("Save Clicked")
                             cropper.getCroppedCanvas({
-                                width: 300,
-                                height: 300,
+                                width: 500,
+                                height: 500,
                             }).toBlob((blob) => {
                                 const url = URL.createObjectURL(blob);
                                 preview.src = url;
@@ -540,7 +538,6 @@ document.addEventListener("DOMContentLoaded", function() {
             }
         })
     }
-
 
     // Rename Recipe
     const addRecipe = document.getElementById('addRecipe');
