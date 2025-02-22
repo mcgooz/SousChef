@@ -16,24 +16,27 @@
         </div>
 
         <!-- Add Ingredients -->
-        <div class="row">
-            <h5>Add an Ingredient</h5>
+        <h5>Add an Ingredient</h5>
 
-            <form id="pantryIngredientForm" method="POST" action="{% url 'pantry' %}">
-                {% csrf_token %}
-                
-                <div class="input-group shadow mb-3">
-                    
-                    <!-- Ingredient Name -->
+        <form id="pantryIngredientForm" method="POST" action="{% url 'pantry' %}">
+            {% csrf_token %}
+
+            <!-- Ingredient Name -->
+            <div class="row mb-3">
+                <div class="col-sm-4 mb-1">
                     <input id="searchBox" autocomplete="off" class="form-control search-box" name="name" placeholder="Search for an ingredient" type="text" required>
                     <ul id="suggestions" class="list-group suggestions"></ul>
                     <input type="hidden" id="ingredientId" name="ingredient_id">           
+                </div>
 
-                    <!-- Quantity -->
+                <!-- Quantity -->
+                <div class="col-sm-3 mb-1">
                     <input type="number" step="0.01" class="form-control" name="quantity" placeholder="Quantity" aria-label="Quantity" required>
+                </div>
 
-                    <!-- Unit Dropdown -->
-                    <select class="form-control form-select" name="unit" required>
+                <!-- Unit Dropdown -->
+                <div class="col-sm-2 mb-1">
+                    <select class="form-select select-size" name="unit" required>
                         <option value="" selected disabled>Select a unit</option>
                         {% for unit in form.unit.field.choices %}
                             {% if unit.0 %}
@@ -41,53 +44,56 @@
                             {% endif %}
                         {% endfor %}
                     </select>
-
-                    <button class="btn btn-custom shadow" type="submit">Add to pantry</button>
                 </div>
-            </form>
-        </div>
-
-    <!-- Pantry Table Section-->
-    <div class="row">
- 
-        <!-- Pantry Table -->
-        <div class="table-responsive">
-            <table class="table table-borderless table-hover">
-                <thead>
-                    <tr>
-                        <th class="fw-medium">Ingredient</th>
-                        <th class="fw-medium">Quantity</th>
-                        <th></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% if table_data %}
-                        {% for row in table_data %}
-                        <form type="hidden" method="POST" action="{% url 'pantry_delete' %}">
-                            {% csrf_token %}
-                            <tr>
-                                <!-- Ingredient name -->
-                                <td><a href="{% url 'ingredient' row.3 %}">{{ row.0 }}</a></td>
-
-                                <!-- Quantity -->
-                                <td>{{ row.1|floatformat }} {{ row.2 }}</td>
-
-                                <!-- Remove -->
-                                <td data-bs-theme="dark">
-                                    <button type="submit" class="btn btn-close"></button>
-                                    <input type="hidden" name="item_id" value="{{ row.3}}">
-                                    <input type="hidden" name="pantry_item_id" value="{{ row.4}}">
-                                </td>
-                            </tr>
-                        </form>
-                        {% endfor %}
-                    {% else %}
+                
+                <!-- Add Button -->
+                <div class="col-sm-3 mb-1">
+                    <button class="btn btn-custom shadow" type="submit">Add to pantry</button>
+                </div>        
+            </div>
+        </form>
+        
+        <!-- Pantry Table Section-->
+        <div class="row">
+            <!-- Pantry Table -->
+            <div class="table-responsive">
+                <table class="table table-borderless table-hover">
+                    <thead>
                         <tr>
-                            <td class="text-center" colspan="3">You might want to go shopping!</td>
+                            <th class="fw-medium">Ingredient</th>
+                            <th class="fw-medium">Quantity</th>
+                            <th></th>
                         </tr>
-                    {% endif %}
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                        {% if table_data %}
+                            {% for row in table_data %}
+                            <form type="hidden" method="POST" action="{% url 'pantry_delete' %}">
+                                {% csrf_token %}
+                                <tr>
+                                    <!-- Ingredient name -->
+                                    <td><a href="{% url 'ingredient' row.3 %}">{{ row.0 }}</a></td>
+
+                                    <!-- Quantity -->
+                                    <td>{{ row.1|floatformat }} {{ row.2 }}</td>
+
+                                    <!-- Remove -->
+                                    <td data-bs-theme="dark">
+                                        <button type="submit" class="btn btn-close"></button>
+                                        <input type="hidden" name="item_id" value="{{ row.3}}">
+                                        <input type="hidden" name="pantry_item_id" value="{{ row.4}}">
+                                    </td>
+                                </tr>
+                            </form>
+                            {% endfor %}
+                        {% else %}
+                            <tr>
+                                <td colspan="3">You might want to go shopping!</td>
+                            </tr>
+                        {% endif %}
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 {% endblock %}

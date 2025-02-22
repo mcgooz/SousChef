@@ -83,7 +83,7 @@
                     </div>
 
                     <!-- Ingredient Formset -->
-                    <div class="card-body table-container">
+                    <div class="card-body table-container table-responsive">
                         <table class="table-sm" id="ingredient-formset">
                             <thead>
                                 <tr>
@@ -110,9 +110,9 @@
                                             </div>
                                         </td>
                                         <!-- Quantity -->
-                                        <td class="t-size">{{ form.amount }}</td>
+                                        <td>{{ form.amount }}</td>
                                         <!-- Unit -->
-                                        <td class="t-size">{{ form.unit }}</td>
+                                        <td>{{ form.unit }}</td>
                                         <td>
                                             <button type="button" id="add-ingredient-button" class="btn btn-custom add-button">
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-plus" viewBox="0 0 16 16">

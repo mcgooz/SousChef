@@ -288,7 +288,11 @@ input::placeholder {
 }
 
 .search-container {
-    position: relative;
+    position: inherit;
+}
+
+.select-size {
+    max-width: 9rem;
 }
 
 .shadow {
@@ -320,7 +324,6 @@ input::placeholder {
 
 #suggestions {
     position: absolute;
-    top: 100%;
     overflow-y: auto;
     z-index: 1000;
     border-radius: 7px;
@@ -332,19 +335,11 @@ input::placeholder {
     background-color: #82b4cc;
 }
 
-.t-size {
-    width: 7.1rem;
-}
-
 .table {
     --bs-table-bg: rgba(177, 213, 231, 0.3);
     --bs-table-color: whitesmoke;
     --bs-table-hover-color: #ddeff8;
     --bs-table-hover-bg: rgba(38, 65, 79, 0.075);   
-}
-
-.table-container {
-    overflow-x: auto;
 }
 
 .text-darker {
