@@ -186,7 +186,7 @@ document.addEventListener("DOMContentLoaded", function() {
         // Buttons
         const scrollLeftButton = document.getElementById('scrollLeft');
         const scrollRightButton = document.getElementById('scrollRight');
-        const scrollAmount = 200;
+        const scrollAmount = 250;
 
         scrollLeftButton.addEventListener("click", () => {
             scroller.scrollBy({ left: -scrollAmount, behavior: "smooth"});
@@ -221,7 +221,7 @@ document.addEventListener("DOMContentLoaded", function() {
             event.preventDefault();
             const x = event.touches[0].pageX - scroller.offsetLeft;
             const walk = (x - startX) * -1;
-            scroller.scrollLeft = scrollLeft + walk;
+            scroller.scrollLeft = scrollLeft + walk * 2;
         });
     
         scroller.addEventListener('touchend', () => {
@@ -345,7 +345,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 });
 
                 const newStepButton = newStepRow.querySelector('.add-step-0');
-                newStepButton.className = `btn btn-outline-light add-step-${stepCounter}`;
+                newStepButton.className = `btn btn-custom add-step-${stepCounter}`;
             
                 const stepFormset = document.querySelector('#steps-table tbody');
                 stepFormset.appendChild(newStepRow);

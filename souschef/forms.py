@@ -74,7 +74,7 @@ IngredientPerRecipeFormSet = inlineformset_factory(
         "id": HiddenInput(attrs={"class": "id-input"}),
         "ingredient": HiddenInput(attrs={"required": "required", "class": "form-control search-box-id"}),
         "amount": NumberInput(attrs={"required": "required", "class": "form-control amount-input"}),
-        "unit": Select(attrs={"required": "required", "class": "form-control form-select unit-input"}),
+        "unit": Select(attrs={"required": "required", "class": "form-select unit-input"}),
     },
 )
 

@@ -9,7 +9,7 @@
 <div class="container bg-custom mt-2 p-4">
     <h4>Register</h4>
     <div class="row">
-        <div class="col-5">
+        <div class="col-lg-5 col-md-8 mb-3">
             <form action="{% url 'register' %}" method="post">
                 {% csrf_token %}
                 <div class="form-group shadow">
@@ -33,7 +33,9 @@
                 <input class="btn btn-custom shadow" type="submit" value="Register">
             </form>
         </div>
-        <div class="col">
+    </div>
+    <div class="row">
+        <div class="col-lg-5 col-md-8">
             {% if message %}
                 <div data-bs-theme="dark" class="alert card alert-dismissible fade show shadow mx-auto" role="alert">
                     {{ message }} <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>

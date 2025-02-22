@@ -23,10 +23,6 @@ a:hover {
     color: #558ca7;
 }
 
-.alert {
-    width: 50%;
-}
-
 .bg-custom {
     background-color: rgba(85, 140, 167, 0.4);
     border-radius: 7px;
@@ -44,14 +40,14 @@ body {
     font-size: 1.1rem;
 }
 
-@media (max-width: 600px) { 
-    body { 
-        font-size: 1.5rem;
-    } 
+.btn-close {
+    width: 0.5em;
+    height: 0.5em;
 }
 
 .btn-custom {
     color: whitesmoke;
+    border-style: none;
 }
 
 .btn-custom:hover {
@@ -180,9 +176,13 @@ body {
 .img-container img {
     max-width: 50%;
 }
-
+  
 input::placeholder {
     font-size: 1em;
+}
+
+.input-group {
+    align-items: center;
 }
 
 .modal-content {
@@ -251,14 +251,14 @@ input::placeholder {
 }
 
 .recipe-image-plain {
-    height: 150px;
-    width: auto;
+    height: auto;
+    width: 150px;
     border-radius: 7px;
 }
 
 .recipe-image {
-    height: 150px;
-    width: auto;
+    height: auto;
+    width: 150px;
     border-radius: 7px;
 }
 
@@ -267,8 +267,8 @@ input::placeholder {
 }
 
 .recipe-image-mid {
-    height: 250px;
-    width: auto;
+    height: auto;
+    width: 250px;
     border-radius: 7px;
 }
 
@@ -277,8 +277,8 @@ input::placeholder {
 }
 
 .recipe-image-full {
-    height: 333px;
-    width: auto;
+    height: auto;
+    width: 333px;
     border-radius: 7px;
 }
 
@@ -310,7 +310,7 @@ input::placeholder {
 }
 
 .snap {
-    scroll-snap-type: inline mandatory;
+    scroll-snap-type: inline proximity;
     scroll-padding-inline: 2rem;
 }
 
@@ -332,11 +332,19 @@ input::placeholder {
     background-color: #82b4cc;
 }
 
+.t-size {
+    width: 7.1rem;
+}
+
 .table {
     --bs-table-bg: rgba(177, 213, 231, 0.3);
     --bs-table-color: whitesmoke;
     --bs-table-hover-color: #ddeff8;
     --bs-table-hover-bg: rgba(38, 65, 79, 0.075);   
+}
+
+.table-container {
+    overflow-x: auto;
 }
 
 .text-darker {
