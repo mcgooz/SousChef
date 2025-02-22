@@ -182,53 +182,55 @@ document.addEventListener("DOMContentLoaded", function() {
     // Scroller
     const scroller = document.getElementById('scroller')
     if (scroller) {
-        if (scroller.scrollWidth > scroller.clientWidth) {
+        
+        // Buttons
+        const scrollLeftButton = document.getElementById('scrollLeft');
+        const scrollRightButton = document.getElementById('scrollRight');
+        const scrollAmount = 250;
 
-            // Buttons
-            const scrollLeftButton = document.getElementById('scrollLeft');
-            const scrollRightButton = document.getElementById('scrollRight');
-            const scrollAmount = 250;
+        scrollLeftButton.addEventListener("click", () => {
+            scroller.scrollBy({ left: -scrollAmount, behavior: "smooth"});
+        });
 
-            scrollLeftButton.addEventListener("click", () => {
-                scroller.scrollBy({ left: -scrollAmount, behavior: "smooth"});
-            });
-
-            scrollRightButton.addEventListener("click", () => {
-                scroller.scrollBy({ left: scrollAmount, behavior: "smooth"});
-            });
+        scrollRightButton.addEventListener("click", () => {
+            scroller.scrollBy({ left: scrollAmount, behavior: "smooth"});
+        });
 
 
-            // Mouse wheel or touchpad
-            scroller.addEventListener('wheel', (event) => {
+        // Mouse wheel or touchpad
+        scroller.addEventListener('wheel', (event) => {
+            if (scroller.scrollWidth > scroller.clientWidth) {
                 event.preventDefault();
                 scroller.scrollBy({
                 left: event.deltaY +event.deltaX < 0 ? -25 : 25,
                 });
-            });
+            }
+        });
 
-            // Touchscreen
-            let isTouching = false;
-            let startX = 0;
-            let scrollLeft = 0;
-        
-            scroller.addEventListener('touchstart', (event) => {
-                isTouching = true;
-                startX = event.touches[0].pageX - scroller.offsetLeft;
-                scrollLeft = scroller.scrollLeft;
-            });
-        
-            scroller.addEventListener('touchmove', (event) => {
-                if (!isTouching) return;
+        // Touchscreen
+        let isTouching = false;
+        let startX = 0;
+        let scrollLeft = 0;
+    
+        scroller.addEventListener('touchstart', (event) => {
+            isTouching = true;
+            startX = event.touches[0].pageX - scroller.offsetLeft;
+            scrollLeft = scroller.scrollLeft;
+        });
+    
+        scroller.addEventListener('touchmove', (event) => {
+            if (!isTouching) return;
+            if (scroller.scrollWidth > scroller.clientWidth) {
                 event.preventDefault();
                 const x = event.touches[0].pageX - scroller.offsetLeft;
                 const walk = (x - startX) * -1;
-                scroller.scrollLeft = scrollLeft + walk * 2;
-            });
-        
-            scroller.addEventListener('touchend', () => {
-                isTouching = false;
-            });
-        }
+                scroller.scrollLeft = scrollLeft + walk;
+            }
+        });
+    
+        scroller.addEventListener('touchend', () => {
+            isTouching = false;
+        });
     }
 
     // Update recipe ingredeints
