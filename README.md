@@ -276,7 +276,7 @@ A detailed write-up of the project
 Lists all the Python packages that should be installed for the web app to run.
 
 ### How to Run
-Please note that the API used in this project requires an API key that is linked to a Spoonacular account. There is a free option that can be found here: https://spoonacular.com/food-api  
+Note that the API used in this project requires an API key that is linked to a Spoonacular account. There is a free option that can be found here: https://spoonacular.com/food-api  
 
 Your environment should have the necessary libraries installed, as listed in requirements.txt.
 
