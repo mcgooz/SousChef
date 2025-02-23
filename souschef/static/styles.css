@@ -151,6 +151,14 @@ body {
     color: #666d74;
 }
 
+@media (max-width:576px) {
+    .form-select {
+        font-size: 0.9em;
+        color: #666d74;
+        min-width: 5em;
+    }
+}
+
 #homeSearchForm {
     position: relative;
 }
