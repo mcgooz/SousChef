@@ -58,7 +58,7 @@ IngredientPerRecipeFormSet = inlineformset_factory(
     },
 )
 ```
-Since there were a number of linked models, I used `InlineModelAdmin` objects so backend management was easier.
+Since there were a number of linked models, I used `InlineModelAdmin` objects so backend management via Django admin would be easier and more intuitive.
 
 ##### Image Uploads
 In Project 2, Commerce, we used URLs to link to images for items. In SousChef, I integrated image uploads directly into the app. 
