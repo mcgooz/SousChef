@@ -299,10 +299,11 @@ Then, visit this URL to open the app:
 *Ingredients API and limitations - Admittedly, there are edge cases in which a user may need to add an ingredient that doesn't exist in the database. More often than not, there is suitable approximation available, which can be mentioned in the description or steps.
 
 There are still some other features that I had hoped to implement, but I eventually decided that, as the project was already becoming quite large, I would leave them for future updates. 
-These other features include:
+Some of these other features include:
 - Additional images for each recipe, potentially linked to steps.
 - Edit Recipes - I spent a significant amount of time trying to get the the `StepFormSet`to stay in sync with the cloned rows when editing a recipe. Ultimately, I decided to leave it out so, for now, you can only replace the image or delete the recipe.
 - Linked pantry - when visiting a recipe page, the app will tell you which ingredients you already have in the pantry and which are missing. Additionally, a feature that allows you to mark the recipe as "made", would remove that quantity of specified ingredients from your pantry.
 - Filter recipes by category etc. on the recipes page.
 - Dark mode/high contrast mode - On some screens, with night light enabled, the colours can be slightly hard on the eyes. It could do with some tweaks and I'd like to explore a dark mode / high contrast option.
 - Bootstrap Toasts - I'd like to use toast notifications for certain completed operations, such as updating a picture successfully.
+- Improved horizontal scroll on mobile - currently it isn't as responsive as it could be.
