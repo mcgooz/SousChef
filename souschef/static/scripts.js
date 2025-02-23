@@ -221,12 +221,13 @@ document.addEventListener("DOMContentLoaded", function() {
         scroller.addEventListener('touchmove', (event) => {
             if (!isTouching) return;
             if (scroller.scrollWidth > scroller.clientWidth) {
-                event.preventDefault();
+                // event.preventDefault();
                 const x = event.touches[0].pageX - scroller.offsetLeft;
-                const walk = (x - startX) * -1;
+                const sensitivity = 1.1;
+                const walk = (x - startX) * -1 * sensitivity;
                 scroller.scrollLeft = scrollLeft + walk;
             }
-        });
+        }, { passive: true });
     
         scroller.addEventListener('touchend', () => {
             isTouching = false;
