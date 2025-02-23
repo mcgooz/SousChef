@@ -115,7 +115,7 @@ and some that are included in with Python:
 Additionally, I have created several helper functions to deal with operations such as API calls, adding ingredients to the user's pantry - specifically, correctly updating amounts and the corresponding units. These helper functions, among others, can be found in the utils.py file.
 
 #### HTML
-The project has a layout.html file which references the necessary scripts and CSS for all pages. From there, I have structured the different pages according to their function, ensuring that the design is consistent and works across different screen sizes. I have also made use of comments to allow for easier navigation through the sections on the page.
+The project has a layout.html file which references the necessary scripts and CSS for all pages. From there, I have structured the different pages according to their function, ensuring that the design is consistent and works across different screen sizes. This includes the use of several Bootstrap features, such as modals and cards etc. I have also made use of comments to allow for easier navigation through the sections on the page.
 
 #### CSS
 Lastly, I have taken care to give the website a distinct, slick aesthetic, with fully responsive design. This was achieved using Bootstrap in addition to custom CSS on top.
