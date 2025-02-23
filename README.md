@@ -298,8 +298,9 @@ Then, visit this URL to open the app:
 ### Additional info
 *Ingredients API and limitations - Admittedly, there are edge cases in which a user may need to add an ingredient that doesn't exist in the database. More often than not, there is suitable approximation available, which can be mentioned in the description or steps.
 
-There are still some other features that I had hoped to implement, but I eventually decided that, as the project was already becoming quite large, I would leave them for future updates. 
-Some of these other features include:
+There are still some other features that I had hoped to implement, but I eventually decided that, as the project was already becoming quite large, I would leave them for future updates. In addition, I would like to optimise certain parts of the code and logic. 
+Some of these future plans would include:
+- Rewrite the logic for saving ingredients to the DB. Currently, an ingredient is saved to the DB when selected from the suggestions, not when saved via a form. This was to make it easier to manage ingredients across several models and formsets, and it made sense at the time, but I definitely think there is room for improvement.
 - Additional images for each recipe, potentially linked to steps.
 - Edit Recipes - I spent a significant amount of time trying to get the the `StepFormSet`to stay in sync with the cloned rows when editing a recipe. Ultimately, I decided to leave it out so, for now, you can only replace the image or delete the recipe.
 - Linked pantry - when visiting a recipe page, the app will tell you which ingredients you already have in the pantry and which are missing. Additionally, a feature that allows you to mark the recipe as "made", would remove that quantity of specified ingredients from your pantry.
