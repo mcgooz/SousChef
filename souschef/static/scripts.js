@@ -223,7 +223,7 @@ document.addEventListener("DOMContentLoaded", function() {
             if (scroller.scrollWidth > scroller.clientWidth) {
                 // event.preventDefault();
                 const x = event.touches[0].pageX - scroller.offsetLeft;
-                const sensitivity = 1.1;
+                const sensitivity = 1.5;
                 const walk = (x - startX) * -1 * sensitivity;
                 scroller.scrollLeft = scrollLeft + walk;
             }
