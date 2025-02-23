@@ -1,19 +1,19 @@
 # CS50’s Web Programming with Python and JavaScript - Final Project
 
 ## SousChef
-SousChef is a recipe book webapp built on the Django framework with addtional front-end functionality written in JavaScript.
+SousChef is a recipe book webapp built on the Django framework with additional front-end functionality written in JavaScript.
 It utilises the Spoonacular API which gives us access to a large database of ingredients along with their nutritional values.
 
 With a clean, minimalistic layout and responsive design, it provides users with the ability to store their recipes, view others' and collect a list of favourites.
 In addition, it also comprises a "Pantry" section, allowing users to keep track of the ingredients they have at home and view relevant nutritional information.
 
 ### Distinctiveness and Complexity
-Athough it shares some common elements, such as user profiles and favourites, this project is conceptually distinct from the other projects in the course.
+Although it shares some common elements, such as user profiles and favourites, this project is conceptually distinct from the other projects in the course.
 Its primary function is to save, view and share recipes, as well as provide some basic nutritional information of ingredients. 
 Its design and scope go beyond what was required for each individual project and the goal was to encapsulate the techniques and principles taught across the whole course and, hopefully, go a bit further.
 
 #### API
-This project utilises a third-party API, Spoonacular, to search for and retrieve ingredients, giving users access to a large, well-maintained database and also ensuring a degree of consistency across the app, since users can't simply create ingredients themselves. Were that the case, these ingredients wouldn't have the related nutritional information and there would also be a risk of typos and the potential to fill the database with duplicates and so on (*see additional info for more on this).
+This project utilises a third-party API, Spoonacular, to search for and retrieve ingredients, giving users access to a large, well-maintained database and also ensuring a degree of consistency across the app. I decided not to allow users to create their own ingredients as these entries wouldn't have the related nutritional information and could introduce errors, duplicates, and inconsistencies (*see additional info for more on this).
 
 #### Django features
 ##### Cache
@@ -78,7 +78,7 @@ urls.py
 
 ##### Other
 Some other features used:
- - context processors, to pass the date to all templates
+ - context processors to pass the date to all templates
  - custom template filters
  - `JSONField` model to store ingredient details
  - `Q()` object used for retrieving recipes when searching with both recipe names and constituent ingredients
@@ -112,13 +112,13 @@ and some that are included in with Python:
 - random
 - os
 
-Additionally, I have created several helper functions to deal with operations such as API calls, adding ingredients to the user's pantry - specifically, correctly updating amounts and the corresponing units. These helper functions, among others, can be found in the utils.py file.
+Additionally, I have created several helper functions to deal with operations such as API calls, adding ingredients to the user's pantry - specifically, correctly updating amounts and the corresponding units. These helper functions, among others, can be found in the utils.py file.
 
 #### HTML
-The project has a layout.html file which references the necessary scripts and css for all pages. From there, I have structured the different pages according to their function, ensuring that the design is consistent and works across different screen sizes. I have also made use of comments to allow for easier navigation through the sections on the page.
+The project has a layout.html file which references the necessary scripts and CSS for all pages. From there, I have structured the different pages according to their function, ensuring that the design is consistent and works across different screen sizes. I have also made use of comments to allow for easier navigation through the sections on the page.
 
 #### CSS
-Lastly, I have taken care to give the website a distinct, slick aesthetic, with fully responsive design. This was acheived using Bootstrap in addition to custom css on top.
+Lastly, I have taken care to give the website a distinct, slick aesthetic, with fully responsive design. This was achieved using Bootstrap in addition to custom CSS on top.
 
 
 ### Files
@@ -178,23 +178,23 @@ Each of the files that I created are detailed as follows:
 
 #### Static Files
 ##### scripts.js
-All of the JavaScript that I have written is contained in this file. Other JS functionality is loaded directly from Cropper.js and Bootstrap.
+All of the JavaScript that I have written is contained in this file. Additional JS functionality is loaded from Cropper.js and Bootstrap via `<script>` tags in the templates.
 
 ##### styles.css
-Contains all additional css that is not part of Bootstrap or Cropper.js.
+Contains all additional CSS that is not part of Bootstrap or Cropper.js.
 
 #### Templates
 ##### add_recipe.html
 The html template for adding a recipe.
 
 ##### index.html
-The home page, which includes a recipe search and shows a random recipe from the DB.
+The home page, which includes a recipe search and also displays a random recipe from the DB.
 
 ##### ingredient.html
 On selecting an ingredient, this page will display its nutritional values.
 
 ##### layout.html
-This sets the layout of each template and contains the navbar structure, as well as importing any required css or scripts to each page.
+This sets the layout of each template and contains the navbar structure, as well as importing any required CSS or scripts to each page.
 
 ##### login.html
 The page where users log in.
@@ -212,7 +212,7 @@ An overview of all recipes currently saved in the DB.
 The page where users can create their profile.
 
 ##### user_dashboard.html
-The user's personal dashboard where they can update their profile picure, recipe images and delete recipes they have created.
+The user's personal dashboard where they can update their profile picture, recipe images and delete recipes they have created.
 
 
 #### Template Tags
@@ -228,7 +228,7 @@ Since the add recipe view was becoming long, I decided to create a dedicated fil
 This file is used to pass the date to each template, without having to pass it as context in every view.
 
 ##### forms.py
-The file where all the app's forms are defined and customised. This includes the inline formsets. The forms allow users to:
+Where all the app's forms are defined and customised. This includes the inline formsets. The forms allow users to:
 - update the user profile picture
 - add new recipes
 - add ingredients
