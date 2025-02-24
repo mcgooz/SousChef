@@ -75,6 +75,8 @@ urls.py
 
 + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 ```
+##### Allowed Hosts
+To test the project on other devices on my home network, I added the necessary ip addresses to `ALLOWED_HOSTS = []` in `settings.py`.
 
 ##### Other
 Some other features used:

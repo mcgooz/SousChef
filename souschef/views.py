@@ -109,20 +109,23 @@ def recipes(request):
 
 ### Full Recipe View
 def recipe(request, id):
-    recipe = Recipe.objects.get(id=id)
-    if request.user.is_authenticated:
-        current_user = UserDashboard.objects.get(user_name=request.user)
-        favourite = Favourite.objects.filter(user=current_user, favourite_recipe=recipe).exists()
+    try:
+        recipe = Recipe.objects.get(id=id)
+        if request.user.is_authenticated:
+            current_user = UserDashboard.objects.get(user_name=request.user)
+            favourite = Favourite.objects.filter(user=current_user, favourite_recipe=recipe).exists()
 
-        return render(request, "souschef/recipe.html", {
-            "recipe": recipe,
-            "favourite": favourite
-        })
-    
-    else:
-        return render(request, "souschef/recipe.html", {
-            "recipe": recipe,
-        })
+            return render(request, "souschef/recipe.html", {
+                "recipe": recipe,
+                "favourite": favourite
+            })
+        
+        else:
+            return render(request, "souschef/recipe.html", {
+                "recipe": recipe,
+            })
+    except Recipe.DoesNotExist:
+        return HttpResponseRedirect (reverse("recipes"))
 
 
 ### Pantry View
