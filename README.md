@@ -300,9 +300,9 @@ Then, visit this URL to open the app:
 
 There are still some other features that I had hoped to implement, but I eventually decided that, as the project was already becoming quite large, I would leave them for future updates. In addition, I would like to optimise certain parts of the code and logic. 
 Some of these future plans would include:
+- Edit Recipes - Probably the most glaring omission. There were two issues that I kept running into here. Firts, keeping the `StepFormSet` in sync with the cloned rows when editing a recipe. Second, validating and saving the edits to the recipe instance. Due to time constraints, I decided to leave it out so, for now, you can only replace the image or delete the recipe.
 - Rewrite the logic for saving ingredients to the DB. Currently, an ingredient is saved to the DB when selected from the suggestions, not when saved via a form. This was to make it easier to manage ingredients across several models and formsets, and it made sense at the time, but I definitely think there is room for improvement.
 - Additional images for each recipe, potentially linked to steps.
-- Edit Recipes - I spent a significant amount of time trying to get the the `StepFormSet`to stay in sync with the cloned rows when editing a recipe. Ultimately, I decided to leave it out so, for now, you can only replace the image or delete the recipe.
 - Linked pantry - when visiting a recipe page, the app will tell you which ingredients you already have in the pantry and which are missing. Additionally, a feature that allows you to mark the recipe as "made", would remove that quantity of specified ingredients from your pantry.
 - Filter recipes by category etc. on the recipes page.
 - Dark mode/high contrast mode - On some screens, with night light enabled, the colours can be slightly hard on the eyes. It could do with some tweaks and I'd like to explore a dark mode / high contrast option.
