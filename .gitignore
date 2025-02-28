@@ -2,4 +2,4 @@
 *.venv/
 *migrations/
 *unused/
-*.env
+*.env_true
