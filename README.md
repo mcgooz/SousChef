@@ -282,6 +282,11 @@ Lists all the Python packages that should be installed for the web app to run.
 ### How to Run
 Note that the API used in this project requires an API key that is linked to a Spoonacular account. There is a free option that can be found here: https://spoonacular.com/food-api  
 
+Once you have an API key, add it to the .env file:
+```
+API_KEY = ADDYOURAPIKEYHERE
+```
+
 Your environment should have the necessary libraries installed, as listed in requirements.txt.
 
 Before running the server, you'll need to set up the database: 
