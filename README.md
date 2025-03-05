@@ -1,7 +1,7 @@
 # CS50’s Web Programming with Python and JavaScript - Final Project
 ## SousChef
 
-#### YouTube link: https://www.youtube.com/watch?v=rkyRg7OpAX0
+#### Video Demonstration: https://www.youtube.com/watch?v=rkyRg7OpAX0
 
 ## Overview
 SousChef is an online recipe book built on the Django framework with additional front-end functionality written in JavaScript. 
