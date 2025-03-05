@@ -445,7 +445,7 @@ Note that the API used in this project requires an API key associated with a Spo
     `http://127.0.0.1:8000/`
 
 
-### Additional info
+## Additional info
 Ingredients API and limitations - I decided not to allow users to create their own ingredients as these entries wouldn't have the related nutritional information and could introduce the previously mentioned inconsistencies. Admittedly, there are edge cases in which a user may need to add an ingredient that doesn't exist in the database. More often than not, there is suitable approximation available, which can be mentioned in the description or steps.
 
 There are still some other features that I would lkie to implement in future updates and I would like to optimise certain parts of the code and logic.  
