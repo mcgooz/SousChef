@@ -193,6 +193,7 @@ def ingredient_details(request):
             "name": ingredient.name,
             "id": ingredient.id,
         }
+
         details = {
             "ingredient": ingredient_dict,
             "ingredient_details": ingredient_details

@@ -22,7 +22,11 @@ def run_query(query):
         
     except Ingredient.DoesNotExist:
         search = item_search(query)
-        results = [{"name": item["name"], "id": item["id"]} for item in search]
+        if search == 401:
+            results = [{"name": "Unable to connect to database, please contact the administrator", "id": 401}]
+        
+        else:
+            results = [{"name": item["name"], "id": item["id"]} for item in search]
 
     return JsonResponse({
         "results": results
@@ -41,11 +45,16 @@ def item_search(s):
     else:
         response = requests.get(f"https://api.spoonacular.com/food/ingredients/search?apiKey={API_KEY}&query={s}&number=10").json()
 
-        results = response.get("results", [])
-        
-        print(f"API REQUEST")
-        cache.set(f"item_search_{safe}", results)
-        print("SEARCH CACHED")
+        if response.get("code") == 401:
+            print(response)
+            return 401
+
+        else:
+            results = response.get("results", [])
+            
+            print(f"API REQUEST")
+            cache.set(f"item_search_{safe}", results)
+            print("SEARCH CACHED")
     
     return results
 
@@ -58,10 +67,12 @@ def detailed_search(id):
     
     else:
         response = requests.get(f"https://api.spoonacular.com/food/ingredients/{id}/information?apiKey={API_KEY}&amount=1").json()
+
         details = {
             "nutrition": response.get("nutrition"),
             "caloricBreakdown": response.get("caloricBreakdown")
         }
+        
         cache.set(f"item_details_{id}", details)
         print("DETAILS CACHED")
     

@@ -82,6 +82,16 @@ document.addEventListener("DOMContentLoaded", function() {
                     // console.log('Clearing suggestions');
                 }
             });
+
+            // Clear search with Esc
+            searchBox.addEventListener('keydown', function(event) {
+                if (event.key === "Escape") {
+                    clearTimeout(debounceTimer);
+                    clearContent(suggestionsContainer);
+                    searchBox.classList.remove('autocomplete-active');
+                    searchBox.value = '';
+                }
+            });
         }
         
 
@@ -105,7 +115,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 // console.log(details)
             })
             .catch(error => {
-                // console.error('Error fetching suggestions:', error);
+                console.error('Error fetching suggestions:', error);
             });
         }
 
@@ -119,8 +129,16 @@ document.addEventListener("DOMContentLoaded", function() {
                 li.textContent = 'No results found';
                 suggestionsContainer.appendChild(li);
 
-            } else {
+            // Catch API issues and inform the user 
+            } else if (details[0].id === 401) {
+                console.log("401 Error")
+                const li = document.createElement('li');
+                li.className = 'list-group-item';
+                li.textContent = details[0].name;
+                suggestionsContainer.appendChild(li);
+                searchBox.value = '';
 
+            } else {
                 details.forEach(item => {
                     const li = document.createElement('li');
                     li.className = 'list-group-item';
@@ -463,7 +481,8 @@ document.addEventListener("DOMContentLoaded", function() {
                         
                         if (cropper) {
                             
-                            // console.log("Save Clicked")
+                            // Procedure outlined here: https://github.com/fengyuanchen/cropperjs/blob/v1/README.md#methods
+                            
                             cropper.getCroppedCanvas({
                                 width: 500,
                                 height: 500,

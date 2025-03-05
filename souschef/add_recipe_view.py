@@ -67,6 +67,6 @@ def add_recipe_post_request(request):
     return JsonResponse({
         "errors": recipe_form.errors,
         "step_errors": step_formset.errors
-    }, status=400)
+    })
 
     
