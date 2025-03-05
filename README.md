@@ -1,11 +1,11 @@
-# CS50’s Web Programming with Python and JavaScript - Final Project
+# CS50’s Web Programming with Python and JavaScript - Capstone
 ## SousChef
 
 #### Video Demonstration: https://www.youtube.com/watch?v=rkyRg7OpAX0
 
 ## Overview
-SousChef is an online recipe book built on the Django framework with additional front-end functionality written in JavaScript. 
-With a clean, minimalist layout and a fully responsive design, SousChef lets users create their own recipes, browse those of others and add recipes to their list of favourites. 
+SousChef is an online recipe book built on the Django framework with additional front-end features written in JavaScript.
+With a clean, minimalist layout and a fully responsive design, SousChef lets users create their own recipes, browse those of others, and add recipes to their list of favourites. 
 The app also includes a "Pantry" section, allowing users to keep track of the ingredients they have at home and view relevant nutritional information.
 
 
@@ -19,8 +19,8 @@ Below, I will further describe how these features set the project apart and cont
 <details>
     <summary><strong>Third-party API</strong></summary>
 
-##### Spoonacular Ingredient API
-While Commerce let users create a listing by entering all the details manually, this project instead utilises a third-party API, Spoonacular, to search for and retrieve ingredients and nutritional data, both when adding them to a recipe and also when adding them to the user's pantry. This not only gives users access to a vast, well-maintained repository of ingredients and accurate nutritional data, but also ensures a degree of consistency across the app and avoids the introduction of errors, duplicates, and inconsistencies.
+##### Spoonacular API
+While Commerce let users create a listing by entering all the details manually, this project instead utilises a third-party API, Spoonacular, to search for and retrieve ingredients, both when adding them to a recipe and also when adding them to the user's pantry. This not only gives users access to a vast, well-maintained repository of ingredients and accurate nutritional data, but also ensures a degree of consistency across the app and avoids the introduction of errors, duplicates, and inconsistencies.
 </details>
 
 <details>
@@ -141,7 +141,7 @@ In order to allow users to crop images (and to ensure a uniform rendering of ima
 - `autoCropArea: 1` defined the initial crop area as 100%
 - `responsive: true` ensured that the cropper would resize responsively
 
-The cropper overaly is contained within a Bootstrap modal, allowing users to preview and fine-tune images before submitting, which seemed to be a great option with regard to UX.
+The cropper overlay is contained within a Bootstrap modal, allowing users to preview and fine-tune images before submitting, which seemed to be a great option with regard to UX.
 
 To save the image, either as a preview in the form field to later be submitted, or directly via AJAX, I needed to explore the process of converting the cropped image, creating a preview, and also replacing the initial input with the cropped version so that only this version would be saved to the database. Fortunately, most of this, including `toBlob`, was helpfully outlined in the docs for cropper.js here: https://github.com/fengyuanchen/cropperjs/blob/v1/README.md#methods, under `getCroppedCanvas`.
 
@@ -149,15 +149,17 @@ To save the image, either as a preview in the form field to later be submitted, 
 When the user searches for an ingredient, the API returns a set of suggested results. I used JavaScript to display these suggestions on the front end in a style consistent with the rest of the site, and then, on selection, pass that ingredient to the back end via AJAX to be stored. Additionally, I used `debounceTimer;` to avoid API calls after every keystroke.
 
 ##### Adding Recipes
-The most challenging (and frustrating) part of the JavaScript part, was implementing a satisfactory UI for adding ingredients and steps to recipes. This was particularly difficult for steps, as they each had to be added and removed in order to stay in sync with the formset numbers.
+The most challenging part was implementing a satisfactory, dynamic UI for adding ingredients and steps to recipes. This was particularly difficult for steps, as they each had to be added and removed in order to stay in sync with the formset numbers. Users can add ingredients and steps via an add button. This clones the initial row, resets the the input fields and appends the row to the table/form.
+
+Steps must be added in order, so the add/remove buttons are disabled or enabled based on whether there are rows before or after, ensuring that the steps do not go out of sync.
 
 As these sections both relied on formsets, it was important to index each new element in the corresponding `formset.management_form` in the template.
 
 ##### Scroller
 I wanted to explore options for a unique and interesting UI to browse recipes, so I implemented a horizontal scrolling system with multiple input methods for smooth navigation. Designed to be completely responsive, it includes several navigation options:
-- Buttons: Users can click left/right buttons on the page to scroll through the recipes.
-- Mouse wheel & Touchpad: The script allows horizontal scrolling via the scroll wheel or touchpad gestures.
-- Touchscreen: Users can swipe to scroll, with adjustable sensitivity for a more fluid experience.
+- Buttons - Users can click left/right buttons on the page to scroll through the recipes.
+- Mouse wheel & touchpad - The script allows horizontal scrolling via the scroll wheel or touchpad gestures.
+- Touchscreen - Users can swipe to scroll for a more fluid experience.
 
 </details>
 
@@ -166,7 +168,7 @@ I wanted to explore options for a unique and interesting UI to browse recipes, s
 
 I made use of Python's built-in capabilities alongside several third-party libraries to enhance functionality and efficiency.
 
-Third-Party:
+Third-party:
 - dotenv to securely load the API key from the .env file, keeping it separate from the main codebase 
 - pillow is required for image processing
 - requests to interact with the Spoonacular API
@@ -178,13 +180,13 @@ Built-in:
 - random to generate random recipes on the front page
 - os 
 
-Additionally, I created several helper functions to deal with operations such as API calls, adding ingredients to the user's pantry - specifically, correctly updating amounts and the corresponding units. These helper functions, among others, can be found in the `utils.py` file.
+Additionally, I created several helper functions to deal with operations such as API calls, adding ingredients to the user's pantry, etc. These helper functions, among others, can be found in the `utils.py` file.
 
 </details>
 
 <details>
     <summary><strong>HTML</strong></summary>
-The project has a layout.html file which references the necessary scripts and CSS for all pages. From there, I have structured the different pages according to their function, ensuring that the design is consistent and works across different screen sizes. This includes the use of several Bootstrap features, such as modals and cards etc. I have also made use of comments to allow for easier navigation through the sections on the page.
+The project has a layout.html file, which references the necessary scripts and CSS, to set up the overall structure for all other templates. From there, I have structured the different pages according to their function, ensuring that the design is consistent and works across different screen sizes. This includes the use of several Bootstrap features, such as modals and cards etc. I have also made use of comments to allow for easier reading through the sections on the page (for the developers).
 </details>
 
 <details>
@@ -279,8 +281,9 @@ urlpatterns = [
 </details>
 
 <details>
-    <summary>/media/</summary>
-The files contained in the two sub-folders are the user-uploaded images.
+    <summary>/media/</summary>  
+
+The files contained in the two sub-folders are user-uploaded images.
 
 </details>  
 
@@ -331,7 +334,7 @@ This page shows the full recipe, with an image, ingredients, description, steps 
 An overview of all recipes currently saved in the DB.
 
 ##### `register.html`
-The page where users can create their profile.
+The page where users can regsiter an account, which will automatically create their profile.
 
 ##### `user_dashboard.html`
 The user's personal dashboard where they can update their profile picture, recipe images and delete recipes they have created.
@@ -418,34 +421,35 @@ A detailed write-up of the project.
 Lists all the Python packages that should be installed for the web app to run.
 
 ## How to Run
-Note that the API used in this project requires an API key that is linked to a Spoonacular account. There is a free option that can be found here: https://spoonacular.com/food-api  
+Note that the API used in this project requires an API key associated with a Spoonacular account. You can sign up for a free plan here: https://spoonacular.com/food-api  
 
-Once you have an API key, add it to the .env file:
-```
-API_KEY = ADDYOURAPIKEYHERE
-```
+- Once you have an API key, add it to the .env file:
+    ```
+    API_KEY = ADDYOURAPIKEYHERE
+    ```
 
-Your environment should have the necessary libraries installed, as listed in requirements.txt.
+- Install the necessary libraries, as listed in requirements.txt, to your environment.
 
-Before running the server, you'll need to set up the database: 
+- Before running the server, you'll need to set up the database: 
 
-In the terminal run:  
-`python manage.py makemigrations`
+    - In the terminal run:  
+    `python manage.py makemigrations`
 
-followed by:  
-`python manage.py migrate`  
+    - followed by:  
+    `python manage.py migrate`  
 
-To start the server, run:  
-`python manage.py runserver`  
+    - To start the server, run:  
+    `python manage.py runserver`  
 
-Then, visit this URL to open the app:  
-`http://127.0.0.1:8000/`
+    - Then, visit this URL or click the link in the terminal to open the app:  
+    `http://127.0.0.1:8000/`
 
 
 ### Additional info
 Ingredients API and limitations - I decided not to allow users to create their own ingredients as these entries wouldn't have the related nutritional information and could introduce the previously mentioned inconsistencies. Admittedly, there are edge cases in which a user may need to add an ingredient that doesn't exist in the database. More often than not, there is suitable approximation available, which can be mentioned in the description or steps.
 
-There are still some other features that I would lkie to implement in future updates and I would like to optimise certain parts of the code and logic. 
+There are still some other features that I would lkie to implement in future updates and I would like to optimise certain parts of the code and logic.  
+ 
 Some of these future updates would include:
 - Edit Recipes - Probably the most glaring omission. There were two issues that I kept running into here. First, keeping the `StepFormSet` in sync with the cloned rows when editing a recipe. Second, validating and saving the edits to the recipe instance.
 - Rewrite the logic for saving ingredients to the DB. Currently, an ingredient is saved to the DB when selected from the suggestions, not when saved via a form. This was to make it easier to manage ingredients across several models and formsets, and it made sense at the time, but I definitely think there is room for improvement.
