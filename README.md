@@ -186,7 +186,7 @@ Additionally, I created several helper functions to deal with operations such as
 
 <details>
     <summary><strong>HTML</strong></summary>
-The project has a layout.html file, which references the necessary scripts and CSS, to set up the overall structure for all other templates. From there, I have structured the different pages according to their function, ensuring that the design is consistent and works across different screen sizes. This includes the use of several Bootstrap features, such as modals and cards etc. I have also made use of comments to allow for easier reading through the sections on the page (for the developers).
+The project has a layout.html file, which references the necessary scripts and CSS, to set up the overall structure for all other templates. From there, I have structured the different pages according to their function, ensuring that the design is consistent and works across different screen sizes. This includes the use of several Bootstrap features, such as modals and cards etc. I have also made use of comments to allow for easier reading through the sections on the page (for developers).
 </details>
 
 <details>
