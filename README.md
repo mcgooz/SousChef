@@ -26,6 +26,17 @@ While Commerce let users create a listing by entering all the details manually, 
 <details>
     <summary><strong>Django Features</strong></summary>
 
+##### Account Creation
+When a user registers on the site, not only is the default account created, but also their *Dashboard* and *Pantry*.
+```
+    user = User.objects.create_user(username, email, password)
+    user.save()
+    profile = UserDashboard.objects.create(user_name=user)
+    profile.save()
+    pantry = Pantry.objects.create(user=user)
+    pantry.save()
+```
+
 ##### Cache
 In order to avoid repeatedly making API requests for the same search, I implemented basic caching. As this was mostly to save precious API calls while in a development environment, I opted for Django's *Local-memory caching*. For a production environment, a more advanced caching solution would most likely be required, however.
 
@@ -160,6 +171,9 @@ I wanted to explore options for a unique and interesting UI to browse recipes, s
 - Buttons - Users can click left/right buttons on the page to scroll through the recipes.
 - Mouse wheel & touchpad - The script allows horizontal scrolling via the scroll wheel or touchpad gestures.
 - Touchscreen - Users can swipe to scroll for a more fluid experience.
+
+##### Show/hide Password
+To enhance the UX, I added a show/hide password toggle on the registration and login pages, allowing users to easily view or conceal their password as needed.
 
 </details>
 
