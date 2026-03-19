@@ -23,7 +23,7 @@ With a clean, minimalist layout and a fully responsive design, SousChef lets you
 
     
     git clone https://github.com/mcgooz/SousChef.git
-    cd capstone
+    cd SousChef/capstone
 
 **2. Set up environment variables**  
 Create a .env file in the root directory and add your Spoonacular API key:
