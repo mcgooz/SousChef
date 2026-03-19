@@ -43,5 +43,5 @@ Create a .env file in the root directory and add your Spoonacular API key:
 
     python manage.py runserver
 
-**6. Open the app**
+**6. Open the app**  
 Visit `http://127.0.0.1:8000/` in your browser or click the link in the terminal.
